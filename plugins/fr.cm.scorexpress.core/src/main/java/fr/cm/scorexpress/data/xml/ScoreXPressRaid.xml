@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Manif
+	xmlns="http:///fr.cm.scorexpress/src/fr/cm/scorexpr/data/ScoreXPressRaid.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http:///fr.cm.scorexpress/src/fr/cm/scorexpr/data/ScoreXPressRaid.xsd ScoreXPressRaid.xsd"
+	name="Manifestation sportive" date="12/05/2008"
+	description="bla bla bla">
+
+	<Categories>
+		<Category id="1" label="Junior" />
+		<Category id="2" label="Senior" />
+	</Categories>
+
+	<Users>
+		<User str.address="ici et là" str.birthday="12/02/1980"
+			int.categoryid="1" b.certificat="false" str.city="Besancon"
+			s.club="tarte en pion" mail.email="qsfqfqf@yahoo.fr"
+			lastname="prenom1" firstname="nom1" id="1" s.mobile="324124214"
+			str.nationality="Francaise" str.phonenumber="8687698769" sexe="F" />
+		<User str.address="" str.birthday="12/02/1980" categoryid="2"
+			b.certificat="true" s.city="" s.club="" str.email="qsfqfqf@yahoo.fr"
+			lastname="prenom2" firstname="nom2" id="2" str.mobile="769865754754"
+			str.nationality="" str.phonenumber="" sexe="H" str.info="" />
+	</Users>
+
+	<Teams>
+		<Team categoryId="2" userId="3" leadername="toto"
+			name="Les totos">
+			<User categoryid="1" id="2" sexe="F" />
+		</Team>
+		<Team userId="1" leadername="titi" name="toto">
+			<User s.address="" s.birthday="" categoryid="0"
+				s.certificat="" s.city="" s.club="" s.email="" lastname=""
+				firstname="" id="0" s.mobile="" s.nationality="" s.phonenumber=""
+				sexe="H" />
+		</Team>
+	</Teams>
+
+	<Step id="1" name="Etape 1" start_date="12/05/08"
+		start_time="9:00:00">
+		<Step id="12" name="sous-etape 1">
+			<Step id="12" name="sous-etape 1">
+				<Step id="12" name="sous-etape 1">
+					<Step id="12" name="sous-etape 1">
+
+					</Step>
+				</Step>
+			</Step>
+		</Step>
+		<Categories>
+			<Category id="1" />
+			<Category id="2" />
+		</Categories>
+		<Inscribe userId="1" puce="99999" number="100"
+			penality="0:00:00" disqualify="true" abandon="true"
+			bonification="0:00:00" etapeabandon="2" />
+		<Inscribe userId="2" number="101" penality="0:00:00" />
+		<Inscribe userId="3" number="201" penality="0:00:00" />
+		<Station definition="Poste 121" id="121" time="1:00:00"
+			symbol1="0" symbol2="0" symbol3="0" symbol4="0" symbol5="0"
+			symbol6="0" type="1" />
+		<Penalities>
+			<Penality name="Penalite toto" type="0" time="1:00:00"
+				timemaxi="1:00:00" timemini="5:00" timescale="1:00" activate="true"
+				disqualify="false" nbbalisemini="0" nbbalisepointmini="0"
+				ordrebalise="120,121,122" penalitebalise="7" lib="test">
+				<Inscribe number="12" penality="1:00:00"  />
+			</Penality>
+		</Penalities>
+
+		<Chronos>
+			<Chrono number="1" puce="101" end_time="">
+				<Time id="101" time="0:04:57" />
+				<Time id="102" time="0:05:57" />
+				<Time id="103" time="0:06:57" />
+				<Time id="104" time="0:07:57" />
+				<Time id="105" time="0:08:57" />
+			</Chrono>
+			<Chrono number="3" puce="102" end_time="">
+				<Time id="101" time="0:04:57" />
+				<Time id="102" time="0:05:57" />
+				<Time id="103" time="0:06:57" />
+				<Time id="104" time="0:07:57" />
+				<Time id="105" time="0:08:57" />
+			</Chrono>
+		</Chronos>
+	</Step>
+	<Step id="2" name="Etape 2" start_date="12/05/08"
+		start_time="9:00:00">
+		<Categories />
+		<Inscribe number="1" userId="1" puce="123456789" />
+		<Inscribe number="2" userId="2" />
+		<Inscribe number="3" userId="3" />
+		<Station id="123" time="1:00:00" />
+		<Station id="124" />
+		<Station id="125" />
+		<Station id="126" />
+		<Penalities>
+
+		</Penalities>
+	</Step>
+
+	<Watchlist id="1" title="Saisie des utilisateurs"
+		name="PARTICIPANTS">
+		<Column field="FIRSTNAME" title="nom" width="150" />
+		<Column field="LASTNAME" title="prenom" width="150" />
+		<Column field="Catégorie" choice="CATEGORIES" title="Categorie"
+			width="100" />
+		<Column field="S.CERTIFICAT" title="Certif." width="90"
+			type="Booleen" />
+		<Column field="SEXE" title="Sexe" width="150" />
+		<Column field="S.EMAIL" title="Mail" width="150" />
+		<Column field="S.PHONENUMBER" title="Tel." width="150" />
+		<Column field="S.BIRTHDAY" title="Anniv." width="150" />
+		<Column field="S.MOBILE" title="Mobile" width="150" />
+	</Watchlist>
+
+	<Watchlist id="2" title="Resultats" name="RESULTATS">
+		<Column field="CLASSEMENT" title="Clt." width="90" />
+		<Column field="NUMBER" title="Dossard" width="40" />
+		<Column field="FIRSTNAME" title="Nom" width="100" />
+		<Column field="LASTNAME" title="Prenom" width="90" />
+		<Column field="TIME" title="Temps" width="90" />
+		<Column field="PENALITY" title="Penalité" width="90" />
+		<Column field="CATEGORY" title="Categorie" width="90" />
+	</Watchlist>
+
+	<Watchlist id="3" title="Gestion des balises" name="BALISES">
+		<Column field="BALISE_NUM" title="Numéro" width="70"
+			type="Entier" />
+		<Column field="BALISE_TYPE" choice="TYPEBALISES" title="Type"
+			width="200" />
+		<Column field="PENALITE" title="Pénalité" width="100" />
+		<Column field="BALISE_DESC" title="Prenom" width="90" />
+	</Watchlist>
+
+	<Watchlist name="CHRONOS" id="4"
+		title="Gestion des chrométrages et pointages">
+		<Column show="true" field="CODESPORTIDENT" title="Etape"
+			width="100" />
+		<Column field="DOIGTSPORTIDENT" title="Doigt SportIdent"
+			width="100" />
+		<Column field="NUMBALISE" title="Balise" width="100" />
+		<Column field="HEURE" title="Heure" type="Date" width="100" />
+	</Watchlist>
+
+	<Watchlist name="INFOSPORTIDENTS" id="5"
+		title="Gestion des informations récupérées de l&apos;importation SportIdent">
+		<Column field="CODESPORTIDENT" title="Code SportIdent"
+			width="100" />
+		<Column field="LIB" title="Libellé" width="150" />
+	</Watchlist>
+
+</Manif>

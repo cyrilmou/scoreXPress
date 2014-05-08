@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?artifactRepository version='1.1.0'?>
+<repository name='fr.cm.scorexpress.site Artifacts' type='org.eclipse.equinox.p2.artifact.repository.simpleRepository' version='1.0.0'>
+  <properties size='2'>
+    <property name='p2.timestamp' value='1274047842106'/>
+    <property name='p2.compressed' value='false'/>
+  </properties>
+  <mappings size='3'>
+    <rule filter='(&amp; (classifier=osgi.bundle))' output='${repoUrl}/plugins/${id}_${version}.jar'/>
+    <rule filter='(&amp; (classifier=binary))' output='${repoUrl}/binary/${id}_${version}'/>
+    <rule filter='(&amp; (classifier=org.eclipse.update.feature))' output='${repoUrl}/features/${id}_${version}.jar'/>
+  </mappings>
+  <artifacts size='4'>
+    <artifact classifier='osgi.bundle' id='fr.cm.scorexpress.help' version='1.0.0.201005170009'>
+      <properties size='3'>
+        <property name='artifact.size' value='11400'/>
+        <property name='download.size' value='11400'/>
+        <property name='download.md5' value='2cd03e99c8c93e8dce4f589dd3a22ca1'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='fr.cm.scorexpress.core' version='1.0.1.201005170009'>
+      <properties size='3'>
+        <property name='artifact.size' value='1215507'/>
+        <property name='download.size' value='1215507'/>
+        <property name='download.md5' value='2ddb81539dacc90a1241dfbb90c97fc5'/>
+      </properties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='fr.cm.scorexpress.license' version='1.0.0.201005170009'>
+      <properties size='3'>
+        <property name='artifact.size' value='5837'/>
+        <property name='download.size' value='5837'/>
+        <property name='download.md5' value='807b4f3e1e97491cb34792ff834ba013'/>
+      </properties>
+    </artifact>
+    <artifact classifier='org.eclipse.update.feature' id='fr.cm.scorexpress.feature' version='1.0.0.201005170009'>
+      <properties size='4'>
+        <property name='artifact.size' value='2126'/>
+        <property name='download.size' value='2126'/>
+        <property name='download.md5' value='82728e8ceb922980d7dba1cfd4b84e3f'/>
+        <property name='download.contentType' value='application/zip'/>
+      </properties>
+    </artifact>
+  </artifacts>
+</repository>

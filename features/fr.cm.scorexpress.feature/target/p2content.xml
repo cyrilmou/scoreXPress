@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<units size='2'>
+  <unit id='fr.cm.scorexpress.feature.feature.jar' version='1.0.0.201005170009'>
+    <properties size='7'>
+      <property name='org.eclipse.equinox.p2.name' value='Scorexpress Feature'/>
+      <property name='org.eclipse.equinox.p2.description' value='[Enter Feature Description here.]'/>
+      <property name='org.eclipse.equinox.p2.description.url' value='http://www.example.com/description'/>
+      <property name='org.eclipse.equinox.p2.provider' value='Cyril Moutenet'/>
+      <property name='maven-artifactId' value='fr.cm.scorexpress.feature'/>
+      <property name='maven-groupId' value='fr.cm.scorexpress'/>
+      <property name='maven-version' value='1.0.0-SNAPSHOT'/>
+    </properties>
+    <provides size='3'>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='fr.cm.scorexpress.feature.feature.jar' version='1.0.0.201005170009'/>
+      <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='feature' version='1.0.0'/>
+      <provided namespace='org.eclipse.update.feature' name='fr.cm.scorexpress.feature' version='1.0.0.201005170009'/>
+    </provides>
+    <filter>
+      (org.eclipse.update.install.features=true)
+    </filter>
+    <artifacts size='1'>
+      <artifact classifier='org.eclipse.update.feature' id='fr.cm.scorexpress.feature' version='1.0.0.201005170009'/>
+    </artifacts>
+    <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+    <touchpointData size='1'>
+      <instructions size='1'>
+        <instruction key='zipped'>
+          true
+        </instruction>
+      </instructions>
+    </touchpointData>
+    <licenses size='1'>
+      <license uri='http://www.example.com/license' url='http://www.example.com/license'>
+        [Enter License Description here.]
+      </license>
+    </licenses>
+    <copyright uri='http://www.example.com/copyright' url='http://www.example.com/copyright'>
+      [Enter Copyright Description here.]
+    </copyright>
+  </unit>
+  <unit id='fr.cm.scorexpress.feature.feature.group' version='1.0.0.201005170009' singleton='false'>
+    <update id='fr.cm.scorexpress.feature.feature.group' range='[0.0.0,1.0.0.201005170009)' severity='0'/>
+    <properties size='8'>
+      <property name='org.eclipse.equinox.p2.name' value='Scorexpress Feature'/>
+      <property name='org.eclipse.equinox.p2.description' value='[Enter Feature Description here.]'/>
+      <property name='org.eclipse.equinox.p2.description.url' value='http://www.example.com/description'/>
+      <property name='org.eclipse.equinox.p2.provider' value='Cyril Moutenet'/>
+      <property name='org.eclipse.equinox.p2.type.group' value='true'/>
+      <property name='maven-artifactId' value='fr.cm.scorexpress.feature'/>
+      <property name='maven-groupId' value='fr.cm.scorexpress'/>
+      <property name='maven-version' value='1.0.0-SNAPSHOT'/>
+    </properties>
+    <provides size='1'>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='fr.cm.scorexpress.feature.feature.group' version='1.0.0.201005170009'/>
+    </provides>
+    <requires size='15'>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.ui' range='0.0.0'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.ui.ide' range='0.0.0'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.ui.forms' range='0.0.0'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.core.runtime' range='0.0.0'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.core.resources' range='0.0.0'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.help.appserver' range='0.0.0'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.help' range='0.0.0'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.help.base' range='0.0.0'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.help.ui' range='0.0.0'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.help.webapp' range='0.0.0'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.apache.xerces' range='0.0.0'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='fr.cm.scorexpress.core' range='[1.0.1.201005170009,1.0.1.201005170009]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='fr.cm.scorexpress.help' range='[1.0.0.201005170009,1.0.0.201005170009]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='fr.cm.scorexpress.license' range='[1.0.0.201005170009,1.0.0.201005170009]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='fr.cm.scorexpress.feature.feature.jar' range='[1.0.0.201005170009,1.0.0.201005170009]'>
+        <filter>
+          (org.eclipse.update.install.features=true)
+        </filter>
+      </required>
+    </requires>
+    <touchpoint id='null' version='0.0.0'/>
+    <licenses size='1'>
+      <license uri='http://www.example.com/license' url='http://www.example.com/license'>
+        [Enter License Description here.]
+      </license>
+    </licenses>
+    <copyright uri='http://www.example.com/copyright' url='http://www.example.com/copyright'>
+      [Enter Copyright Description here.]
+    </copyright>
+  </unit>
+</units>

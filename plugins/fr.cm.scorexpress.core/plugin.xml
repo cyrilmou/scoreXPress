@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+
+    <extension
+            point="org.eclipse.ui.editors">
+        <editor
+                class="fr.cm.scorexpress.ihm.editor.ResultatEtapeEditor"
+                default="false"
+                extensions="etape"
+                icon="icons/logo25x25.gif"
+                id="fr.cm.scorexpress.editor.ResultatEtapeEditor"
+                name="Résultats"/>
+        <editor
+                class="fr.cm.scorexpress.ihm.editor.ResultatEtapeEditor"
+                default="false"
+                extensions="etape"
+                icon="resources/icons/etape.png"
+                id="fr.cm.chronos.ResultatExpertEditor"
+                name="Résultats analyse"/>
+        <editor
+                class="fr.cm.scorexpress.ihm.editor.UsersEditor"
+                default="false"
+                icon="resources/icons/users.png"
+                id="fr.cm.chronos.editor.DossardsEditor"
+                name="Editeur de concurrents"/>
+        <editor
+                class="fr.cm.scorexpress.ihm.editor.EtapeConfigurationEditor"
+                default="false"
+                icon="resources/icons/nav_go.gif"
+                id="fr.cm.chronos.etapeConfigurationEditor"
+                name="Configuration Etape"/>
+        <editor
+                class="fr.cm.scorexpress.ihm.editor.PenaliteEditor"
+                default="false"
+                icon="resources/icons/nav_forward.gif"
+                id="fr.cm.chronos.editor.PenaliteEditor"
+                name="Gestion de pénalités"/>
+        <editor
+                class="fr.cm.scorexpress.ihm.editor.ChronosEditor"
+                default="false"
+                icon="resources/icons/SportIdent_25x25.gif"
+                id="fr.cm.chronos.ChronosEditor"
+                name="Editeur de chronos"/>
+        <editor
+                class="fr.cm.scorexpress.ihm.editor.PenaliteSaisieEditor"
+                default="false"
+                icon="resources/icons/users.png"
+                id="fr.cm.chronos.editor.PenaliteSaisieEditor"
+                name="Editeur de saisie de pénalités"/>
+        <editor
+                class="fr.cm.scorexpress.ihm.editor.GeneralEditor"
+                default="false"
+                icon="resources/icons/home.gif"
+                id="fr.cm.scorexpress.generalEditor"
+                name="Configuration">
+        </editor>
+        <editor
+                class="fr.cm.scorexpress.ihm.editor.StepEditor"
+                default="false"
+                icon="resources/icons/nav_go.gif"
+                id="fr.cm.scorexpress.stepEditor"
+                name="Configuration étape">
+        </editor>
+    </extension>
+    <extension
+            point="org.eclipse.ui.views">
+        <category
+                id="fr.cm.scorexpress.views"
+                name="Standard Views"/>
+        <view
+                allowMultiple="false"
+                category="fr.cm.scorexpress.views"
+                class="fr.cm.scorexpress.ihm.view.NavigateurView"
+                icon="icons/logo25x25.gif"
+                id="fr.cm.scorexpress.view.navigateur"
+                name="Navigateur">
+        </view>
+    </extension>
+    <extension
+            point="org.eclipse.ui.newWizards">
+        <category
+                id="Chronos"
+                name="Sample Wizards"/>
+        <wizard
+                class="fr.cm.scorexpress.ihm.wizard.OrdreBaliseWizard"
+                icon="resources/icons/nav_refresh.gif"
+                id="fr.cm.chronos.wizards.OrdreBaliseWizard"
+                name="Créer un ordre obligatoire des balises"/>
+    </extension>
+    <extension
+            point="org.eclipse.ui.popupMenus">
+        <objectContribution
+                adaptable="false"
+                id="fr.cm.chronos.extensions.objectContributionEtape"
+                objectClass="fr.cm.scorexpress.core.model.impl.ObjStep">
+            <menu
+                    id="fr.cm.chronos.extensions.menu.configuration"
+                    label="Configuration"
+                    path="additions">
+                <separator name="groupeEtape"/>
+            </menu>
+            <action
+                    class="fr.cm.scorexpress.ihm.action.ResultatEtapeAction"
+                    enablesFor="+"
+                    icon="icons/logo25x25.gif"
+                    id="fr.cm.chronos.actions.ResultatEtapeAction"
+                    label="Afficher résultats ..."/>
+            <action
+                    class="fr.cm.scorexpress.ihm.action.ResultatEtapeAction"
+                    enablesFor="+"
+                    icon="icons/logo25x25.gif"
+                    id="fr.cm.chronos.actions.WithInterResult"
+                    label="Résultat avec étapes intermédiaires..."/>
+            <action
+                    class="fr.cm.scorexpress.ihm.action.ResultatEtapeAction"
+                    enablesFor="+"
+                    icon="resources/icons/etape.png"
+                    id="fr.cm.chronos.actions.ResultatEtapeActionExpert"
+                    label="Afficher résultats (Détaillés)..."/>
+            <action
+                    class="fr.cm.scorexpress.ihm.action.PenaliteAction"
+                    enablesFor="+"
+                    icon="resources/icons/nav_forward.gif"
+                    id="fr.cm.chronos.actions.PenaliteAction"
+                    label="Pénalités..."
+                    menubarPath="fr.cm.chronos.extensions.menu.configuration/groupEtape"/>
+            <action
+                    class="fr.cm.scorexpress.ihm.action.ConfigurationEtapeAction"
+                    enablesFor="+"
+                    icon="resources/icons/nav_go.gif"
+                    id="fr.cm.chronos.actions.ConfigurationEtapeAction"
+                    label="Etape ..."
+                    menubarPath="fr.cm.chronos.extensions.menu.configuration/groupEtape"/>
+            <action
+                    class="fr.cm.scorexpress.ihm.action.ChronosAction"
+                    icon="resources/icons/SportIdent_25x25.gif"
+                    id="fr.cm.chronos.actions.ChronosAction"
+                    label="Chronos"
+                    menubarPath="fr.cm.chronos.extensions.menu.configuration/groupEtape"/>
+            <action
+                    class="fr.cm.scorexpress.ihm.action.ConfigEtapeAction"
+                    enablesFor="+"
+                    icon="resources/icons/nav_go.gif"
+                    id="fr.cm.chronos.actions.ConfigEtapeAction"
+                    label="Configuration">
+            </action>
+        </objectContribution>
+    </extension>
+    <extension
+            point="org.eclipse.ui.viewActions">
+        <viewContribution
+                id="fr.cm.chronos.extensions.viewContribution1"
+                targetID="fr.cm.scorexpress.view.navigateur">
+            <menu
+                    id="fr.cm.scorexpress.menu1"
+                    label="Actions">
+            </menu>
+            <action
+                    class="fr.cm.scorexpress.ihm.action.ViewActionAjouterManif"
+                    icon="resources/icons/search_rem.gif"
+                    id="fr.cm.chronos.actions.ViewActionSupprimerManif"
+                    label="Supprimer"
+                    menubarPath="fr.cm.scorexpress.menuActions"
+                    style="push"
+                    toolbarPath="additions"
+                    tooltip="Supprimer la manifestation selectionnée">
+            </action>
+            <action
+                    class="fr.cm.scorexpress.ihm.action.ViewActionAjouterManif"
+                    definitionId="fr.cm.scorexpress.commands.open"
+                    icon="resources/icons/plus.gif"
+                    id="fr.cm.chronos.actions.ViewActionAjouterManif"
+                    label="Ajouter"
+                    menubarPath="fr.cm.scorexpress.menuActions"
+                    style="push"
+                    toolbarPath="additions"
+                    tooltip="Ajouter une manifestation"/>
+            <action
+                    class="fr.cm.scorexpress.ihm.action.ViewActionActualiser"
+                    icon="resources/icons/refresh.gif"
+                    id="fr.cm.chronos.actions.ViewActionActualiser"
+                    label="Actualiser"
+                    menubarPath="fr.cm.scorexpress.menuActions"
+                    style="push"
+                    toolbarPath="additions"
+                    tooltip="Actualiser">
+            </action>
+            <action
+                    class="fr.cm.scorexpress.ihm.action.ViewActionAjouterManif"
+                    icon="resources/icons/plus.gif"
+                    id="fr.cm.chronos.actions.ViewActionNewManif"
+                    label="Nouveau"
+                    menubarPath="fr.cm.scorexpress.menuActions"
+                    style="push"
+                    tooltip="Nouveau">
+            </action>
+        </viewContribution>
+    </extension>
+    <extension
+            point="org.eclipse.ui.editorActions">
+        <editorContribution
+                id="fr.cm.chronos.etapeEditorContribution"
+                targetID="fr.cm.scorexpress.editor.ResultatEtapeEditor">
+            <menu
+                    id="fr.cm.chronos.extensions.menu.Affichage"
+                    label="Affichage">
+                <separator name="group1"/>
+                <separator name="group2"/>
+            </menu>
+            <action
+                    class="fr.cm.scorexpress.ihm.action.HideResultatAction"
+                    icon="resources/icons/declasse.gif"
+                    id="fr.cm.chronos.actions.HideDeclasse"
+                    label="Déclassé"
+                    menubarPath="fr.cm.chronos.extensions.menu.Affichage/group1"
+                    state="true"
+                    style="toggle"
+                    toolbarPath="additions"
+                    tooltip="Masquer les résultats déclassés"/>
+            <action
+                    class="fr.cm.scorexpress.ihm.action.HideResultatAction"
+                    icon="resources/icons/Abandon.gif"
+                    id="fr.cm.chronos.actions.HideAbandon"
+                    label="Abandon"
+                    menubarPath="fr.cm.chronos.extensions.menu.Affichage/group1"
+                    state="true"
+                    style="toggle"
+                    toolbarPath="additions"
+                    tooltip="Masquer les abandons"/>
+            <action
+                    class="fr.cm.scorexpress.ihm.action.HideResultatAction"
+                    icon="resources/icons/ihigh_obj.gif"
+                    id="fr.cm.chronos.actions.SignalError"
+                    label="Signaler erreurs (rouge)"
+                    menubarPath="fr.cm.chronos.extensions.menu.Affichage/group2"
+                    style="toggle"
+                    tooltip="Signaler les erreurs par une ligne rouge (Durée négative, balise d&apos;arrivée ou de départ non pointée)"/>
+            <action
+                    class="fr.cm.scorexpress.ihm.action.HideResultatAction"
+                    icon="resources/icons/adjust.gif"
+                    id="fr.cm.chronos.actions.AdjustColumn"
+                    label="Ajustement automatique des colonnes"
+                    menubarPath="fr.cm.chronos.extensions.menu.Affichage/group2"
+                    style="toggle"
+                    toolbarPath="additions"
+                    tooltip="Ajustement automatique des colonnes"/>
+            <action
+                    class="fr.cm.scorexpress.ihm.action.PrintAction"
+                    icon="resources/icons/nav_print.gif"
+                    id="fr.cm.chronos.extensions.action.print"
+                    label="Imprimer"
+                    menubarPath="file/additions"
+                    style="push"
+                    toolbarPath="additions"/>
+        </editorContribution>
+        <editorContribution
+                id="fr.cm.chronos.etapeEditorContribution"
+                targetID="fr.cm.chronos.ResultatExpertEditor">
+            <menu
+                    id="fr.cm.chronos.extensions.menu.Affichage"
+                    label="Affichage">
+                <separator name="group1"/>
+                <separator name="group2"/>
+            </menu>
+            <action
+                    class="fr.cm.scorexpress.ihm.action.HideResultatAction"
+                    icon="resources/icons/declasse.gif"
+                    id="fr.cm.chronos.actions.HideDeclasse"
+                    label="Déclassé"
+                    menubarPath="fr.cm.chronos.extensions.menu.Affichage/group1"
+                    state="true"
+                    style="toggle"
+                    toolbarPath="additions"
+                    tooltip="Masquer les résultats déclassés"/>
+            <action
+                    class="fr.cm.scorexpress.ihm.action.HideResultatAction"
+                    icon="resources/icons/Abandon.gif"
+                    id="fr.cm.chronos.actions.HideAbandon"
+                    label="Abandon"
+                    menubarPath="fr.cm.chronos.extensions.menu.Affichage/group1"
+                    state="true"
+                    style="toggle"
+                    toolbarPath="additions"
+                    tooltip="Masquer les abandons"/>
+            <action
+                    class="fr.cm.scorexpress.ihm.action.HideResultatAction"
+                    icon="resources/icons/ihigh_obj.gif"
+                    id="fr.cm.chronos.actions.SignalError"
+                    label="Signaler erreurs (rouge)"
+                    menubarPath="fr.cm.chronos.extensions.menu.Affichage/group2"
+                    style="toggle"
+                    tooltip="Signaler les erreurs par une ligne rouge (Durée négative, balise d&apos;arrivée ou de départ non pointée)"/>
+            <action
+                    class="fr.cm.scorexpress.ihm.action.HideResultatAction"
+                    icon="resources/icons/adjust.gif"
+                    id="fr.cm.chronos.actions.AdjustColumn"
+                    label="Ajustement automatique des colonnes"
+                    menubarPath="fr.cm.chronos.extensions.menu.Affichage/group2"
+                    style="toggle"
+                    toolbarPath="additions"
+                    tooltip="Ajustement automatique des colonnes"/>
+            <action
+                    class="fr.cm.scorexpress.ihm.action.PrintAction"
+                    icon="resources/icons/nav_print.gif"
+                    id="fr.cm.chronos.extensions.action.print"
+                    label="Imprimer"
+                    menubarPath="file/additions"
+                    style="push"
+                    toolbarPath="additions"/>
+        </editorContribution>
+        <editorContribution
+                id="fr.cm.chronos.chronoContribution"
+                targetID="fr.cm.chronos.ChronosEditor">
+            <menu
+                    id="fr.cm.chronos.extensions.menu.Affichage"
+                    label="Affichage">
+                <groupMarker name="group2"/>
+            </menu>
+            <action
+                    class="fr.cm.scorexpress.ihm.action.AutoAdjustColumnAction"
+                    icon="resources/icons/adjust.gif"
+                    id="fr.cm.chronos.actions.AutoAdjustColumn"
+                    label="Ajustement automatique des colonnes"
+                    menubarPath="fr.cm.chronos.extensions.menu.Affichage/group2"
+                    style="toggle"
+                    toolbarPath="additions"
+                    tooltip="Ajustement automatique des colonnes"/>
+            <action
+                    class="fr.cm.scorexpress.ihm.action.PrintAction"
+                    icon="resources/icons/nav_print.gif"
+                    id="fr.cm.chronos.extensions.action.print"
+                    label="Imprimer"
+                    menubarPath="file/additions"
+                    style="push"
+                    toolbarPath="additions">
+            </action>
+        </editorContribution>
+        <editorContribution
+                id="fr.cm.chronos.dossardContribution"
+                targetID="fr.cm.chronos.editor.DossardsEditor">
+            <menu
+                    id="fr.cm.chronos.extensions.menu.Affichage"
+                    label="Affichage">
+                <groupMarker name="group2"/>
+            </menu>
+            <action
+                    class="fr.cm.scorexpress.ihm.action.AutoAdjustColumnAction"
+                    icon="resources/icons/adjust.gif"
+                    id="fr.cm.chronos.actions.AutoAdjustColumn"
+                    label="Ajustement automatique des colonnes"
+                    menubarPath="fr.cm.chronos.extensions.menu.Affichage/group2"
+                    style="toggle"
+                    toolbarPath="additions"
+                    tooltip="Ajustement automatique des colonnes"/>
+        </editorContribution>
+        <editorContribution
+                id="fr.cm.chronos.stepEditorContribution"
+                targetID="fr.cm.scorexpress.stepEditor">
+            <action
+                    class="fr.cm.scorexpress.ihm.action.HideResultatAction"
+                    icon="resources/icons/adjust.gif"
+                    id="fr.cm.chronos.actions.AdjustColumn"
+                    label="Ajustement automatique des colonnes"
+                    menubarPath="fr.cm.chronos.extensions.menu.Affichage/group2"
+                    style="toggle"
+                    toolbarPath="additions"
+                    tooltip="Ajustement automatique des colonnes">
+            </action>
+            <action
+                    class="fr.cm.scorexpress.ihm.action.PrintAction"
+                    icon="resources/icons/nav_print.gif"
+                    id="fr.cm.chronos.extensions.action.print"
+                    label="Imprimer"
+                    menubarPath="file/additions"
+                    style="push"
+                    toolbarPath="additions">
+            </action>
+        </editorContribution>
+    </extension>
+    <extension
+            point="org.eclipse.ui.preferencePages">
+        <page
+                class="fr.cm.scorexpress.ihm.preferences.GeneralePage"
+                id="fr.cm.scorexpress.ihm.preferences.GeneralePage"
+                name="Préférences générales"/>
+    </extension>
+    <extension
+            point="org.eclipse.core.runtime.preferences">
+        <initializer class="fr.cm.scorexpress.ihm.preferences.PreferenceInitializer"/>
+    </extension>
+    <extension
+            point="org.eclipse.ui.actionSets">
+        <actionSet
+                description="Configuration d&apos;une manifestation"
+                id="fr.cm.scorexpress.actionset.configuration"
+                label="Configuration"
+                visible="true">
+            <menu
+                    id="fr.cm.scorexpress.menuConfiguration"
+                    label="Configuration">
+                <groupMarker
+                        name="group">
+                </groupMarker>
+            </menu>
+            <action
+                    class="fr.cm.scorexpress.ihm.action.ConfigurationAction"
+                    enablesFor="+"
+                    icon="icons/logo16x16.gif"
+                    id="fr.cm.scorexpress.action.configuration"
+                    label="Configuration"
+                    menubarPath="fr.cm.scorexpress.menuConfiguration/group"
+                    toolbarPath="fr.cm.scorexpress.menuConfiguration/group"
+                    tooltip="Configuration générale">
+            </action>
+        </actionSet>
+    </extension>
+    <extension
+            point="org.eclipse.ui.perspectiveExtensions">
+        <perspectiveExtension
+                targetID="fr.cm.scorexpress.rcp.perspective">
+            <viewShortcut
+                    id="org.eclipse.pde.runtime.LogView">
+            </viewShortcut>
+        </perspectiveExtension>
+    </extension>
+</plugin>

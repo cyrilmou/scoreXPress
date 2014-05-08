@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns:fr.cm.scorexpress.core="http://fr/cm/scorexpress/core" xmlns:xmi="http://www.omg.org/XMI"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://fr/cm/scorexpress/core">
+    <xsd:import namespace="http://www.omg.org/XMI"
+                schemaLocation="platform:/plugin/org.eclipse.emf.ecore/model/XMI.xsd"/>
+    <xsd:complexType name="CheckPoint">
+        <xsd:complexContent>
+            <xsd:extension base="fr.cm.scorexpress.core:Common">
+                <xsd:attribute name="value" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="CheckPoint" type="fr.cm.scorexpress.core:CheckPoint"/>
+    <xsd:complexType name="Category">
+        <xsd:complexContent>
+            <xsd:extension base="fr.cm.scorexpress.core:Common"/>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="Category" type="fr.cm.scorexpress.core:Category"/>
+    <xsd:complexType abstract="true" name="Common">
+        <xsd:choice maxOccurs="unbounded" minOccurs="0">
+            <xsd:element ref="xmi:Extension"/>
+        </xsd:choice>
+        <xsd:attribute ref="xmi:id"/>
+        <xsd:attributeGroup ref="xmi:ObjectAttribs"/>
+        <xsd:attribute name="id" type="xsd:int"/>
+        <xsd:attribute name="label" type="xsd:string"/>
+        <xsd:attribute name="description" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:element name="Common" type="fr.cm.scorexpress.core:Common"/>
+    <xsd:complexType name="RaceTrack">
+        <xsd:complexContent>
+            <xsd:extension base="fr.cm.scorexpress.core:Common">
+                <xsd:choice maxOccurs="unbounded" minOccurs="0">
+                    <xsd:element name="steps" type="fr.cm.scorexpress.core:Step"/>
+                    <xsd:element name="filter" type="fr.cm.scorexpress.core:Filter"/>
+                </xsd:choice>
+                <xsd:attribute name="activated" type="xsd:boolean"/>
+                <xsd:attribute name="steps" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="RaceTrack" type="fr.cm.scorexpress.core:RaceTrack"/>
+    <xsd:complexType name="User">
+        <xsd:complexContent>
+            <xsd:extension base="fr.cm.scorexpress.core:Common">
+                <xsd:choice maxOccurs="unbounded" minOccurs="0">
+                    <xsd:element name="Category" type="fr.cm.scorexpress.core:Category"/>
+                </xsd:choice>
+                <xsd:attribute name="Category" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="User" type="fr.cm.scorexpress.core:User"/>
+    <xsd:complexType name="EngagedUser">
+        <xsd:complexContent>
+            <xsd:extension base="fr.cm.scorexpress.core:Common">
+                <xsd:choice maxOccurs="unbounded" minOccurs="0">
+                    <xsd:element name="user" type="fr.cm.scorexpress.core:User"/>
+                </xsd:choice>
+                <xsd:attribute name="number" type="xsd:string"/>
+                <xsd:attribute name="user" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="EngagedUser" type="fr.cm.scorexpress.core:EngagedUser"/>
+    <xsd:complexType name="MultiEvent">
+        <xsd:complexContent>
+            <xsd:extension base="fr.cm.scorexpress.core:Event">
+                <xsd:choice maxOccurs="unbounded" minOccurs="0">
+                    <xsd:element name="subEvents" type="fr.cm.scorexpress.core:Event"/>
+                </xsd:choice>
+                <xsd:attribute name="engagedRecursively" type="xsd:boolean"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="MultiEvent" type="fr.cm.scorexpress.core:MultiEvent"/>
+    <xsd:complexType name="StandaloneEvent">
+        <xsd:complexContent>
+            <xsd:extension base="fr.cm.scorexpress.core:Event">
+                <xsd:choice maxOccurs="unbounded" minOccurs="0">
+                    <xsd:element name="timedUsers" type="fr.cm.scorexpress.core:TimedUser"/>
+                </xsd:choice>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="StandaloneEvent" type="fr.cm.scorexpress.core:StandaloneEvent"/>
+    <xsd:complexType abstract="true" name="Event">
+        <xsd:complexContent>
+            <xsd:extension base="fr.cm.scorexpress.core:Common">
+                <xsd:choice maxOccurs="unbounded" minOccurs="0">
+                    <xsd:element name="steps" type="fr.cm.scorexpress.core:Step"/>
+                    <xsd:element name="categories" type="fr.cm.scorexpress.core:Category"/>
+                    <xsd:element name="checkpointsDeclaration" type="fr.cm.scorexpress.core:CheckPoint"/>
+                    <xsd:element name="raceTracks" type="fr.cm.scorexpress.core:RaceTrack"/>
+                    <xsd:element name="engagedUsers" type="fr.cm.scorexpress.core:EngagedUser"/>
+                    <xsd:element name="raceResultSheet" type="fr.cm.scorexpress.core:RaceResultSheet"/>
+                    <xsd:element name="userResults" type="fr.cm.scorexpress.core:UserResult"/>
+                </xsd:choice>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="Event" type="fr.cm.scorexpress.core:Event"/>
+    <xsd:complexType abstract="true" name="Step">
+        <xsd:complexContent>
+            <xsd:extension base="fr.cm.scorexpress.core:Common">
+                <xsd:choice maxOccurs="unbounded" minOccurs="0">
+                    <xsd:element name="startCheckpoint" nillable="true" type="fr.cm.scorexpress.core:CheckPoint"/>
+                    <xsd:element name="endChekpoint" nillable="true" type="fr.cm.scorexpress.core:CheckPoint"/>
+                    <xsd:element name="penalities" type="fr.cm.scorexpress.core:Penality"/>
+                </xsd:choice>
+                <xsd:attribute name="activated" type="xsd:boolean"/>
+                <xsd:attribute name="startCheckpoint" type="xsd:string"/>
+                <xsd:attribute name="endChekpoint" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="Step" type="fr.cm.scorexpress.core:Step"/>
+    <xsd:complexType name="Competitor">
+        <xsd:complexContent>
+            <xsd:extension base="fr.cm.scorexpress.core:Common">
+                <xsd:choice maxOccurs="unbounded" minOccurs="0">
+                    <xsd:element name="category" type="fr.cm.scorexpress.core:Category"/>
+                    <xsd:element name="user" type="fr.cm.scorexpress.core:User"/>
+                    <xsd:element name="raceTrack" type="fr.cm.scorexpress.core:RaceTrack"/>
+                </xsd:choice>
+                <xsd:attribute name="number" type="xsd:string"/>
+                <xsd:attribute name="category" type="xsd:string"/>
+                <xsd:attribute name="user" type="xsd:string"/>
+                <xsd:attribute name="raceTrack" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="Competitor" type="fr.cm.scorexpress.core:Competitor"/>
+    <xsd:complexType name="StopTime">
+        <xsd:complexContent>
+            <xsd:extension base="fr.cm.scorexpress.core:Step"/>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="StopTime" type="fr.cm.scorexpress.core:StopTime"/>
+    <xsd:complexType name="NormalStep">
+        <xsd:complexContent>
+            <xsd:extension base="fr.cm.scorexpress.core:Step">
+                <xsd:choice maxOccurs="unbounded" minOccurs="0">
+                    <xsd:element name="subSteps" type="fr.cm.scorexpress.core:Step"/>
+                </xsd:choice>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="NormalStep" type="fr.cm.scorexpress.core:NormalStep"/>
+    <xsd:complexType abstract="true" name="Penality">
+        <xsd:complexContent>
+            <xsd:extension base="fr.cm.scorexpress.core:Common">
+                <xsd:attribute name="PenalityTime" type="xsd:string"/>
+                <xsd:attribute name="activated" type="xsd:boolean"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="Penality" type="fr.cm.scorexpress.core:Penality"/>
+    <xsd:complexType name="RequiredCheckpointPenality">
+        <xsd:complexContent>
+            <xsd:extension base="fr.cm.scorexpress.core:Penality">
+                <xsd:choice maxOccurs="unbounded" minOccurs="0">
+                    <xsd:element name="checkpoint" type="fr.cm.scorexpress.core:CheckPoint"/>
+                </xsd:choice>
+                <xsd:attribute name="checkpoint" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="RequiredCheckpointPenality" type="fr.cm.scorexpress.core:RequiredCheckpointPenality"/>
+    <xsd:complexType name="BonusCheckpointPenality">
+        <xsd:complexContent>
+            <xsd:extension base="fr.cm.scorexpress.core:Penality">
+                <xsd:choice maxOccurs="unbounded" minOccurs="0">
+                    <xsd:element name="checkpoint" type="fr.cm.scorexpress.core:CheckPoint"/>
+                </xsd:choice>
+                <xsd:attribute name="checkpoint" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="BonusCheckpointPenality" type="fr.cm.scorexpress.core:BonusCheckpointPenality"/>
+    <xsd:complexType name="MaxTimePenality">
+        <xsd:complexContent>
+            <xsd:extension base="fr.cm.scorexpress.core:Penality">
+                <xsd:attribute name="MaxTime" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="MaxTimePenality" type="fr.cm.scorexpress.core:MaxTimePenality"/>
+    <xsd:complexType name="LimitedTimePenality">
+        <xsd:complexContent>
+            <xsd:extension base="fr.cm.scorexpress.core:Penality">
+                <xsd:attribute name="MaxTime" type="xsd:string"/>
+                <xsd:attribute name="ScaleTime" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="LimitedTimePenality" type="fr.cm.scorexpress.core:LimitedTimePenality"/>
+    <xsd:complexType name="MiniTimePenality">
+        <xsd:complexContent>
+            <xsd:extension base="fr.cm.scorexpress.core:Penality"/>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="MiniTimePenality" type="fr.cm.scorexpress.core:MiniTimePenality"/>
+    <xsd:complexType name="Project">
+        <xsd:choice maxOccurs="unbounded" minOccurs="0">
+            <xsd:element name="users" type="fr.cm.scorexpress.core:User"/>
+            <xsd:element name="events" type="fr.cm.scorexpress.core:Event"/>
+            <xsd:element name="defaultCategories" type="fr.cm.scorexpress.core:Category"/>
+            <xsd:element ref="xmi:Extension"/>
+        </xsd:choice>
+        <xsd:attribute ref="xmi:id"/>
+        <xsd:attributeGroup ref="xmi:ObjectAttribs"/>
+    </xsd:complexType>
+    <xsd:element name="Project" type="fr.cm.scorexpress.core:Project"/>
+    <xsd:complexType name="RaceResultSheet">
+        <xsd:complexContent>
+            <xsd:extension base="fr.cm.scorexpress.core:Common">
+                <xsd:choice maxOccurs="unbounded" minOccurs="0">
+                    <xsd:element name="categoryFilter" type="fr.cm.scorexpress.core:Filter"/>
+                </xsd:choice>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="RaceResultSheet" type="fr.cm.scorexpress.core:RaceResultSheet"/>
+    <xsd:complexType abstract="true" name="Filter">
+        <xsd:choice maxOccurs="unbounded" minOccurs="0">
+            <xsd:element ref="xmi:Extension"/>
+        </xsd:choice>
+        <xsd:attribute ref="xmi:id"/>
+        <xsd:attributeGroup ref="xmi:ObjectAttribs"/>
+    </xsd:complexType>
+    <xsd:element name="Filter" type="fr.cm.scorexpress.core:Filter"/>
+    <xsd:complexType name="CategoryFilter">
+        <xsd:complexContent>
+            <xsd:extension base="fr.cm.scorexpress.core:Filter">
+                <xsd:choice maxOccurs="unbounded" minOccurs="0">
+                    <xsd:element name="category" type="fr.cm.scorexpress.core:Category"/>
+                </xsd:choice>
+                <xsd:attribute name="all" type="xsd:boolean"/>
+                <xsd:attribute name="category" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="CategoryFilter" type="fr.cm.scorexpress.core:CategoryFilter"/>
+    <xsd:complexType name="RaceTrackFilter">
+        <xsd:complexContent>
+            <xsd:extension base="fr.cm.scorexpress.core:Filter">
+                <xsd:choice maxOccurs="unbounded" minOccurs="0">
+                    <xsd:element name="raceTrack" type="fr.cm.scorexpress.core:RaceTrack"/>
+                </xsd:choice>
+                <xsd:attribute name="all" type="xsd:boolean"/>
+                <xsd:attribute name="raceTrack" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="RaceTrackFilter" type="fr.cm.scorexpress.core:RaceTrackFilter"/>
+    <xsd:complexType name="EngagedUserFilter">
+        <xsd:complexContent>
+            <xsd:extension base="fr.cm.scorexpress.core:Filter">
+                <xsd:choice maxOccurs="unbounded" minOccurs="0">
+                    <xsd:element name="engagedUsers" type="fr.cm.scorexpress.core:EngagedUser"/>
+                </xsd:choice>
+                <xsd:attribute name="all" type="xsd:boolean"/>
+                <xsd:attribute name="engagedUsers" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="EngagedUserFilter" type="fr.cm.scorexpress.core:EngagedUserFilter"/>
+    <xsd:complexType name="TimedUser">
+        <xsd:choice maxOccurs="unbounded" minOccurs="0">
+            <xsd:element name="timeCheckpoint" type="fr.cm.scorexpress.core:TimedCheckpoint"/>
+            <xsd:element ref="xmi:Extension"/>
+        </xsd:choice>
+        <xsd:attribute ref="xmi:id"/>
+        <xsd:attributeGroup ref="xmi:ObjectAttribs"/>
+        <xsd:attribute name="number" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:element name="TimedUser" type="fr.cm.scorexpress.core:TimedUser"/>
+    <xsd:complexType name="TimedCheckpoint">
+        <xsd:choice maxOccurs="unbounded" minOccurs="0">
+            <xsd:element ref="xmi:Extension"/>
+        </xsd:choice>
+        <xsd:attribute ref="xmi:id"/>
+        <xsd:attributeGroup ref="xmi:ObjectAttribs"/>
+        <xsd:attribute name="checkPoint" type="xsd:string"/>
+        <xsd:attribute name="time" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:element name="TimedCheckpoint" type="fr.cm.scorexpress.core:TimedCheckpoint"/>
+    <xsd:complexType abstract="true" name="Result">
+        <xsd:choice maxOccurs="unbounded" minOccurs="0">
+            <xsd:element name="results" type="fr.cm.scorexpress.core:UserResult"/>
+            <xsd:element ref="xmi:Extension"/>
+        </xsd:choice>
+        <xsd:attribute ref="xmi:id"/>
+        <xsd:attributeGroup ref="xmi:ObjectAttribs"/>
+        <xsd:attribute name="results" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:element name="Result" type="fr.cm.scorexpress.core:Result"/>
+    <xsd:complexType abstract="true" name="EventResult">
+        <xsd:choice maxOccurs="unbounded" minOccurs="0">
+            <xsd:element name="event" type="fr.cm.scorexpress.core:Event"/>
+            <xsd:element ref="xmi:Extension"/>
+        </xsd:choice>
+        <xsd:attribute ref="xmi:id"/>
+        <xsd:attributeGroup ref="xmi:ObjectAttribs"/>
+        <xsd:attribute name="event" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:element name="EventResult" type="fr.cm.scorexpress.core:EventResult"/>
+    <xsd:complexType abstract="true" name="StepResult">
+        <xsd:choice maxOccurs="unbounded" minOccurs="0">
+            <xsd:element name="step" type="fr.cm.scorexpress.core:Step"/>
+            <xsd:element ref="xmi:Extension"/>
+        </xsd:choice>
+        <xsd:attribute ref="xmi:id"/>
+        <xsd:attributeGroup ref="xmi:ObjectAttribs"/>
+        <xsd:attribute name="step" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:element name="StepResult" type="fr.cm.scorexpress.core:StepResult"/>
+    <xsd:complexType name="UserResult">
+        <xsd:choice maxOccurs="unbounded" minOccurs="0">
+            <xsd:element name="checkpointTimes" nillable="true" type="xsd:string"/>
+            <xsd:element name="EngagedUser" type="fr.cm.scorexpress.core:EngagedUser"/>
+            <xsd:element ref="xmi:Extension"/>
+        </xsd:choice>
+        <xsd:attribute ref="xmi:id"/>
+        <xsd:attributeGroup ref="xmi:ObjectAttribs"/>
+        <xsd:attribute name="raceTrackTime" type="xsd:string"/>
+        <xsd:attribute name="penalityTime" type="xsd:string"/>
+        <xsd:attribute name="checkpointPenalityTime" type="xsd:string"/>
+        <xsd:attribute name="stopTimeTime" type="xsd:string"/>
+        <xsd:attribute name="bonusTime" type="xsd:string"/>
+        <xsd:attribute name="differenceTime" type="xsd:string"/>
+        <xsd:attribute name="EngagedUser" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:element name="UserResult" type="fr.cm.scorexpress.core:UserResult"/>
+</xsd:schema>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/fr.cm.scorexpress.core.model/src"
+    creationSubmenus="true" modelPluginID="fr.cm.scorexpress.core.model" modelName="Scorexpress"
+    generateSchema="true" importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0"
+    copyrightFields="false" colorProviders="true">
+  <foreignModel>scorexpress.ecore</foreignModel>
+  <genPackages prefix="Scorexpress" basePackage="fr.cm.scorexpress.core" disposableProviderFactory="true"
+      interfacePackageSuffix="model" metaDataPackageSuffix="model" classPackageSuffix="model.impl"
+      utilityPackageSuffix="model.util" providerPackageSuffix="edit.provider" presentationPackageSuffix="ui"
+      extensibleProviderFactory="true" childCreationExtenders="true" contentTypeIdentifier=""
+      fileExtensions="xml" ecorePackage="scorexpress.ecore#/">
+    <genClasses ecoreClass="scorexpress.ecore#//CheckPoint">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scorexpress.ecore#//CheckPoint/value"/>
+    </genClasses>
+    <genClasses ecoreClass="scorexpress.ecore#//Category"/>
+    <genClasses image="false" ecoreClass="scorexpress.ecore#//Common">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scorexpress.ecore#//Common/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scorexpress.ecore#//Common/label"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scorexpress.ecore#//Common/description"/>
+    </genClasses>
+    <genClasses ecoreClass="scorexpress.ecore#//RaceTrack">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scorexpress.ecore#//RaceTrack/steps"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scorexpress.ecore#//RaceTrack/filter"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scorexpress.ecore#//RaceTrack/activated"/>
+    </genClasses>
+    <genClasses ecoreClass="scorexpress.ecore#//User">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scorexpress.ecore#//User/Category"/>
+    </genClasses>
+    <genClasses ecoreClass="scorexpress.ecore#//EngagedUser">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scorexpress.ecore#//EngagedUser/number"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scorexpress.ecore#//EngagedUser/user"/>
+    </genClasses>
+    <genClasses ecoreClass="scorexpress.ecore#//MultiEvent">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scorexpress.ecore#//MultiEvent/subEvents"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scorexpress.ecore#//MultiEvent/engagedRecursively"/>
+    </genClasses>
+    <genClasses ecoreClass="scorexpress.ecore#//StandaloneEvent">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scorexpress.ecore#//StandaloneEvent/timedUsers"/>
+    </genClasses>
+    <genClasses ecoreClass="scorexpress.ecore#//Event">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scorexpress.ecore#//Event/steps"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scorexpress.ecore#//Event/categories"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scorexpress.ecore#//Event/checkpointsDeclaration"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scorexpress.ecore#//Event/raceTracks"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scorexpress.ecore#//Event/engagedUsers"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scorexpress.ecore#//Event/raceResultSheet"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scorexpress.ecore#//Event/userResults"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="scorexpress.ecore#//Step">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scorexpress.ecore#//Step/startCheckpoint"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scorexpress.ecore#//Step/endChekpoint"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scorexpress.ecore#//Step/activated"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scorexpress.ecore#//Step/penalities"/>
+    </genClasses>
+    <genClasses ecoreClass="scorexpress.ecore#//Competitor">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scorexpress.ecore#//Competitor/number"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scorexpress.ecore#//Competitor/category"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scorexpress.ecore#//Competitor/user"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scorexpress.ecore#//Competitor/raceTrack"/>
+    </genClasses>
+    <genClasses ecoreClass="scorexpress.ecore#//StopTime"/>
+    <genClasses ecoreClass="scorexpress.ecore#//NormalStep">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scorexpress.ecore#//NormalStep/subSteps"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="scorexpress.ecore#//Penality">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scorexpress.ecore#//Penality/PenalityTime"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scorexpress.ecore#//Penality/activated"/>
+    </genClasses>
+    <genClasses ecoreClass="scorexpress.ecore#//RequiredCheckpointPenality">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scorexpress.ecore#//RequiredCheckpointPenality/checkpoint"/>
+    </genClasses>
+    <genClasses ecoreClass="scorexpress.ecore#//BonusCheckpointPenality">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scorexpress.ecore#//BonusCheckpointPenality/checkpoint"/>
+    </genClasses>
+    <genClasses ecoreClass="scorexpress.ecore#//MaxTimePenality">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scorexpress.ecore#//MaxTimePenality/MaxTime"/>
+    </genClasses>
+    <genClasses ecoreClass="scorexpress.ecore#//LimitedTimePenality">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scorexpress.ecore#//LimitedTimePenality/MaxTime"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scorexpress.ecore#//LimitedTimePenality/ScaleTime"/>
+    </genClasses>
+    <genClasses ecoreClass="scorexpress.ecore#//MiniTimePenality"/>
+    <genClasses ecoreClass="scorexpress.ecore#//Project">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scorexpress.ecore#//Project/users"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scorexpress.ecore#//Project/events"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scorexpress.ecore#//Project/defaultCategories"/>
+    </genClasses>
+    <genClasses ecoreClass="scorexpress.ecore#//RaceResultSheet">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scorexpress.ecore#//RaceResultSheet/categoryFilter"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="scorexpress.ecore#//Filter"/>
+    <genClasses ecoreClass="scorexpress.ecore#//CategoryFilter">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scorexpress.ecore#//CategoryFilter/category"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scorexpress.ecore#//CategoryFilter/all"/>
+    </genClasses>
+    <genClasses ecoreClass="scorexpress.ecore#//RaceTrackFilter">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scorexpress.ecore#//RaceTrackFilter/raceTrack"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scorexpress.ecore#//RaceTrackFilter/all"/>
+    </genClasses>
+    <genClasses ecoreClass="scorexpress.ecore#//EngagedUserFilter">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scorexpress.ecore#//EngagedUserFilter/engagedUsers"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scorexpress.ecore#//EngagedUserFilter/all"/>
+    </genClasses>
+    <genClasses ecoreClass="scorexpress.ecore#//TimedUser">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scorexpress.ecore#//TimedUser/number"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scorexpress.ecore#//TimedUser/timeCheckpoint"/>
+    </genClasses>
+    <genClasses ecoreClass="scorexpress.ecore#//TimedCheckpoint">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scorexpress.ecore#//TimedCheckpoint/checkPoint"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scorexpress.ecore#//TimedCheckpoint/time"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="scorexpress.ecore#//Result">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scorexpress.ecore#//Result/results"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="scorexpress.ecore#//EventResult">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scorexpress.ecore#//EventResult/event"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="scorexpress.ecore#//StepResult">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scorexpress.ecore#//StepResult/step"/>
+    </genClasses>
+    <genClasses ecoreClass="scorexpress.ecore#//UserResult">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scorexpress.ecore#//UserResult/EngagedUser"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scorexpress.ecore#//UserResult/raceTrackTime"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scorexpress.ecore#//UserResult/penalityTime"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scorexpress.ecore#//UserResult/checkpointPenalityTime"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scorexpress.ecore#//UserResult/stopTimeTime"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scorexpress.ecore#//UserResult/bonusTime"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scorexpress.ecore#//UserResult/differenceTime"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scorexpress.ecore#//UserResult/checkpointTimes"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

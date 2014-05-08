@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Licence Plug-in
+Bundle-SymbolicName: fr.cm.scorexpress.license
+Bundle-Version: 1.0.0
+Bundle-Activator: fr.cm.scorexpress.licence.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: J2SE-1.5,
+ JavaSE-1.6
+Export-Package: fr.cm.framework;x-friends:="fr.cm.scorexpress.core"
+Bundle-Vendor: Cyril Moutenet Development

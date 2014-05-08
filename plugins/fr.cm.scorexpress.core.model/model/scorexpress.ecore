@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="scorexpress"
+    nsURI="http://fr/cm/scorexpress/core" nsPrefix="fr.cm.scorexpress.core">
+  <eClassifiers xsi:type="ecore:EClass" name="CheckPoint" eSuperTypes="#//Common">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Category" eSuperTypes="#//Common"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Common" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RaceTrack" eSuperTypes="#//Common">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="steps" upperBound="-1"
+        eType="#//Step" eKeys="#//Common/id">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="wildcards" value=""/>
+        <details key="name" value=""/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="filter" eType="#//Filter"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="activated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="User" eSuperTypes="#//Common">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Category" eType="#//Category"
+        eKeys="#//Common/id"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EngagedUser" eSuperTypes="#//Common">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="number" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="user" lowerBound="1" upperBound="-1"
+        eType="#//User"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MultiEvent" eSuperTypes="#//Event">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subEvents" upperBound="-1"
+        eType="#//Event" containment="true" eKeys="#//Common/id"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="engagedRecursively" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StandaloneEvent" eSuperTypes="#//Event">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="timedUsers" upperBound="-1"
+        eType="#//TimedUser" containment="true" eKeys="#//TimedUser/number"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Event" abstract="true" eSuperTypes="#//Common">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="steps" upperBound="-1"
+        eType="#//Step" containment="true" eKeys="#//Common/id"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="categories" upperBound="-1"
+        eType="#//Category" containment="true" eKeys="#//Common/id"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="checkpointsDeclaration"
+        upperBound="-1" eType="#//CheckPoint" containment="true" eKeys="#//Common/id"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="raceTracks" upperBound="-1"
+        eType="#//RaceTrack" containment="true" eKeys="#//Common/id"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="engagedUsers" upperBound="-1"
+        eType="#//EngagedUser" containment="true" eKeys="#//EngagedUser/number"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="raceResultSheet" upperBound="-1"
+        eType="#//RaceResultSheet" containment="true" eKeys="#//Common/id"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="userResults" upperBound="-1"
+        eType="#//UserResult" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Step" abstract="true" eSuperTypes="#//Common">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="startCheckpoint" eType="#//CheckPoint"
+        unsettable="true" eKeys="#//Common/id"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="endChekpoint" eType="#//CheckPoint"
+        unsettable="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="activated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="penalities" upperBound="-1"
+        eType="#//Penality" containment="true" eKeys="#//Common/id"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Competitor" eSuperTypes="#//Common">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="number" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="category" eType="#//Category"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="user" eType="#//User" eKeys="#//Common/id"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="raceTrack" eType="#//RaceTrack"
+        eKeys="#//Common/id"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StopTime" eSuperTypes="#//Step"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NormalStep" eSuperTypes="#//Step">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subSteps" upperBound="-1"
+        eType="#//Step" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Penality" abstract="true" eSuperTypes="#//Common">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="PenalityTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="activated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RequiredCheckpointPenality" eSuperTypes="#//Penality">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="checkpoint" lowerBound="1"
+        eType="#//CheckPoint" eKeys="#//Common/id"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BonusCheckpointPenality" eSuperTypes="#//Penality">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="checkpoint" lowerBound="1"
+        eType="#//CheckPoint" eKeys="#//Common/id"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MaxTimePenality" eSuperTypes="#//Penality">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="MaxTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LimitedTimePenality" eSuperTypes="#//Penality">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="MaxTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ScaleTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MiniTimePenality" eSuperTypes="#//Penality"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Project">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="users" upperBound="-1"
+        eType="#//User" containment="true" eKeys="#//Common/id"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1"
+        eType="#//Event" containment="true" eKeys="#//Common/id"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="defaultCategories" upperBound="-1"
+        eType="#//Category" containment="true" eKeys="#//Common/id"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RaceResultSheet" eSuperTypes="#//Common">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="categoryFilter" eType="#//Filter"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Filter" abstract="true" interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CategoryFilter" eSuperTypes="#//Filter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="category" eType="#//Category"
+        eKeys="#//Common/id"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="all" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RaceTrackFilter" eSuperTypes="#//Filter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="raceTrack" eType="#//RaceTrack"
+        eKeys="#//Common/id"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="all" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EngagedUserFilter" eSuperTypes="#//Filter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="engagedUsers" eType="#//EngagedUser"
+        eKeys="#//Common/id"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="all" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TimedUser">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="number" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="timeCheckpoint" upperBound="-1"
+        eType="#//TimedCheckpoint" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TimedCheckpoint">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="checkPoint" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="time" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Result" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="results" upperBound="-1"
+        eType="#//UserResult"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EventResult" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="event" eType="#//Event"
+        eKeys="#//Common/id"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StepResult" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="step" eType="#//Step" eKeys="#//Common/id"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UserResult">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="EngagedUser" eType="#//EngagedUser"
+        eKeys="#//Common/id"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="raceTrackTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="penalityTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="checkpointPenalityTime"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stopTimeTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bonusTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="differenceTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="checkpointTimes" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+  </eClassifiers>
+</ecore:EPackage>

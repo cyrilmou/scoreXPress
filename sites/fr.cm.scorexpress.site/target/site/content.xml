@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?metadataRepository version='1.1.0'?>
+<repository name='fr.cm.scorexpress.site' type='org.eclipse.equinox.internal.p2.metadata.repository.LocalMetadataRepository' version='1.0.0'>
+  <properties size='2'>
+    <property name='p2.timestamp' value='1274047842128'/>
+    <property name='p2.compressed' value='false'/>
+  </properties>
+  <units size='6'>
+    <unit id='fr.cm.scorexpress.feature.feature.jar' version='1.0.0.201005170009'>
+      <properties size='4'>
+        <property name='org.eclipse.equinox.p2.name' value='Scorexpress Feature'/>
+        <property name='org.eclipse.equinox.p2.description' value='[Enter Feature Description here.]'/>
+        <property name='org.eclipse.equinox.p2.description.url' value='http://www.example.com/description'/>
+        <property name='org.eclipse.equinox.p2.provider' value='Cyril Moutenet'/>
+      </properties>
+      <provides size='3'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='fr.cm.scorexpress.feature.feature.jar' version='1.0.0.201005170009'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='feature' version='1.0.0'/>
+        <provided namespace='org.eclipse.update.feature' name='fr.cm.scorexpress.feature' version='1.0.0.201005170009'/>
+      </provides>
+      <filter>
+        (org.eclipse.update.install.features=true)
+      </filter>
+      <artifacts size='1'>
+        <artifact classifier='org.eclipse.update.feature' id='fr.cm.scorexpress.feature' version='1.0.0.201005170009'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='zipped'>
+            true
+          </instruction>
+        </instructions>
+      </touchpointData>
+      <licenses size='1'>
+        <license uri='http://www.example.com/license' url='http://www.example.com/license'>
+          [Enter License Description here.]
+        </license>
+      </licenses>
+      <copyright uri='http://www.example.com/copyright' url='http://www.example.com/copyright'>
+        [Enter Copyright Description here.]
+      </copyright>
+    </unit>
+    <unit id='file:/D:/dev/ScoreXPressRaid/sites/fr.cm.scorexpress.site/target/site/site.xml.Default' version='0.0.0.20100517001042'>
+      <properties size='3'>
+        <property name='org.eclipse.equinox.p2.name' value='Uncategorized'/>
+        <property name='org.eclipse.equinox.p2.description' value='Default category for otherwise uncategorized features'/>
+        <property name='org.eclipse.equinox.p2.type.category' value='true'/>
+      </properties>
+      <provides size='1'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='file:/D:/dev/ScoreXPressRaid/sites/fr.cm.scorexpress.site/target/site/site.xml.Default' version='0.0.0'/>
+      </provides>
+      <requires size='1'>
+        <required namespace='org.eclipse.equinox.p2.iu' name='fr.cm.scorexpress.feature.feature.group' range='[1.0.0.201005170009,1.0.0.201005170009]'/>
+      </requires>
+      <touchpoint id='null' version='0.0.0'/>
+    </unit>
+    <unit id='fr.cm.scorexpress.feature.feature.group' version='1.0.0.201005170009' singleton='false'>
+      <update id='fr.cm.scorexpress.feature.feature.group' range='[0.0.0,1.0.0.201005170009)' severity='0'/>
+      <properties size='5'>
+        <property name='org.eclipse.equinox.p2.name' value='Scorexpress Feature'/>
+        <property name='org.eclipse.equinox.p2.description' value='[Enter Feature Description here.]'/>
+        <property name='org.eclipse.equinox.p2.description.url' value='http://www.example.com/description'/>
+        <property name='org.eclipse.equinox.p2.provider' value='Cyril Moutenet'/>
+        <property name='org.eclipse.equinox.p2.type.group' value='true'/>
+      </properties>
+      <provides size='1'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='fr.cm.scorexpress.feature.feature.group' version='1.0.0.201005170009'/>
+      </provides>
+      <requires size='15'>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.ui' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.ui.ide' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.ui.forms' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.core.runtime' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.core.resources' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.help.appserver' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.help' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.help.base' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.help.ui' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.help.webapp' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.apache.xerces' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='fr.cm.scorexpress.core' range='[1.0.1.201005170009,1.0.1.201005170009]'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='fr.cm.scorexpress.help' range='[1.0.0.201005170009,1.0.0.201005170009]'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='fr.cm.scorexpress.license' range='[1.0.0.201005170009,1.0.0.201005170009]'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='fr.cm.scorexpress.feature.feature.jar' range='[1.0.0.201005170009,1.0.0.201005170009]'>
+          <filter>
+            (org.eclipse.update.install.features=true)
+          </filter>
+        </required>
+      </requires>
+      <touchpoint id='null' version='0.0.0'/>
+      <licenses size='1'>
+        <license uri='http://www.example.com/license' url='http://www.example.com/license'>
+          [Enter License Description here.]
+        </license>
+      </licenses>
+      <copyright uri='http://www.example.com/copyright' url='http://www.example.com/copyright'>
+        [Enter Copyright Description here.]
+      </copyright>
+    </unit>
+    <unit id='fr.cm.scorexpress.help' version='1.0.0.201005170009'>
+      <update id='fr.cm.scorexpress.help' range='[0.0.0,1.0.0.201005170009)' severity='0'/>
+      <properties size='2'>
+        <property name='org.eclipse.equinox.p2.name' value='Help for ScoreXPress'/>
+        <property name='org.eclipse.equinox.p2.provider' value='Cyril Moutenet Development'/>
+      </properties>
+      <provides size='3'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='fr.cm.scorexpress.help' version='1.0.0.201005170009'/>
+        <provided namespace='osgi.bundle' name='fr.cm.scorexpress.help' version='1.0.0.201005170009'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+      </provides>
+      <requires size='4'>
+        <required namespace='osgi.bundle' name='org.eclipse.ui' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.help' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.help.webapp' range='0.0.0'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='fr.cm.scorexpress.help' version='1.0.0.201005170009'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-ManifestVersion: 2&#xA;Created-By: Apache Maven&#xA;Archiver-Version: Plexus Archiver&#xA;Manifest-Version: 1.0&#xA;MavenArtifact-BaseVersion: 1.0.0-SNAPSHOT&#xA;Bundle-Name: Help for ScoreXPress&#xA;Bundle-Vendor: Cyril Moutenet Development&#xA;Bundle-ActivationPolicy: lazy&#xA;Build-Jdk: 1.6.0_11&#xA;Bundle-Version: 1.0.0.201005170009&#xA;Require-Bundle: org.eclipse.ui,org.eclipse.core.runtime,org.eclipse.help,org.eclipse.help.webapp&#xA;MavenArtifact-GroupId: fr.cm.scorexpress&#xA;Bundle-Activator: fr.cm.scorexpress.help.Activator&#xA;Bundle-SymbolicName: fr.cm.scorexpress.help; singleton:=true&#xA;Built-By: cyril&#xA;Bundle-RequiredExecutionEnvironment: J2SE-1.5,JavaSE-1.6&#xA;
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='fr.cm.scorexpress.license' version='1.0.0.201005170009' singleton='false'>
+      <update id='fr.cm.scorexpress.license' range='[0.0.0,1.0.0.201005170009)' severity='0'/>
+      <properties size='2'>
+        <property name='org.eclipse.equinox.p2.name' value='Licence Plug-in'/>
+        <property name='org.eclipse.equinox.p2.provider' value='Cyril Moutenet Development'/>
+      </properties>
+      <provides size='4'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='fr.cm.scorexpress.license' version='1.0.0.201005170009'/>
+        <provided namespace='osgi.bundle' name='fr.cm.scorexpress.license' version='1.0.0.201005170009'/>
+        <provided namespace='java.package' name='fr.cm.framework' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+      </provides>
+      <requires size='2'>
+        <required namespace='osgi.bundle' name='org.eclipse.ui' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='0.0.0'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='fr.cm.scorexpress.license' version='1.0.0.201005170009'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-Version: 1.0.0.201005170009&#xA;Build-Jdk: 1.6.0_11&#xA;Bundle-ActivationPolicy: lazy&#xA;MavenArtifact-GroupId: fr.cm.scorexpress&#xA;Export-Package: fr.cm.framework;x-friends:=&quot;fr.cm.scorexpress.core&quot;&#xA;Manifest-Version: 1.0&#xA;Bundle-Activator: fr.cm.scorexpress.licence.Activator&#xA;Bundle-RequiredExecutionEnvironment: J2SE-1.5,JavaSE-1.6&#xA;Require-Bundle: org.eclipse.ui,org.eclipse.core.runtime&#xA;Bundle-SymbolicName: fr.cm.scorexpress.license&#xA;Created-By: Apache Maven&#xA;MavenArtifact-BaseVersion: 1.0.0-SNAPSHOT&#xA;Built-By: cyril&#xA;Bundle-Vendor: Cyril Moutenet Development&#xA;Bundle-Name: Licence Plug-in&#xA;Archiver-Version: Plexus Archiver&#xA;Bundle-ManifestVersion: 2&#xA;
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='fr.cm.scorexpress.core' version='1.0.1.201005170009'>
+      <update id='fr.cm.scorexpress.core' range='[0.0.0,1.0.1.201005170009)' severity='0'/>
+      <properties size='2'>
+        <property name='org.eclipse.equinox.p2.name' value='Score Express'/>
+        <property name='org.eclipse.equinox.p2.provider' value='Cyril Moutenet Development'/>
+      </properties>
+      <provides size='8'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='fr.cm.scorexpress.core' version='1.0.1.201005170009'/>
+        <provided namespace='osgi.bundle' name='fr.cm.scorexpress.core' version='1.0.1.201005170009'/>
+        <provided namespace='java.package' name='fr.cm.scorexpress.applicative' version='0.0.0'/>
+        <provided namespace='java.package' name='fr.cm.scorexpress.commands' version='0.0.0'/>
+        <provided namespace='java.package' name='fr.cm.scorexpress.core.model' version='0.0.0'/>
+        <provided namespace='java.package' name='fr.cm.scorexpress.ihm.application' version='0.0.0'/>
+        <provided namespace='java.package' name='fr.cm.scorexpress.ihm.view' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+      </provides>
+      <requires size='15'>
+        <required namespace='osgi.bundle' name='fr.cm.common' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='fr.cm.scorexpress.help' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='fr.cm.scorexpress.license' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.forms' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.resources' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.help.appserver' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.help' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.help.base' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.help.ui' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.help.webapp' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.junit4' range='0.0.0'/>
+        <required namespace='java.package' name='org.apache.xml.serialize' range='0.0.0'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='fr.cm.scorexpress.core' version='1.0.1.201005170009'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='2'>
+          <instruction key='manifest'>
+            Bundle-Name: Score Express&#xA;Import-Package: org.apache.xml.serialize&#xA;MavenArtifact-GroupId: fr.cm.scorexpress&#xA;Build-Jdk: 1.6.0_11&#xA;Bundle-Classpath: fr.cm.scoreXPress.jar,src/lib/comm.jar&#xA;MavenArtifact-BaseVersion: 1.0.1-SNAPSHOT&#xA;Export-Package: fr.cm.scorexpress.applicative,fr.cm.scorexpress.commands,fr.cm.scorexpress.core.model,fr.cm.scorexpress.ihm.application,fr.cm.scorexpress.ihm.view&#xA;Created-By: Apache Maven&#xA;Bundle-ActivationPolicy: lazy&#xA;Bundle-Vendor: Cyril Moutenet Development&#xA;Bundle-ManifestVersion: 2&#xA;Manifest-Version: 1.0&#xA;Bundle-Version: 1.0.1.201005170009&#xA;Archiver-Version: Plexus Archiver&#xA;Require-Bundle: fr.cm.common;visibility:=reexport,fr.cm.scorexpress.help,fr.cm.scorexpress.license,org.eclipse.ui,org.eclipse.ui.ide,org.eclipse.ui.forms,org.eclipse.core.runtime,org.eclipse.core.resources,org.eclipse.help.appserver,org.eclipse.help,org.eclipse.help.base,org.eclipse.help.ui,org.eclipse.help.webapp,org.junit4&#xA;Built-By: cyril&#xA;Bundle-RequiredExecutionEnvironment: J2SE-1.5,JavaSE-1.6&#xA;Bundle-Activator: fr.cm.scorexpress.ihm.application.ScoreXPressPlugin&#xA;Bundle-SymbolicName: fr.cm.scorexpress.core;singleton:=true&#xA;
+          </instruction>
+          <instruction key='zipped'>
+            true
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+  </units>
+</repository>

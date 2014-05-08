@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema
+        xmlns:this="http:///fr.cm.scorexpress/src/fr/cm/scorexpr/data/ScoreXPressRaid.xsd"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http:///fr.cm.scorexpress/src/fr/cm/scorexpr/data/ScoreXPressRaid.xsd">
+
+    <xsd:element name="Team">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="this:User" maxOccurs="unbounded" minOccurs="0"/>
+            </xsd:sequence>
+            <xsd:attribute name="userId" type="xsd:integer"/>
+            <xsd:attribute name="name" type="xsd:string"/>
+            <xsd:attribute name="categoryId" type="xsd:integer"/>
+            <xsd:attribute name="leadername" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="Penality">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="this:Station" maxOccurs="unbounded" minOccurs="0"/>
+                <xsd:element ref="this:Inscribe" maxOccurs="unbounded" minOccurs="0">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            Saisie des pénalités en fonction des dossards
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+            </xsd:sequence>
+            <xsd:attribute name="type" type="xsd:integer" use="optional"/>
+            <xsd:attribute name="name" type="xsd:string" use="optional"/>
+            <xsd:attribute name="time" type="xsd:string" use="optional"/>
+            <xsd:attribute name="timemaxi" type="xsd:string" use="optional"/>
+            <xsd:attribute name="timemini" type="xsd:string" use="optional"/>
+            <xsd:attribute name="timescale" type="xsd:string" use="optional"/>
+            <xsd:attribute name="activate" type="xsd:string" use="optional"/>
+            <xsd:attribute name="ordrebalise" type="xsd:string" use="optional"/>
+            <xsd:attribute name="penalitebalise" type="xsd:string" use="optional"/>
+            <xsd:attribute name="disqualify" type="xsd:string" use="optional"/>
+            <xsd:attribute name="nbbalisemini" type="xsd:string" use="optional"/>
+            <xsd:attribute name="nbbalisepointmini" type="xsd:string" use="optional"/>
+            <xsd:attribute name="lib" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="Station">
+        <xsd:complexType>
+            <xsd:attribute name="id" type="xsd:integer" use="required"/>
+            <xsd:attribute name="definition" type="xsd:string" use="optional"/>
+            <xsd:attribute name="symbol1" type="xsd:byte" use="optional"/>
+            <xsd:attribute name="symbol2" type="xsd:byte" use="optional"/>
+            <xsd:attribute name="symbol3" type="xsd:byte" use="optional"/>
+            <xsd:attribute name="symbol4" type="xsd:byte" use="optional"/>
+            <xsd:attribute name="symbol5" type="xsd:byte" use="optional"/>
+            <xsd:attribute name="symbol6" type="xsd:byte" use="optional"/>
+            <xsd:attribute name="type" type="xsd:byte" use="optional"/>
+            <xsd:attribute name="time" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="Step">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="this:Step" maxOccurs="unbounded" minOccurs="0"/>
+                <xsd:element ref="this:Categories" maxOccurs="1" minOccurs="0"/>
+                <xsd:element ref="this:Inscribe" maxOccurs="unbounded" minOccurs="0"/>
+                <xsd:element ref="this:Station" maxOccurs="unbounded" minOccurs="0"/>
+                <xsd:element ref="this:Penalities" maxOccurs="1" minOccurs="0"/>
+                <xsd:element ref="this:Chronos" maxOccurs="unbounded" minOccurs="0"/>
+            </xsd:sequence>
+            <xsd:attribute name="id" type="xsd:integer" use="required"/>
+            <xsd:attribute name="name" type="xsd:string"/>
+            <xsd:attribute name="start_date" type="xsd:string"/>
+            <xsd:attribute name="start_time" type="xsd:string"/>
+            <xsd:attribute name="cumulersousetape" type="xsd:boolean"/>
+            <xsd:attribute name="calcul" type="xsd:boolean"/>
+            <xsd:attribute name="balisedepart" type="xsd:integer"/>
+            <xsd:attribute name="balisearrivee" type="xsd:integer"/>
+            <xsd:attribute name="epreuve" type="xsd:boolean"/>
+            <xsd:attribute name="categoryfilter" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="Time">
+        <xsd:complexType>
+            <xsd:attribute name="id" type="xsd:string"/>
+            <xsd:attribute name="time" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="Chrono">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="this:Time" maxOccurs="unbounded" minOccurs="0">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            Liste des temps de passage à chaque poste
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+            </xsd:sequence>
+            <xsd:attribute name="number" type="xsd:string"/>
+            <xsd:attribute name="puce" type="xsd:string"/>
+            <xsd:attribute name="start_time" type="xsd:string"/>
+            <xsd:attribute name="end_time" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="User">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="xsd:anyType">
+                    <xsd:attribute name="id" type="xsd:integer" use="required"/>
+                    <xsd:attribute name="firstname" type="xsd:string" use="optional"/>
+                    <xsd:attribute name="lastname" type="xsd:string" use="optional"/>
+                    <xsd:attribute name="sexe" type="xsd:string" use="optional"/>
+                    <xsd:attribute name="categoryid" type="xsd:integer" use="optional"/>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="Inscribe">
+        <xsd:complexType>
+            <xsd:attribute name="userId" type="xsd:integer"/>
+            <xsd:attribute name="number" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Numéro de dossard
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="penality" type="xsd:string"/>
+            <xsd:attribute name="puce" type="xsd:string"/>
+            <xsd:attribute name="bonification" type="xsd:string"/>
+            <xsd:attribute name="disqualify" type="xsd:boolean"/>
+            <xsd:attribute name="abandon" type="xsd:boolean"/>
+            <xsd:attribute name="etapeabandon" type="xsd:integer"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="Category">
+        <xsd:complexType>
+            <xsd:attribute name="id" type="xsd:integer" use="required"/>
+            <xsd:attribute name="label" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="Penalities">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="this:Penality" maxOccurs="unbounded" minOccurs="0"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="Teams">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="this:Team" maxOccurs="unbounded" minOccurs="0"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="Chronos">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="this:Chrono" maxOccurs="unbounded" minOccurs="0"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="Users">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="this:User" maxOccurs="unbounded" minOccurs="0"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="Categories">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="this:Category" maxOccurs="unbounded" minOccurs="0"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="Column">
+        <xsd:complexType>
+            <xsd:attribute name="field" type="xsd:string" use="required"/>
+            <xsd:attribute name="title" type="xsd:string" use="required"/>
+            <xsd:attribute name="width" type="xsd:integer" use="optional"/>
+            <xsd:attribute name="editable" type="xsd:boolean" use="optional"/>
+            <xsd:attribute name="show" type="xsd:boolean" use="optional"/>
+            <xsd:attribute name="type" type="xsd:string" use="optional"/>
+            <xsd:attribute name="choice" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="Watchlist">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="this:Column" maxOccurs="unbounded" minOccurs="0"/>
+            </xsd:sequence>
+            <xsd:attribute name="id" type="xsd:integer" use="required"/>
+            <xsd:attribute name="name" type="xsd:string" use="required"/>
+            <xsd:attribute name="title" type="xsd:string" use="required"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="Manif">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="this:Categories" maxOccurs="1" minOccurs="1"/>
+                <xsd:element ref="this:Users" maxOccurs="1" minOccurs="0"/>
+                <xsd:element ref="this:Teams" maxOccurs="1" minOccurs="0"/>
+                <xsd:element ref="this:Step" maxOccurs="unbounded" minOccurs="0"/>
+                <xsd:element ref="this:Watchlist" maxOccurs="unbounded" minOccurs="0"/>
+            </xsd:sequence>
+            <xsd:attribute name="name" type="xsd:string" use="required"/>
+            <xsd:attribute name="date" type="xsd:string" use="optional"/>
+            <xsd:attribute name="description" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>

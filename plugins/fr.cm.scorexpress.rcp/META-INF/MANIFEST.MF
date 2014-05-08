@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Rcp Plug-in
+Bundle-SymbolicName: fr.cm.scorexpress.rcp; singleton:=true
+Bundle-Version: 2.1.255
+Bundle-Activator: fr.cm.scorexpress.rcp.Activator
+Bundle-Vendor: Cyril Moutenet
+Require-Bundle: fr.cm.scorexpress.core,
+ org.eclipse.core.resources,
+ org.eclipse.core.runtime,
+ org.eclipse.ui,
+ org.eclipse.ui.forms,
+ org.eclipse.ui.intro,
+ org.eclipse.ui.views.log,
+ org.eclipse.swt
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
