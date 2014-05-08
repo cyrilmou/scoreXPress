@@ -1,0 +1,902 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<Manif date="288:00:00" description="bla bla bla" name="Manifestation sportive">
+    <Categories>
+        <Category age="20" id="1" label="Junior0"/>
+        <Category age="35" id="2" label="Senior0"/>
+        <Category age="40" label="Vétéran0"/>
+    </Categories>
+    <Watchlist id="1" name="PARTICIPANTS" title="Saisie des utilisateurs">
+        <Column field="FIRSTNAME" show="true" title="nom" width="150"/>
+        <Column field="LASTNAME" show="true" title="prenom" width="150"/>
+        <Column choice="CATEGORIES" field="Catégorie" show="true"
+            title="Categorie" width="100"/>
+        <Column field="S.CERTIFICAT" show="true" title="Certif."
+            type="Booleen" width="90"/>
+        <Column field="SEXE" show="true" title="Sexe" width="150"/>
+        <Column field="S.EMAIL" show="true" title="Mail" width="150"/>
+        <Column field="S.PHONENUMBER" show="true" title="Tel." width="150"/>
+        <Column field="S.BIRTHDAY" show="true" title="Anniv." width="150"/>
+        <Column field="S.MOBILE" show="true" title="Mobile" width="150"/>
+    </Watchlist>
+    <Watchlist id="2" name="RESULTATS" title="Resultats">
+        <Column field="CLASSEMENT" show="true" title="Clt." width="90"/>
+        <Column field="NUMBER" show="true" title="Dossard" width="40"/>
+        <Column field="FIRSTNAME" show="true" title="Nom" width="100"/>
+        <Column field="LASTNAME" show="true" title="Prenom" width="90"/>
+        <Column field="TIME" show="true" title="Temps" width="90"/>
+        <Column field="PENALITY" show="true" title="Penalité" width="90"/>
+        <Column field="CATEGORY" show="true" title="Categorie" width="90"/>
+    </Watchlist>
+    <Watchlist id="3" name="BALISES" title="Gestion des balises">
+        <Column field="BALISE_NUM" show="true" title="Numéro"
+            type="Entier" width="70"/>
+        <Column choice="TYPEBALISES" field="BALISE_TYPE" show="true"
+            title="Type" width="200"/>
+        <Column field="PENALITE" show="true" title="Pénalité" width="100"/>
+        <Column field="BALISE_DESC" show="true" title="Prenom" width="90"/>
+    </Watchlist>
+    <Watchlist id="4" name="CHRONOS" title="Gestion des chrométrages et pointages">
+        <Column field="CODESPORTIDENT" show="true" title="Etape" width="100"/>
+        <Column field="DOIGTSPORTIDENT" show="true"
+            title="Doigt SportIdent" width="100"/>
+        <Column field="NUMBALISE" show="true" title="Balise" width="100"/>
+        <Column field="HEURE" show="true" title="Heure" type="Date" width="100"/>
+    </Watchlist>
+    <Watchlist id="5" name="INFOSPORTIDENTS" title="Gestion des informations récupérées de l'importation SportIdent">
+        <Column field="CODESPORTIDENT" show="true"
+            title="Code SportIdent" width="100"/>
+        <Column field="LIB" show="true" title="Libellé" width="150"/>
+    </Watchlist>
+    <Step balisearrivee="0" balisedepart="0" classementinter="false"
+        cumulersousetape="false" desc="" id="1" importfilename="" name="Etape 1">
+        <Step balisearrivee="0" balisedepart="0" classementinter="false"
+            cumulersousetape="false" desc="" id="12" importfilename="" name="sous-etape 1">
+            <Step balisearrivee="0" balisedepart="0"
+                classementinter="false" cumulersousetape="false" desc=""
+                id="12" importfilename="" name="sous-etape 1">
+                <Step balisearrivee="0" balisedepart="0"
+                    classementinter="false" cumulersousetape="false"
+                    desc="" id="12" importfilename="" name="sous-etape 1">
+                    <Step balisearrivee="0" balisedepart="0"
+                        classementinter="false" cumulersousetape="false"
+                        desc="" id="12" importfilename="" name="sous-etape 1">
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                        <Penalities/>
+                        <Chronos/>
+                    </Step>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                    <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="1" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="2" time="+00:00:00" type="ARRIVEE"/>
+                    <Station definition="" id="3" time="+00:00:00" type="ARRIVEE"/>
+                    <Penalities>
+                        <Penality lib="Penalité 1" nbbalisemini="0"
+                            nbbalisepointmini="0" time="00:00:00"
+                            timemaxi="00:00:00" timemini="01:00:00"
+                            timescale="00:00:00" type="2"/>
+                    </Penalities>
+                    <Chronos/>
+                </Step>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+                <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="1" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="2" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="3" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="4" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="5" time="+00:00:00" type="ARRIVEE"/>
+                <Station definition="" id="6" time="+00:00:00" type="ARRIVEE"/>
+                <Penalities>
+                    <Penality lib="Penalité 1" nbbalisemini="0"
+                        nbbalisepointmini="0" time="00:00:00"
+                        timemaxi="00:00:00" timemini="00:00:00"
+                        timescale="00:00:00" type="9"/>
+                </Penalities>
+                <Chronos/>
+            </Step>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+            <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="1" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="2" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="3" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="4" time="+00:00:00" type="ARRIVEE"/>
+            <Station definition="" id="5" time="+00:00:00" type="ARRIVEE"/>
+            <Penalities>
+                <Penality lib="Penalité 1" nbbalisemini="0"
+                    nbbalisepointmini="0" time="01:00:00"
+                    timemaxi="00:00:00" timemini="00:00:00"
+                    timescale="00:00:00" type="7"/>
+                <Penality lib="Penalité 2" nbbalisemini="0"
+                    nbbalisepointmini="0" time="00:01:00"
+                    timemaxi="00:10:00" timemini="00:00:00"
+                    timescale="00:00:00" type="1"/>
+                <Penality lib="Penalité 3" nbbalisemini="0"
+                    nbbalisepointmini="0" time="00:00:00"
+                    timemaxi="00:00:00" timemini="00:00:00"
+                    timescale="00:00:00" type="6"/>
+            </Penalities>
+            <Chronos/>
+        </Step>
+        <Inscribe abandon="true" bonification="00:00:00" categorie=""
+            disqualify="true" etapeabandon="2" number="100"
+            penality="00:00:00" puce="" team="false" userId="1"/>
+        <Inscribe abandon="false" categorie="" disqualify="false"
+            etapeabandon="0" number="101" penality="00:00:00" puce=""
+            team="false" userId="2"/>
+        <Inscribe abandon="false" categorie="" disqualify="false"
+            etapeabandon="0" number="201" penality="00:00:00" puce=""
+            team="false" userId="3"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="Poste 121" id="121" time="+00:00:00" type="OBLIGATOIRE"/>
+        <Station definition="" id="123" time="+00:00:00" type="OBLIGATOIRE"/>
+        <Station definition="" id="124" time="+00:00:00" type="OBLIGATOIRE"/>
+        <Penalities>
+            <Penality lib="test0" nbbalisemini="0" nbbalisepointmini="0"
+                time="01:00:00" timemaxi="01:00:00" timemini="00:05:00"
+                timescale="00:05:00" type="5"/>
+        </Penalities>
+        <Chronos/>
+    </Step>
+    <Step balisearrivee="0" balisedepart="0" classementinter="false"
+        cumulersousetape="false" desc="" id="2" importfilename="" name="Etape 2">
+        <Inscribe abandon="false" categorie="" disqualify="false"
+            etapeabandon="0" number="1" puce="" team="false" userId="1"/>
+        <Inscribe abandon="false" categorie="" disqualify="false"
+            etapeabandon="0" number="2" puce="" team="false" userId="2"/>
+        <Inscribe abandon="false" categorie="" disqualify="false"
+            etapeabandon="0" number="3" puce="" team="false" userId="3"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station definition="" id="0" time="+00:00:00" type="DEPART"/>
+        <Station definition="" id="0" time="+00:00:00" type="ARRIVEE"/>
+        <Station id="123" time="+00:00:00" type=""/>
+        <Station id="124" time="+00:00:00" type=""/>
+        <Station id="125" time="+00:00:00" type=""/>
+        <Station id="126" time="+00:00:00" type=""/>
+        <Penalities/>
+        <Chronos/>
+    </Step>
+</Manif>

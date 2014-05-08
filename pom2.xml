@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+        xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <name>ScoreXPress Project</name>
+    <groupId>fr.cm.scorexpress</groupId>
+    <artifactId>fr.cm.scorexpress</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <modules>
+        <module>plugins/fr.cm.common</module>
+        <module>plugins/fr.cm.scorexpress.core</module>
+        <module>plugins/fr.cm.scorexpress.help</module>
+        <module>plugins/fr.cm.scorexpress.license</module>
+        <module>plugins/fr.cm.scorexpress.rcp</module>
+    </modules>
+
+    <build>
+        <plugins>
+			<plugin>  
+				<groupId>org.sonatype.tycho</groupId>  
+				<artifactId>maven-osgi-compiler-plugin</artifactId>  
+				<inherited>true</inherited>  
+				<version>0.9.0</version>  
+				<configuration>  
+					<source>6.0</source>  
+					<target>6.0</target>  
+				</configuration>  
+			</plugin>  
+			<plugin>  
+				<groupId>org.sonatype.tycho</groupId>  
+				<artifactId>target-platform-configuration</artifactId>  
+				<version>0.9.0</version>  
+				<configuration>  
+					<environments>  
+						<environment>  
+							<os>win32</os>  
+							<ws>win32</ws>  
+							<arch>x86</arch>  
+						</environment>  
+					</environments>  
+					<resolver>p2</resolver>  
+				</configuration>  
+			</plugin>  
+            <!--plugin>
+                <groupId>org.sonatype.tycho</groupId>
+                <artifactId>tycho-maven-plugin</artifactId>
+                <version>0.7.0</version>
+                <extensions>true</extensions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.tycho</groupId>
+                <artifactId>target-platform-configuration</artifactId>
+                <version>0.7.0</version>
+                <configuration>
+                    <resolver>p2</resolver>
+                    <pomDependencies>consider</pomDependencies>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.tycho</groupId>
+                <artifactId>maven-osgi-packaging-plugin</artifactId>
+                <version>0.7.0</version>
+                <configuration>
+                    <environments>
+                        <environment>
+                            <os>win32</os>
+                            <ws>win32</ws>
+                            <arch>x86</arch>
+                        </environment>
+                        <environment>
+                            <os>linux</os>
+                            <ws>gtk</ws>
+                            <arch>x86_64</arch>
+                        </environment>
+                    </environments>
+                </configuration>
+            </plugin-->
+        </plugins>
+    </build>
+
+    <!--dependencies>
+        <dependency>
+            <groupId>org.eclipse</groupId>
+            <artifactId>pde</artifactId>
+            <version>3.3.0-v20070608-1300</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse</groupId>
+            <artifactId>jface</artifactId>
+            <version>3.3.0-I20070606-0010</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse</groupId>
+            <artifactId>swt</artifactId>
+            <version>3.3.0-v3346</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse</groupId>
+            <artifactId>text</artifactId>
+            <version>3.3.0-v20070606-0010</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.core</groupId>
+            <artifactId>runtime</artifactId>
+            <version>3.3.100-v20070530</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse</groupId>
+            <artifactId>ui</artifactId>
+            <version>3.3.0-I20070614-0800</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.ui</groupId>
+            <artifactId>workbench</artifactId>
+            <version>3.3.0-I20070608-1100</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.core</groupId>
+            <artifactId>expressions</artifactId>
+            <version>3.3.0-v20070606-0010</version>
+        </dependency>
+    </dependencies-->
+
+    <repositories>
+        <repository>
+            <id>gallileo</id>
+            <!--layout>p2</layout-->
+            <!--url>http://download.eclipse.org/releases/galileo</url-->
+            <url>http://www.eclipse.org/galileo/</url>
+        </repository>
+        <repository>
+            <id>com.springsource.repository.bundles.release</id>
+            <name>SpringSource Enterprise Bundle Repository - SpringSource Bundle Releases</name>
+            <url>http://repository.springsource.com/maven/bundles/release</url>
+        </repository>
+
+        <repository>
+            <id>com.springsource.repository.bundles.external</id>
+            <name>SpringSource Enterprise Bundle Repository - External Bundle
+                Releases
+            </name>
+            <url>http://repository.springsource.com/maven/bundles/external</url>
+        </repository>
+    </repositories>
+
+
+    <!--build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>pde-maven-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <eclipseInstall>D:\Program files\eclipse3.5</eclipseInstall>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build-->
+    <!--repositories>
+         <repository>
+             <id>equinox</id>
+             <url>file:D:/Program files/eclipse3.5/p2</url>
+             <layout>p2</layout>
+         </repository>
+     </repositories-->
+
+</project>
