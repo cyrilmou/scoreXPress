@@ -8,6 +8,7 @@ public enum ConfigType {
     PARTICIPANTS,
     RESULTATS_EXPERT,
     RESULTATS_EXPERT_INTER,
+
     BALISES,
     CHRONOS,
     INFOSPORTIDENTS,

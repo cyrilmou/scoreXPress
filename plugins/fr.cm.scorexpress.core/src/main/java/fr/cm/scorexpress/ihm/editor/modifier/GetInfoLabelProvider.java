@@ -45,7 +45,7 @@ public class GetInfoLabelProvider implements ITableLabelProvider {
                 final ColTable colTable = colTables.get(columnIndex);
                 return getColumnText(colTable, element);
             } catch (Exception ignoreAndShow) {
-                ignoreAndShow.printStackTrace();
+                System.err.println(ignoreAndShow.getMessage());
             }
         }
         return null;

@@ -172,6 +172,7 @@ public class StepUtils {
                     calculPenalitesSousEtape(resultat);
                     calculStatusSousEtape(resultat);
                 } else {
+
                     final boolean error = initTempsParcours(resultat, userChronos, numBaliseDepart, numBaliseArrivee);
                     if (error) {
                         /* Détermination des balises manquées */

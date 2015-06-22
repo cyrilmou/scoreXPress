@@ -189,7 +189,7 @@ public class TableBuilder<T> extends CommonControlBuilder<Table, TableBuilder<T>
             table.setRedraw(false);
             for (final TableColumn column : table.getColumns()) {
                 final TableColumnModel<T> columnModel = (TableColumnModel<T>) column.getData();
-                if (columnModel.isAutoResize() && column.getWidth() > 0) {
+                if (columnModel != null && columnModel.isAutoResize() && column.getWidth() > 0) {
                     column.pack();
                 }
             }

@@ -1,6 +1,8 @@
 package fr.cm.common.widget.table;
 
 import fr.cm.common.widget.table.TableStateListener.Direction;
+import org.eclipse.jface.viewers.CellEditor;
+
 import static fr.cm.common.widget.table.TableStateListener.Direction.ASCENDING;
 import java.util.Collection;
 
@@ -59,7 +61,7 @@ public class TableColumnModel<T> {
 
     public void modify(final T element, final String property, final Object value) {
         if (modifier != null) {
-            modifier.modify(element, property, value);
+            modifier.modifyProperty(element, property, value);
         }
     }
 
@@ -76,5 +78,11 @@ public class TableColumnModel<T> {
 
     public void setComparator(final ColumnComparator<T> comparator) {
         this.comparator = comparator;
+    }
+
+    public CellEditor getCellEditor() {
+        if( modifier !=null)
+            return modifier.getCellEditor();
+        return null;
     }
 }

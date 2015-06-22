@@ -275,7 +275,8 @@ public class PenalitySubParametragePage implements IDetailsPage {
                     res.add(new PenaliteEdit(penalite, VAR_DUREEMINI, PenaliteEditor_Duree_mini));
                 } else if (penalite.getTypePenalite() == PenalityUtils.TYPE_NB_BALISES_MINI.valeur) {
                     res.add(new PenaliteEdit(penalite, VAR_NB_BALISE_MINI, PenaliteEditor_Nb_Balises));
-                    res.add(new PenaliteEdit(penalite, VAR_PENALITE_TIME, PenaliteEditor_DureePenalitee));
+                    res.add(new PenaliteEdit(penalite, VAR_PENALITE_TIME, PenaliteEditor_DureePenaliteBalisesMini));
+                    res.add(new PenaliteEdit(penalite, VAR_ECHELLEPENALITE, PenaliteEditor_DureeBonusBalisesMini));
                 } else if (penalite.getTypePenalite() == PenalityUtils.TYPE_BALISE_ORDONNEE.valeur) {
                     res.add(new PenaliteEdit(penalite, VAR_NB_BALISE_MINI, "Nb. ordre possible"));
                     res.add(new PenaliteEdit(penalite, VAR_PENALITE_TIME, PenaliteEditor_Duree_de_la_penalitee));

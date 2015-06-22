@@ -11,7 +11,7 @@ public class BaliseUtils {
     private BaliseUtils() {
     }
 
-    public static boolean setBalise(final Collection<Balise> balises, final String baliseArrivee,
+    public static boolean setBalise(final Collection<ObjBalise> balises, final String baliseArrivee,
                                     final String typeBalise) {
         boolean modify = false;
         final Collection<Balise> remove = newArrayList();
@@ -38,7 +38,7 @@ public class BaliseUtils {
         return modify;
     }
 
-    public static String findNumBaliseOfType(final Iterable<Balise> balises, final String type) {
+    public static String findNumBaliseOfType(final Iterable<ObjBalise> balises, final String type) {
         for (final Balise balise : balises) {
             if (isTypeBalise(balise, type)) {
                 return balise.getNum();
@@ -52,8 +52,8 @@ public class BaliseUtils {
     }
 
     public static ArrayList<Balise> getBalisesOrdonnee(final String type, final int nrOrdre,
-                                                       final Collection<Balise> balises) {
-        final Iterator<Balise> iter = balises.iterator();
+                                                       final Collection<ObjBalise> balises) {
+        final Iterator<ObjBalise> iter = balises.iterator();
         final ArrayList<Balise> res = newArrayList();
         while (iter.hasNext()) {
             final Balise balise = iter.next();

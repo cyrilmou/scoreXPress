@@ -30,6 +30,10 @@ public class TableColumnBuilder<T> {
                 new EditingSupport(viewer.getViewer()) {
                     @Override
                     protected CellEditor getCellEditor(final Object element) {
+                        final CellEditor cellEditor = model.getCellEditor();
+                        if( cellEditor != null){
+                            return cellEditor;
+                        }
                         final Object value = getValue(element);
                         if (value instanceof Boolean) {
                             final CheckboxCellEditor checkboxCellEditor = new CheckboxCellEditor();

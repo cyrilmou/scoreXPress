@@ -1,7 +1,7 @@
 package fr.cm.scorexpress.ihm.editor.page;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.ui.forms.IManagedForm;
-import org.eclipse.ui.forms.MasterDetailsBlock;
 import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
@@ -11,7 +11,7 @@ import static fr.cm.scorexpress.ihm.editor.i18n.Message.i18n;
 
 public class ParametrageStepPage extends FormPage {
     private static final String PARAMETRAGE_STEP_PAGE = "fr.cm.scorexpress.ParametrageStepPage";
-    private final MasterDetailsBlock       block;
+    private final StepDetailsBlockPage     block;
     private final ParametrageStepPageModel model;
 
     public ParametrageStepPage(final ParametrageStepPageModel parametrageStepPageModel) {
@@ -36,6 +36,18 @@ public class ParametrageStepPage extends FormPage {
 
     @Override
     public boolean isDirty() {
-        return model.isDirty();
+        return model.isDirty() ||block.isDirty();
+    }
+
+    @Override
+    public void doSave(final IProgressMonitor monitor) {
+        block.doSave();
+        super.doSave(monitor );
+    }
+
+    @Override
+    public void doSaveAs() {
+        block.doSave();
+        super.doSaveAs();
     }
 }

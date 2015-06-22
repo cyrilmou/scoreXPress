@@ -28,6 +28,6 @@ public class StepTreeDropAdapter extends ViewerDropAdapter {
     }
 
     public boolean validateDrop(final Object target, final int op, final TransferData type) {
-        return target instanceof AbstractSteps && StepTransfer.getStepTransfer().isSupportedType(type);
+        return target instanceof AbstractSteps && StepTransfer2.getStepTransfer().isSupportedType(type);
     }
 }

@@ -1,27 +1,18 @@
 package fr.cm.scorexpress.ihm.editor;
 
-import fr.cm.scorexpress.core.AutoResizeColumn;
-import fr.cm.scorexpress.ihm.editor.input.StepEditorInput;
-import fr.cm.scorexpress.ihm.editor.page.ParametrageStepPage;
-import fr.cm.scorexpress.ihm.editor.page.ParametrageStepPageModel;
-import fr.cm.scorexpress.ihm.editor.page.PenalityPage;
-import fr.cm.scorexpress.ihm.editor.page.PenalityPageModel;
-import fr.cm.scorexpress.ihm.editor.page.TempsResultatPage;
-import fr.cm.scorexpress.ihm.editor.page.TempsResultatPageModel;
-import fr.cm.scorexpress.ihm.editor.page.UserPage;
-import fr.cm.scorexpress.ihm.editor.page.UserPageModel;
-import fr.cm.scorexpress.ihm.print.IPrintable;
+import static fr.cm.scorexpress.ihm.editor.i18n.Message.i18n;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.PageChangedEvent;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.IPropertyListener;
-import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.*;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.IFormPage;
 
-import static fr.cm.scorexpress.ihm.editor.i18n.Message.i18n;
+import fr.cm.scorexpress.core.AutoResizeColumn;
+import fr.cm.scorexpress.ihm.editor.input.StepEditorInput;
+import fr.cm.scorexpress.ihm.editor.page.*;
+import fr.cm.scorexpress.ihm.print.IPrintable;
 
 public class StepEditor extends FormEditor
         implements IPropertyListener, IPageChangedListener, IPrintable, IAutoAjustColumnEditor {
@@ -60,16 +51,18 @@ public class StepEditor extends FormEditor
             penalityPage.initialize(this);
             addPage(penalityPage);
 
-            //final IFormPage stepCategoryPage = new StepCategoryPage(new StepCategoryModel(model.getStepModel()));
-            //stepCategoryPage.initialize(this);
-            //stepCategoryPage.addPropertyListener(this);
-            //addPage(stepCategoryPage);
+            // final IFormPage stepCategoryPage = new StepCategoryPage(new
+            // StepCategoryModel(model.getStepModel()));
+            // stepCategoryPage.initialize(this);
+            // stepCategoryPage.addPropertyListener(this);
+            // addPage(stepCategoryPage);
 
-            //final IFormPage importationStepPage =
-            //        new ImportationStepPage(new ImportationStepPageModel(model.getStepModel()));
-            //importationStepPage.initialize(this);
-            //importationStepPage.addPropertyListener(this);
-            //addPage(importationStepPage);
+            // final IFormPage importationStepPage =
+            // new ImportationStepPage(new
+            // ImportationStepPageModel(model.getStepModel()));
+            // importationStepPage.initialize(this);
+            // importationStepPage.addPropertyListener(this);
+            // addPage(importationStepPage);
 
             final IFormPage stepTempsPage = new TempsResultatPage(new TempsResultatPageModel(model.getStepModel()));
             stepTempsPage.initialize(this);
@@ -89,26 +82,31 @@ public class StepEditor extends FormEditor
     @Override
     public void doSave(final IProgressMonitor monitor) {
         model.doSave();
+        getActivePageInstance().doSave(monitor);
     }
 
     @Override
     public boolean isSaveAsAllowed() {
-        return false;
+        return getActivePageInstance().isSaveAsAllowed();
     }
 
     @Override
     public void dispose() {
         model.dispose();
+        if (getActivePageInstance() != null) {
+            getActivePageInstance().dispose();
+        }
         super.dispose();
     }
 
     @Override
     public boolean isDirty() {
-        return model.isDirty();
+        return model.isDirty() || getActivePageInstance().isDirty();
     }
 
     @Override
     public void doSaveAs() {
+        getActivePageInstance().doSaveAs();
     }
 
     @Override

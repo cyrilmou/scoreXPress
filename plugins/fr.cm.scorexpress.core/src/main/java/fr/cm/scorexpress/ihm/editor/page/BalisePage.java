@@ -2,11 +2,15 @@ package fr.cm.scorexpress.ihm.editor.page;
 
 import fr.cm.common.widget.MyFormToolkit;
 import fr.cm.common.widget.MyToolkit;
+import fr.cm.common.widget.combobox.ComboListener;
 import fr.cm.common.widget.combobox.ComboModel;
+import fr.cm.common.widget.combobox.ComboStateListener;
 import fr.cm.scorexpress.core.model.ObjBalise;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -27,7 +31,7 @@ import static org.eclipse.swt.SWT.BORDER;
 import static org.eclipse.swt.layout.GridData.FILL_HORIZONTAL;
 import static org.eclipse.swt.layout.GridData.VERTICAL_ALIGN_BEGINNING;
 
-public class BalisePage extends DefaultDetailsPage {
+public class BalisePage extends DefaultDetailsPage implements ModifyListener {
     private IManagedForm mform = null;
 
     private       ObjBalise          balise     = null;
@@ -38,6 +42,8 @@ public class BalisePage extends DefaultDetailsPage {
     private       Text               ordre4     = null;
     private final ComboModel<String> comboModel = new ComboModel<String>();
     private Text penality;
+    private boolean dirty = false;
+    private boolean init  = false;
 
     public BalisePage() {
         final String[] typeBalises = {TYPE_PAS_OBLIGATOIRE, TYPE_OBLIGATOIRE, TYPE_BONUS, TYPE_ORDONNEE, TYPE_PENALITY};
@@ -73,6 +79,29 @@ public class BalisePage extends DefaultDetailsPage {
         ordre4 = createText(toolkit, client, i18n("BalisePage.ORDRE4"));
         toolkit.paintBordersFor(s1);
         s1.setClient(client);
+
+        labelText.addModifyListener(this);
+        penality.addModifyListener(this);
+        ordre1.addModifyListener(this);
+        ordre2.addModifyListener(this);
+        ordre3.addModifyListener(this);
+        ordre4.addModifyListener(this);
+        comboModel.addWidgetListener(new ComboListener<String>() {
+            @Override
+            public void onChange() {
+
+            }
+
+            @Override
+            public void onSelectionChange(final String item) {
+                setDirty(true);
+            }
+
+            @Override
+            public void onActivate() {
+
+            }
+        });
     }
 
     private static Text createText(final FormToolkit toolkit, final Composite client, final String label) {
@@ -90,6 +119,7 @@ public class BalisePage extends DefaultDetailsPage {
     @Override
     public void refresh() {
         if (balise != null) {
+            init = true;
             labelText.setText(balise.getNum() == null ? EMPTY : balise.getNum());
             String orderProperty = VAR_PREFIX_BALISE_ORDER + 1;
             ordre1.setText(balise.getInfoStr(orderProperty) == null ? EMPTY : balise.getInfoStr(orderProperty));
@@ -101,7 +131,21 @@ public class BalisePage extends DefaultDetailsPage {
             ordre4.setText(balise.getInfoStr(orderProperty) == null ? EMPTY : balise.getInfoStr(orderProperty));
             comboModel.setText(balise.getType());
             penality.setText(balise.getPenaliteStr());
+            init = false;
+            setDirty(false);
         }
+    }
+
+    @Override
+    public void modifyText(final ModifyEvent e) {
+        if (!init) {
+            setDirty(true);
+        }
+    }
+
+    private void setDirty(final boolean dirty) {
+        this.dirty = dirty;
+        mform.dirtyStateChanged();
     }
 
     @Override
@@ -128,5 +172,10 @@ public class BalisePage extends DefaultDetailsPage {
             balise.setPenaliteStr(penality.getText());
         }
 
+    }
+
+    @Override
+    public boolean isDirty() {
+        return dirty;
     }
 }

@@ -386,6 +386,10 @@ public class ResultatEtapeEditor extends EditorPart implements IPrintable,
 					ObjResultat.VAR_TEMPSARRETCHRONO, resultat, builder);
 			addInfo(i18n("Result.tooltip.nbBalise"), ObjResultat.VAR_NB_BALISE,
 					resultat, builder);
+            addInfo(i18n("Result.tooltip.nbPenaliteBalise"), ObjResultat.VAR_NB_PENALITE,
+                    resultat, builder);
+            addInfo(i18n("Result.tooltip.nbBaliseBonus"), ObjResultat.VAR_NB_BALISE_BONUS,
+                    resultat, builder);
 			addInfo(i18n("Result.tooltip.missingBalise"),
 					ObjResultat.VAR_RESULTAT_BALISESMANQUEES, resultat, builder);
 			addInfo(i18n("Result.tooltip.baliseList"),

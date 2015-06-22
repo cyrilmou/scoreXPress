@@ -286,10 +286,10 @@ public class ObjConfig extends IData {
 
     private static ObjConfig createBalise() {
         final ObjConfig config = new ObjConfig(BALISES, i18n("ObjConfig.GESTION_BALISES"));
-        config.addColTable(createObjColTable(Balise.VAR_BALISE_NUM, i18n("ObjConfig.TEMPS"), 90));
+        config.addColTable(createObjColTable(Balise.VAR_BALISE_NUM, i18n("ObjConfig.BALISE"), 50));
         config.addColTable(
                 new ColTableBuilder(Balise.VAR_BALISE_TYPE, i18n("ObjConfig.TYPE")).withChoice(Balise.CHOICE_TYPE)
-                                                                                   .withWidth(90).create());
+                                                                                   .withWidth(100).create());
         config.addColTable(createObjColTable(Balise.VAR_BALISE_PENALITE, i18n("ObjConfig.PENALITES"), 90));
         config.addColTable(createObjColTable(Balise.VAR_DESC, i18n("ObjConfig.DESCRIPTION"), 90));
         for (int i = 1; i < 4; i++) {

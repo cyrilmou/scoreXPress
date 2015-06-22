@@ -107,6 +107,12 @@ public class Date2 extends Date {
         this.mode24h = mode24h;
     }
 
+    public Date2 showSign(){
+        showSigne = true;
+
+        return this;
+    }
+
     /**
      * @param jour the jour to set
      */

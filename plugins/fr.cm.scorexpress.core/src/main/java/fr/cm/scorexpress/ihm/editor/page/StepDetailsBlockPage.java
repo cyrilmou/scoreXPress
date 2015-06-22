@@ -1,5 +1,7 @@
 package fr.cm.scorexpress.ihm.editor.page;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 import fr.cm.common.widget.MyFormToolkit;
 import fr.cm.common.widget.composite.AbstractCompositeBuilder;
 import fr.cm.common.widget.composite.CompositeBuilders;
@@ -11,7 +13,6 @@ import fr.cm.scorexpress.core.model.IData;
 import fr.cm.scorexpress.core.model.ObjBalise;
 import fr.cm.scorexpress.core.model.ObjPenalite;
 import fr.cm.scorexpress.core.model.impl.ObjStep;
-import fr.cm.scorexpress.core.util.PenalityUtils;
 import fr.cm.scorexpress.ihm.view.dnd.IDataDragListener;
 import fr.cm.scorexpress.ihm.view.dnd.PenaliteTransfer;
 import fr.cm.scorexpress.ihm.view.dnd.PenaliteTreeDropAdapter;
@@ -19,8 +20,6 @@ import fr.cm.scorexpress.ihm.view.dnd.StepTransfer;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
-import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -44,10 +43,10 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import static fr.cm.scorexpress.core.model.Balise.*;
 import static fr.cm.scorexpress.ihm.application.ImageReg.getImg;
 import static fr.cm.scorexpress.ihm.application.ScoreXPressPlugin.*;
 import static fr.cm.scorexpress.ihm.editor.i18n.Message.i18n;
-import static org.apache.commons.lang.StringUtils.EMPTY;
 import static org.eclipse.swt.dnd.DND.*;
 import static org.eclipse.swt.layout.GridData.*;
 
@@ -74,17 +73,13 @@ public class StepDetailsBlockPage extends MasterDetailsBlock {
         final AbstractCompositeBuilder client =
                 sectionBuilder.addClient(SWT.WRAP).withLayout(new GridLayout(2, false)).withPaintBorder();
         final AbstractCompositeBuilder toolbar = client.addComposite(SWT.NONE).withLayout(new GridLayout(4, false));
-        toolbar.addButton(model.getAddStepButtonModel(), SWT.NONE)
-               .withImage(imgEtape)
+        toolbar.addButton(model.getAddStepButtonModel(), SWT.NONE).withImage(imgEtape)
                .withToolTip(i18n("ConfigStepPage.ADD_STEP_TIP"));
-        toolbar.addButton(model.getAddPenalityButtonModel(), SWT.NONE)
-               .withImage(imgPenalite)
+        toolbar.addButton(model.getAddPenalityButtonModel(), SWT.NONE).withImage(imgPenalite)
                .withToolTip(i18n("ConfigStepPage.ADD_PENALITY_TIP"));
-        toolbar.addButton(model.getAddBaliseButtonModel(), SWT.NONE)
-               .withImage(imgBalise)
+        toolbar.addButton(model.getAddBaliseButtonModel(), SWT.NONE).withImage(imgBalise)
                .withToolTip(i18n("ConfigStepPage.ADD_BALISE_TIP"));
-        toolbar.addButton(model.getRemoveStepButtonModel(), SWT.NONE)
-               .withImage(imgRemove)
+        toolbar.addButton(model.getRemoveStepButtonModel(), SWT.NONE).withImage(imgRemove)
                .withToolTip(i18n("ConfigStepPage.REMOVE_SELECTION_TIP"));
         final Tree tree = toolkit.createTree(client.getControl(), SWT.MULTI);
         final GridData treeGridData = new GridData(FILL_BOTH | GRAB_HORIZONTAL | GRAB_VERTICAL);
@@ -96,7 +91,7 @@ public class StepDetailsBlockPage extends MasterDetailsBlock {
         viewer = new TreeViewer(tree);
         viewer.addSelectionChangedListener(new SelectionTreeChanged(managedForm, sectionBuilder.getPart()));
         viewer.setContentProvider(new PenaliteTreeContentProvider());
-        viewer.setLabelProvider(new PenaliteLabelProvider());
+        viewer.setLabelProvider(new StepLabelProvider());
         viewer.setInput(model);
         for (final ObjPenalite objPenalite : model.getDescendentPenalities()) {
             viewer.expandToLevel(objPenalite, AbstractTreeViewer.ALL_LEVELS);
@@ -138,6 +133,7 @@ public class StepDetailsBlockPage extends MasterDetailsBlock {
         detailsPart.registerPage(ObjPenalite.class, new PenalitySubParametragePage());
         detailsPart.registerPage(ObjStep.class, new StepSubParametragePage());
         detailsPart.registerPage(ObjBalise.class, new BalisePage());
+        detailsPart.registerPage(Balises.class, new BalisesPage(model.getStepModel().getStep().getManif()));
     }
 
     private static void dragAndDropTest(final TreeViewer viewer) {
@@ -149,10 +145,18 @@ public class StepDetailsBlockPage extends MasterDetailsBlock {
         viewer.addDropSupport(ops, transfers, new PenaliteTreeDropAdapter(viewer));
     }
 
+    public void doSave() {
+        detailsPart.commit(true);
+    }
+
     public void update() {
         if (viewer != null) {
             viewer.refresh();
         }
+    }
+
+    public boolean isDirty() {
+        return detailsPart.isDirty();
     }
 
     class PenaliteTreeContentProvider implements ITreeContentProvider {
@@ -173,7 +177,7 @@ public class StepDetailsBlockPage extends MasterDetailsBlock {
             } else if (parentElement instanceof ParametrageStepPageModel) {
                 res.add(model.getStepModel().getStep());
             } else if (parentElement instanceof Balises) {
-                res.addAll(((Balises) parentElement).getbalises());
+                res.addAll(((Balises) parentElement).getBalises());
             }
             return res.toArray();
         }
@@ -203,7 +207,7 @@ public class StepDetailsBlockPage extends MasterDetailsBlock {
                 res.addAll(etape.getPenalites());
                 hasChildren = !etape.getBalises().isEmpty();
             } else if (element instanceof Balises) {
-                res.addAll(((Balises) element).getbalises());
+                res.addAll(((Balises) element).getBalises());
             }
             return hasChildren || !res.isEmpty();
         }
@@ -213,101 +217,44 @@ public class StepDetailsBlockPage extends MasterDetailsBlock {
         }
     }
 
-    static class Balises {
+    public static class Balises {
         private final ObjStep step;
 
         Balises(final ObjStep step) {
             this.step = step;
         }
 
-        public Collection<Balise> getbalises() {
-            return step.getBalises();
+        public Collection<ObjBalise> getBalises() {
+            return Collections2.filter(step.getBalises(), new Predicate<Balise>() {
+                @Override
+                public boolean apply(final Balise balise) {
+                    return !(START_TYPE_BALISE.equals(balise.getType()) || END_TYPE_BALISE.equals(balise.getType()));
+                }
+            });
         }
 
         public String getLib() {
-            return "Balises (" + step.getBalises().size() + ')';
+            final StringBuilder builder = new StringBuilder("Balises (");
+            int nbObligatoires = 0;
+            int nbOptionnels = 0;
+            for (final Balise balise : getBalises()) {
+                if (TYPE_PAS_OBLIGATOIRE.equals(balise.getType())) {
+                    nbOptionnels++;
+                } else if (TYPE_OBLIGATOIRE.equals(balise.getType())) {
+                    nbObligatoires++;
+                }
+            }
+            if (nbObligatoires > 0) {
+                builder.append(" O=").append(nbObligatoires);
+            }
+            if (nbOptionnels > 0) {
+                builder.append(" F=").append(nbOptionnels);
+            }
+            return builder.append(" T=").append(getBalises().size()).append(')').toString();
         }
 
         public ObjStep getParent() {
             return step;
-        }
-    }
-
-    static class PenaliteLabelProvider implements ILabelProvider {
-        private final Image imgArretChrono = getImg(IMG_ARRETCHRONO);
-        private final Image imgDisable     = getImg(IMG_PENALITY_DESACTIVATE);
-        private final Image imgEtape       = getImg(IMG_ETAPE);
-        private final Image imgPenalite    = getImg(IMG_PENALITY);
-        private final Image imgBalise      = getImg(IMG_BALISE);
-
-        @Override
-        public void addListener(final ILabelProviderListener listener) {
-        }
-
-        @Override
-        public void dispose() {
-        }
-
-        @Override
-        public Image getImage(final Object element) {
-            if (element instanceof ObjStep) {
-                final ObjStep etape = (ObjStep) element;
-                if (!etape.isActif()) {
-                    return imgDisable;
-                }
-                if (etape.isArretChrono()) {
-                    return imgArretChrono;
-                } else {
-                    return imgEtape;
-                }
-            } else if (element instanceof ObjPenalite) {
-                if (((ObjPenalite) element).isActivate()) {
-                    return imgPenalite;
-                } else {
-                    return imgDisable;
-                }
-            } else if (element instanceof Balises) {
-                return imgBalise;
-            } else if (element instanceof ObjBalise) {
-                return imgBalise;
-            }
-            return null;
-        }
-
-        @Override
-        public String getText(final Object element) {
-            if (element instanceof ObjPenalite) {
-                final ObjPenalite penality = (ObjPenalite) element;
-                return penality.getLib() + " (" + PenalityUtils.getTypePenaliteStr(penality) + ')';
-            } else if (element instanceof ObjStep) {
-                final ObjStep etape = (ObjStep) element;
-                String message = " [";
-                if (etape.getBaliseDepart() == null) {
-                    message += ".. ";
-                } else {
-                    message += etape.getBaliseDepart() + ' ';
-                }
-                if (etape.getBaliseArrivee() == null) {
-                    message += "..]";
-                } else {
-                    message += etape.getBaliseArrivee() + ']';
-                }
-                return etape.getLib() + message;
-            } else if (element instanceof Balise) {
-                return ((Balise) element).getType() + '(' + ((Balise) element).getNum() + ')';
-            } else if (element instanceof Balises) {
-                return ((Balises) element).getLib();
-            }
-            return EMPTY;
-        }
-
-        @Override
-        public boolean isLabelProperty(final Object element, final String property) {
-            return false;
-        }
-
-        @Override
-        public void removeListener(final ILabelProviderListener listener) {
         }
     }
 

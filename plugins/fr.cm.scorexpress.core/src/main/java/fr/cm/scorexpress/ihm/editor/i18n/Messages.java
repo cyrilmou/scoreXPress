@@ -139,6 +139,12 @@ public class Messages extends NLS {
 
 	public static String PenaliteEditor_DureePenalitee;
 
+	public static String PenaliteEditor_DureePenaliteMaxi;
+
+	public static String PenaliteEditor_DureePenaliteBalisesMini;
+
+	public static String PenaliteEditor_DureeBonusBalisesMini;
+
 	public static String PenaliteEditor_Echelle;
 
 	public static String PenaliteEditor_Etape;
@@ -205,9 +211,19 @@ public class Messages extends NLS {
 
 	public static String StepDetailsPage_Arret_chrono;
 
-	public static String StepDetailsPage_Balise_arrivee;
+	public static String StepDetailsPage_Arret_chronoTooltip;
 
-	public static String StepDetailsPage_Balise_depart;
+	public static String StepDetailsPage_Balise_arriveeGenerale;
+
+	public static String StepDetailsPage_Balise_departGenerale;
+
+    public static String StepDetailsPage_Balise_arrivee;
+
+    public static String StepDetailsPage_Balise_arriveeTooltip;
+
+    public static String StepDetailsPage_Balise_depart;
+
+    public static String StepDetailsPage_Balise_departTooltip;
 
 	public static String StepDetailsPage_Choisir_fichier;
 

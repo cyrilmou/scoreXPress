@@ -3,6 +3,7 @@ package fr.cm.scorexpress.ihm.editor;
 import fr.cm.common.widget.table.DefaultTableColumnModifier;
 import fr.cm.scorexpress.core.model.ColTable;
 import fr.cm.scorexpress.core.model.ObjDossard;
+import org.eclipse.jface.viewers.CellEditor;
 
 public class DefaultColTableColumnModifier extends DefaultTableColumnModifier<ObjDossard> {
     private final ColTable colTable;
@@ -25,5 +26,10 @@ public class DefaultColTableColumnModifier extends DefaultTableColumnModifier<Ob
     @Override
     public boolean canModify(final ObjDossard element, final String property) {
         return colTable.isModifiable();
+    }
+
+    @Override
+    public CellEditor getCellEditor() {
+        return null;
     }
 }

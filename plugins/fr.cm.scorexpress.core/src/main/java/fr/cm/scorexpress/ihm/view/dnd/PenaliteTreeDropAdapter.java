@@ -14,9 +14,12 @@ public class PenaliteTreeDropAdapter extends ViewerDropAdapter {
     }
 
     public boolean performDrop(final Object data) {
+        if(!(data instanceof ObjPenalite))
+            return false;
         ObjStep target = (ObjStep) getCurrentTarget();
-        if (target == null)
+        if (target == null) {
             target = (ObjStep) getViewer().getInput();
+        }
         final ObjPenalite toDrop = (ObjPenalite) data;
         final AbstractTreeViewer viewer = (AbstractTreeViewer) getViewer();
         if (target == null)

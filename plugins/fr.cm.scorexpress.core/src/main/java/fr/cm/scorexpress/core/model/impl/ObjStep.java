@@ -41,7 +41,7 @@ public class ObjStep extends IData<IData>
     private       boolean                    classementInter  = false;
     private       boolean                    penalitySaisie   = false;
     private       int                        nextDossard      = 0;
-    private final Collection<Balise>         balises          = newArrayList();
+    private final Collection<ObjBalise>         balises          = newArrayList();
     private final List<ObjStep>              steps            = newArrayList();
     private final Collection<ObjPenalite>    penalites        = newArrayList();
     private final AbstractList<ObjDossard>   dossards         = newArrayList();
@@ -200,7 +200,7 @@ public class ObjStep extends IData<IData>
     }
 
     @Override
-    public Collection<Balise> getBalises() {
+    public Collection<ObjBalise> getBalises() {
         return unmodifiableCollection(balises);
     }
 
@@ -590,6 +590,10 @@ public class ObjStep extends IData<IData>
         this.penalitySaisie = penalitySaisie;
         modifyCalculData();
         hasChanged(getControler(), this, VAR_PENALITY_SAISIE);
+    }
+
+    public void balisesChanged(){
+        hasChanged(getControler(), this, VAR_STEP_BALISES);
     }
 
     public String toString() {

@@ -14,46 +14,47 @@ import static java.util.Collections.unmodifiableList;
 import static org.apache.commons.lang.StringUtils.EMPTY;
 
 public class ObjResultat extends IData implements Comparable<ObjResultat> {
-    public static final String VAR_LIB                      = "LIB";
-    public static final String VAR_RESULTAT_TEMPS           = "TEMPS";
-    public static final String VAR_TEMPSPARCOURS            = "TEMPSPARCOURS";
-    public static final String VAR_TEMPS_CHRONO             = "TEMPSCHRONO";
-    public static final String VAR_TEMPSARRETCHRONO         = "TEMPSARRETCHRONO";
-    public static final String VAR_TEMPS_SIGNE              = "TEMPSSIGNE";
-    public static final String VAR_RESULTAT_PLACE           = "PLACE";
-    public static final String VAR_RESULTAT_PENALITE        = "PENALITE";
-    public static final String VAR_RESULTAT_BALISESMANQUEES = "BALISESMANQUEES";
-    public static final String VAR_RESULTAT_BALISESBONUS    = "BALISESBONUS";
-    public static final String VAR_RESULTAT_BALISES_OK      = "BALISESOK";
-    public static final String VAR_RESULTAT_ECART           = "ECART";
-    public static final String VAR_NB_BALISE                = "NBBALISES";
-    public static final String VAR_NB_PENALITE              = "NBPENALITE";
-    public static final String VAR_NB_POINTS_BALISE         = "NBPOINTSBALISE";
-    public static final String VAR_PENALITE_BALISE          = "PENALITEBALISES";
-    public static final String VAR_PENALITE_AUTRE           = "PENALITEAUTRE";
-    public static final String PREFIX_RES_INTER             = "RES.INTER";
-    public static final String NR_ETAPE_SEPARATOR           = "|";
-    public static final String VAR_BONIFICATION             = "BONIFICATION";
-    public static boolean showError = false;
-    private final Date2   tempsParcours            = createDate(0);
-    private final Date2   tempsResultat            = createDate(0);
-    private final Date2   penaliteResultat         = createDate(true);
-    private final Date2   bonificationResultat     = createDate(true);
-    private final Date2   tempsArretChronoResultat = createDate(true);
-    private final Date2   penalite                 = createDate(true);
-    private final Date2   penaliteBalise           = createDate(true);
-    private final Date2   penaliteAutre            = createDate(true);
-    private final Date2   tempsArretChrono         = createDate(true);
-    private final Date2   tempsBonification        = createDate(true);
-    private final ArrayList<ObjResultat> resultatsInter = new ArrayList<ObjResultat>();
+    public static final String                 VAR_LIB                      = "LIB";
+    public static final String                 VAR_RESULTAT_TEMPS           = "TEMPS";
+    public static final String                 VAR_TEMPSPARCOURS            = "TEMPSPARCOURS";
+    public static final String                 VAR_TEMPS_CHRONO             = "TEMPSCHRONO";
+    public static final String                 VAR_TEMPSARRETCHRONO         = "TEMPSARRETCHRONO";
+    public static final String                 VAR_TEMPS_SIGNE              = "TEMPSSIGNE";
+    public static final String                 VAR_RESULTAT_PLACE           = "PLACE";
+    public static final String                 VAR_RESULTAT_PENALITE        = "PENALITE";
+    public static final String                 VAR_RESULTAT_BALISESMANQUEES = "BALISESMANQUEES";
+    public static final String                 VAR_RESULTAT_BALISESBONUS    = "BALISESBONUS";
+    public static final String                 VAR_RESULTAT_BALISES_OK      = "BALISESOK";
+    public static final String                 VAR_RESULTAT_ECART           = "ECART";
+    public static final String                 VAR_NB_BALISE                = "NBBALISES";
+    public static final String                 VAR_NB_BALISE_BONUS          = "NBBALISESBONUS";
+    public static final String                 VAR_NB_PENALITE              = "NBPENALITE";
+    public static final String                 VAR_NB_POINTS_BALISE         = "NBPOINTSBALISE";
+    public static final String                 VAR_PENALITE_BALISE          = "PENALITEBALISES";
+    public static final String                 VAR_PENALITE_AUTRE           = "PENALITEAUTRE";
+    public static final String                 PREFIX_RES_INTER             = "RES.INTER";
+    public static final String                 NR_ETAPE_SEPARATOR           = "|";
+    public static final String                 VAR_BONIFICATION             = "BONIFICATION";
+    public static       boolean                showError                    = false;
+    private final       Date2                  tempsParcours                = createDate(0);
+    private final       Date2                  tempsResultat                = createDate(0);
+    private final       Date2                  penaliteResultat             = createDate(true);
+    private final       Date2                  bonificationResultat         = createDate(true);
+    private final       Date2                  tempsArretChronoResultat     = createDate(true);
+    private final       Date2                  penalite                     = createDate(true);
+    private final       Date2                  penaliteBalise               = createDate(true);
+    private final       Date2                  penaliteAutre                = createDate(true);
+    private final       Date2                  tempsArretChrono             = createDate(true);
+    private final       Date2                  tempsBonification            = createDate(true);
+    private final       ArrayList<ObjResultat> resultatsInter               = new ArrayList<ObjResultat>();
     private String     lib;
     private ObjDossard dossard;
-    private       boolean abandon                  = false;
-    private       boolean declasse                 = false;
-    private       boolean horsClassement           = false;
-    private       boolean notArrived               = false;
-    private       boolean error                    = false;
-    private Collection<String> errors = newArrayList();
+    private boolean            abandon        = false;
+    private boolean            declasse       = false;
+    private boolean            horsClassement = false;
+    private boolean            notArrived     = false;
+    private boolean            error          = false;
+    private Collection<String> errors         = newArrayList();
 
     public ObjResultat() {
         penaliteBalise.setAffichage(true, false, true);
@@ -250,8 +251,36 @@ public class ObjResultat extends IData implements Comparable<ObjResultat> {
         return 0;
     }
 
+    public void addNbBalises(final int nbBalises) {
+        Integer nb = (Integer) getInfo(VAR_NB_BALISE);
+        if (nb == null) {
+            nb = nbBalises;
+        } else {
+            nb += nbBalises;
+        }
+        setInfo(VAR_NB_BALISE, nb);
+    }
+
     public int getNbBalises() {
         final Object obj = getInfo(VAR_NB_BALISE);
+        if (obj != null && obj instanceof Integer) {
+            return (Integer) obj;
+        }
+        return 0;
+    }
+
+    public void addNbBalisesBonus(final int nbBalises) {
+        Integer nb = (Integer) getInfo(VAR_NB_BALISE_BONUS);
+        if (nb == null) {
+            nb = nbBalises;
+        } else {
+            nb += nbBalises;
+        }
+        setInfo(VAR_NB_BALISE_BONUS, nb);
+    }
+
+    public int getNbBalisesBonus() {
+        final Object obj = getInfo(VAR_NB_BALISE_BONUS);
         if (obj != null && obj instanceof Integer) {
             return (Integer) obj;
         }

@@ -165,7 +165,9 @@ public class PenaliteEditor extends EditorPart {
                 if (penalite.getTypePenalite() == TYPE_NB_BALISES_MINI.valeur) {
                     res.add(createPenalityElement(penalite, VAR_NB_BALISE_MINI, PenaliteEditor_Nb_Balises));
                     res.add(createPenalityElement(penalite, VAR_PENALITE_TIME,
-                            PenaliteEditor_DureePenalitee));
+                            PenaliteEditor_DureePenaliteBalisesMini));
+                    res.add(createPenalityElement(penalite, VAR_ECHELLEPENALITE,
+                                                  PenaliteEditor_DureeBonusBalisesMini));
                 }
                 if (penalite.getTypePenalite() == TYPE_BALISE_ORDONNEE.valeur) {
                     res.add(createPenalityElement(penalite, VAR_PENALITE_TIME, PenaliteEditor_Duree_de_la_penalitee));
@@ -178,7 +180,7 @@ public class PenaliteEditor extends EditorPart {
                 if (penalite.getTypePenalite() == TYPE_DUREE_ETAPE_MAXI.valeur) {
                     res.add(createPenalityElement(penalite, VAR_DUREEMAXI, PenaliteEditor_Duree_de_l_etape_maxi));
                     res.add(createPenalityElement(penalite, VAR_PENALITE_TIME,
-                            PenaliteEditor_Penalite_par_duree_depassee));
+                                                  PenaliteEditor_DureePenaliteMaxi));
                 }
                 if (penalite.getTypePenalite() == TYPE_PENALITE_BALISE_OBLIGATOIRE.valeur) {
                 }

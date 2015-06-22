@@ -18,6 +18,7 @@ import fr.cm.scorexpress.ihm.editor.modifier.GetInfoLabelProvider;
 import fr.cm.scorexpress.ihm.editor.modifier.IInfoListener;
 import fr.cm.scorexpress.ihm.editor.modifier.MyComboBoxCellEditor;
 import fr.cm.scorexpress.ihm.editor.modifier.MyTextCellEditor;
+import fr.cm.scorexpress.ihm.editor.page.StepLabelProvider;
 import fr.cm.scorexpress.ihm.view.NavigateurView;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -121,44 +122,6 @@ public class EtapeConfigurationEditor extends EditorPart implements SelectionLis
         }
     }
 
-    class DirtyListener implements ModifyListener, SelectionListener {
-
-        @Override
-        public void modifyText(final ModifyEvent e) {
-            setDirty(true);
-        }
-
-        @Override
-        public void widgetDefaultSelected(final SelectionEvent e) {
-        }
-
-        @Override
-        public void widgetSelected(final SelectionEvent e) {
-            setDirty(true);
-        }
-
-    }
-
-    static class EtapeContentProvider implements IStructuredContentProvider {
-
-        @Override
-        public void dispose() {
-        }
-
-        @Override
-        public Object[] getElements(final Object inputElement) {
-            if (inputElement instanceof ObjStep) {
-                final AbstractSteps etape = (AbstractSteps) inputElement;
-                return etape.getSteps().toArray();
-            }
-            return null;
-        }
-
-        @Override
-        public void inputChanged(final Viewer viewer, final Object oldInput, final Object newInput) {
-        }
-    }
-
     static class EtapeLabelProvider implements ILabelProvider {
         private final Image imgArretChrono = getImg(IMG_ARRETCHRONO);
         private final Image imgBalise      = getImg(IMG_BALISE);
@@ -200,6 +163,8 @@ public class EtapeConfigurationEditor extends EditorPart implements SelectionLis
             }
             if (element instanceof ObjStep) {
                 final ObjStep etape = (ObjStep) element;
+                if( etape.isEpreuve())
+                    return etape.getLib();
                 String message = " ["; //$NON-NLS-1$
                 if (etape.getBaliseDepart() == null) {
                     message += ".. "; //$NON-NLS-1$
@@ -301,16 +266,12 @@ public class EtapeConfigurationEditor extends EditorPart implements SelectionLis
             if (element.item.getData() instanceof ObjBalise) {
                 // ObjBalise balise = (ObjBalise) element.item.getData();
                 buttonBaliseAjouter.setEnabled(false);
-                buttonEtapeAjouter.setEnabled(false);
-                buttonEtapeSupprimer.setEnabled(true);
                 balisesTableViewer.setInput(null);
                 updateEtapeInfo(null);
                 return;
             }
             if (element.item.getData() instanceof ObjStep) {
                 final ObjStep etape = (ObjStep) element.item.getData();
-                buttonEtapeAjouter.setEnabled(true);
-                buttonEtapeSupprimer.setEnabled(true);
                 buttonBaliseAjouter.setEnabled(true);
                 balisesTableViewer.setInput(etape);
                 ajustementAutomatique(balisesTable);
@@ -325,28 +286,11 @@ public class EtapeConfigurationEditor extends EditorPart implements SelectionLis
     private             Table            balisesTable            = null;
     private             TableViewer      balisesTableViewer      = null;
     private             Button           buttonBaliseAjouter     = null;
-    private             Button           buttonEtapeAjouter      = null;
-    private             Button           buttonEtapeSupprimer    = null;
-    private             Button           buttonImporter          = null;
-    private             Button           buttonImportGeneral     = null;
-    private             Button           buttonShowDatas         = null;
-    private             Button           buttonValider           = null;
-    private             Button           checkBoxActive          = null;
-    private             Button           checkBoxArretChrono     = null;
-    private             Button           checkBoxArriveeGenerale = null;
-    private             Button           checkBoxDepartGeneral   = null;
     private             Composite        compositeTree           = null;
-    private             Composite        compSousEtape           = null;
-    private             Composite        compTreeEtape           = null;
     private             boolean          dirty                   = false;
     private             ObjStep          etapeSelected           = null;
-    private             Label            importFile              = null;
     private             EtapeEditorInput input                   = null;
     private             Label            label                   = null;
-    private             Text             textBaliseArrivee       = null;
-    private             Text             textBaliseDepart        = null;
-    private             Text             textDescription         = null;
-    private             Text             textNomEtape            = null;
     private FormToolkit toolkit;
 
     private Tree treeEtape = null;
@@ -381,17 +325,6 @@ public class EtapeConfigurationEditor extends EditorPart implements SelectionLis
         return returnEditor;
     }
 
-    private Label createImportLabel(final Composite parent) {
-        final GridData gridData16 = new GridData();
-        gridData16.grabExcessHorizontalSpace = false;
-        gridData16.verticalAlignment = GridData.CENTER;
-        gridData16.widthHint = 60;
-        gridData16.horizontalAlignment = BEGINNING;
-        final Label importFile = toolkit.createLabel(parent, EMPTY, SWT.NONE);
-        importFile.setLayoutData(gridData16);
-        return importFile;
-    }
-
     private void createComposite(final Composite parent) {
         final GridData gridDataFill = new GridData();
         gridDataFill.grabExcessHorizontalSpace = true;
@@ -402,7 +335,6 @@ public class EtapeConfigurationEditor extends EditorPart implements SelectionLis
         composite.setLayout(new GridLayout());
         composite.setLayoutData(gridDataFill);
         createCompositeTree(parent);
-        createCompSousEtape(parent);
         createCompositeBalises(parent);
         updateEtapeInfo(input.getEtape());
     }
@@ -463,15 +395,8 @@ public class EtapeConfigurationEditor extends EditorPart implements SelectionLis
         final Composite compGroupButton = toolkit.createComposite(compositeTree);
         compGroupButton.setLayout(new GridLayout());
         compGroupButton.setLayoutData(gridDataCompGroupButton);
-        buttonEtapeAjouter =
-                toolkit.createButton(compGroupButton, EtapeConfigurationEditor_Ajouter_sous_etape, SWT.NONE);
         buttonBaliseAjouter = toolkit.createButton(compGroupButton, EtapeConfigurationEditor_Ajouter_balise, SWT.NONE);
-        buttonEtapeSupprimer = toolkit.createButton(compGroupButton, EtapeConfigurationEditor_SupprimerEtape, SWT.NONE);
-        buttonImportGeneral = toolkit.createButton(compGroupButton, EtapeConfigurationEditor_Importer2, SWT.NONE);
-        buttonEtapeAjouter.addSelectionListener(this);
-        buttonEtapeSupprimer.addSelectionListener(this);
-        buttonBaliseAjouter.addSelectionListener(this);
-        buttonImportGeneral.addSelectionListener(this);
+       buttonBaliseAjouter.addSelectionListener(this);
     }
 
     private void createCompositeTree(final Composite parent) {
@@ -503,148 +428,6 @@ public class EtapeConfigurationEditor extends EditorPart implements SelectionLis
         expandableComp.setClient(compositeTree);
         expandableComp.setExpanded(true);
         updateTree();
-    }
-
-    private void createCompositeTreeEtape() {
-        final GridData gridDataButtonValider = new GridData();
-        gridDataButtonValider.horizontalSpan = 5;
-        final GridData gridDataCheckArrChrono = new GridData();
-        gridDataCheckArrChrono.horizontalSpan = 4;
-        gridDataCheckArrChrono.verticalAlignment = GridData.CENTER;
-        gridDataCheckArrChrono.horizontalAlignment = FILL;
-        final GridData gridDataCheckArrGen = new GridData();
-        gridDataCheckArrGen.horizontalSpan = 3;
-        gridDataCheckArrGen.verticalAlignment = GridData.CENTER;
-        gridDataCheckArrGen.horizontalAlignment = FILL;
-        final GridData gridDataCheckDepGen = new GridData();
-        gridDataCheckDepGen.horizontalAlignment = FILL;
-        gridDataCheckDepGen.grabExcessHorizontalSpace = false;
-        gridDataCheckDepGen.horizontalSpan = 3;
-        gridDataCheckDepGen.verticalAlignment = GridData.CENTER;
-        final GridData gridDataButtonShowData = new GridData();
-        gridDataButtonShowData.horizontalAlignment = BEGINNING;
-        gridDataButtonShowData.grabExcessHorizontalSpace = true;
-        gridDataButtonShowData.verticalAlignment = GridData.CENTER;
-        final GridData gridDataTextBaliseArr = new GridData();
-        gridDataTextBaliseArr.widthHint = 60;
-        final GridData gridDataTextBaliseDep = new GridData();
-        gridDataTextBaliseDep.widthHint = 60;
-        final GridData gridDataDesc = new GridData();
-        gridDataDesc.horizontalAlignment = BEGINNING;
-        gridDataDesc.grabExcessHorizontalSpace = true;
-        gridDataDesc.horizontalSpan = 4;
-        gridDataDesc.widthHint = 200;
-        gridDataDesc.verticalAlignment = GridData.CENTER;
-        final GridData gridDataCompTreeEtape = new GridData();
-        gridDataCompTreeEtape.horizontalAlignment = FILL;
-        gridDataCompTreeEtape.grabExcessHorizontalSpace = true;
-        gridDataCompTreeEtape.grabExcessVerticalSpace = false;
-        gridDataCompTreeEtape.verticalAlignment = FILL;
-        final GridData gridDataTextNomEtape = new GridData();
-        gridDataTextNomEtape.horizontalAlignment = BEGINNING;
-        gridDataTextNomEtape.grabExcessHorizontalSpace = true;
-        gridDataTextNomEtape.verticalAlignment = GridData.CENTER;
-        gridDataTextNomEtape.horizontalSpan = 4;
-        gridDataTextNomEtape.minimumWidth = 200;
-        gridDataTextNomEtape.widthHint = 200;
-        final GridLayout gridLayoutTreeEtape = new GridLayout();
-        gridLayoutTreeEtape.numColumns = 5;
-        gridDataCompTreeEtape.minimumHeight = 100;
-        compTreeEtape = toolkit.createComposite(compSousEtape);
-        compTreeEtape.setLayout(gridLayoutTreeEtape);
-        compTreeEtape.setLayoutData(gridDataCompTreeEtape);
-        toolkit.createLabel(compTreeEtape, EtapeConfigurationEditor_Nom_de_l_etape__, SWT.NONE);
-        textNomEtape = toolkit.createText(compTreeEtape, input.getEtape().getLib());
-        textNomEtape.setLayoutData(gridDataTextNomEtape);
-        toolkit.createLabel(compTreeEtape, EtapeConfigurationEditor_Liaison_SportIdent_);
-        importFile = createImportLabel(compTreeEtape);
-        toolkit.createLabel(compTreeEtape, EMPTY, SWT.NONE);
-        buttonImporter = toolkit.createButton(compTreeEtape, EtapeConfigurationEditor_Importer, SWT.NONE);
-        buttonShowDatas = toolkit.createButton(compTreeEtape, EtapeConfigurationEditor_Afficher, SWT.NONE);
-        buttonShowDatas.setLayoutData(gridDataButtonShowData);
-        toolkit.createLabel(compTreeEtape, EMPTY, SWT.NONE);
-        final Button buttonClearFileName =
-                toolkit.createButton(compTreeEtape, EtapeConfigurationEditor_EFFACER, SWT.NONE);
-        buttonClearFileName.setLayoutData(gridDataDesc);
-        toolkit.createLabel(compTreeEtape, EtapeConfigurationEditor_Description, SWT.NONE);
-        textDescription = toolkit.createText(compTreeEtape, EMPTY, BORDER);
-        textDescription.setLayoutData(gridDataDesc);
-        toolkit.createLabel(compTreeEtape, EtapeConfigurationEditor_Balise_de_depart, SWT.NONE);
-        textBaliseDepart = toolkit.createText(compTreeEtape, EMPTY, BORDER);
-        textBaliseDepart.setLayoutData(gridDataTextBaliseDep);
-        checkBoxDepartGeneral = toolkit.createButton(compTreeEtape, EtapeConfigurationEditor_Depart_general, SWT.CHECK);
-        checkBoxDepartGeneral.setLayoutData(gridDataCheckDepGen);
-        toolkit.createLabel(compTreeEtape, EtapeConfigurationEditor_Balise_d_arrivee, SWT.NONE);
-        textBaliseArrivee = toolkit.createText(compTreeEtape, EMPTY, BORDER);
-        textBaliseArrivee.setLayoutData(gridDataTextBaliseArr);
-        checkBoxArriveeGenerale =
-                toolkit.createButton(compTreeEtape, EtapeConfigurationEditor_Arrivee_generale, SWT.CHECK);
-        checkBoxArriveeGenerale.setLayoutData(gridDataCheckArrGen);
-        checkBoxActive = toolkit.createButton(compTreeEtape, EtapeConfigurationEditor_Activee, SWT.CHECK);
-        checkBoxArretChrono = toolkit.createButton(compTreeEtape, EtapeConfigurationEditor_Arret_chrono, SWT.CHECK);
-        checkBoxArretChrono.setLayoutData(gridDataCheckArrChrono);
-        buttonValider = toolkit.createButton(compTreeEtape, EtapeConfigurationEditor_Valider, SWT.NONE);
-        buttonValider.setLayoutData(gridDataButtonValider);
-        checkBoxDepartGeneral.addSelectionListener(this);
-        checkBoxArriveeGenerale.addSelectionListener(this);
-        buttonShowDatas.addSelectionListener(new ShowDataAction(autoResizeContext));
-        buttonClearFileName.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(final SelectionEvent e) {
-                if (etapeSelected != null) {
-                    etapeSelected.setImportFileName(null);
-                    importFile.setText(EMPTY);
-                }
-            }
-        });
-        buttonImporter.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(final SelectionEvent e) {
-                importer(compTreeEtape);
-            }
-
-        });
-        buttonValider.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(final SelectionEvent e) {
-                sav();
-            }
-        });
-        textBaliseArrivee.addModifyListener(new DirtyListener());
-        textBaliseDepart.addModifyListener(new DirtyListener());
-        textDescription.addModifyListener(new DirtyListener());
-        textNomEtape.addModifyListener(new DirtyListener());
-        checkBoxActive.addSelectionListener(new DirtyListener());
-        checkBoxArretChrono.addSelectionListener(new DirtyListener());
-        checkBoxArriveeGenerale.addSelectionListener(new DirtyListener());
-        checkBoxDepartGeneral.addSelectionListener(new DirtyListener());
-
-    }
-
-    private void createCompSousEtape(final Composite parent) {
-        final GridData gridDataSousEtape = new GridData();
-        gridDataSousEtape.grabExcessHorizontalSpace = true;
-        gridDataSousEtape.verticalAlignment = FILL;
-        gridDataSousEtape.grabExcessVerticalSpace = false;
-        gridDataSousEtape.horizontalAlignment = FILL;
-        final GridLayout gridLayoutSousEtape = new GridLayout();
-        gridLayoutSousEtape.numColumns = 1;
-        gridDataSousEtape.minimumHeight = 100;
-        final GridData gridDataExp = new GridData();
-        gridDataExp.grabExcessHorizontalSpace = true;
-        gridDataExp.horizontalAlignment = FILL;
-        gridDataExp.verticalAlignment = FILL;
-        final ExpandableComposite expandableComp = toolkit.createSection(parent, TWISTIE | TITLE_BAR);
-        expandableComp.setText(EtapeConfigurationEditor_INFO_ETAPE_SELECTIONNEE);
-        expandableComp.setLayout(new GridLayout());
-        expandableComp.setLayoutData(gridDataExp);
-        expandableComp.setEnabled(false);
-        compSousEtape = toolkit.createComposite(expandableComp, BORDER);
-        compSousEtape.setLayout(gridLayoutSousEtape);
-        compSousEtape.setLayoutData(gridDataSousEtape);
-        expandableComp.setClient(compSousEtape);
-        expandableComp.setExpanded(false);
-        createCompositeTreeEtape();
     }
 
     @Override
@@ -689,28 +472,6 @@ public class EtapeConfigurationEditor extends EditorPart implements SelectionLis
     public void doSaveAs() {
     }
 
-    private static Collection<ObjStep> getCodeSportIdentList(final ObjStep etape) {
-        final Collection<ObjStep> res = newArrayList();
-        if (etape.getImportFileName() != null) {
-            res.add(etape);
-        }
-        for (final ObjStep sousEtape : etape.getSteps()) {
-            res.addAll(getCodeSportIdentList(sousEtape));
-        }
-        return res;
-    }
-
-    private void importer(final Control parent) {
-        final FileDialog fileDialog = new FileDialog(parent.getShell(), SWT.OPEN);
-        fileDialog.setFilterExtensions(new String[]{"*.csv"}); //$NON-NLS-1$
-        fileDialog.setFilterNames(new String[]{EtapeConfigurationEditor_Fichiers_csv});
-        final String fileName = fileDialog.open();
-        createUserChrono(fileName);
-        etapeSelected.setInfo(ObjStep.VAR_FILENAME_IMPORT, fileName);
-        getAutoImportProcess().importSportIdent(etapeSelected);
-        importFile.setText(fileName);
-    }
-
     @Override
     public void init(final IEditorSite site, final IEditorInput input) throws PartInitException {
         if (!(input instanceof EtapeEditorInput)) {
@@ -735,16 +496,8 @@ public class EtapeConfigurationEditor extends EditorPart implements SelectionLis
     private void sav() {
         if (etapeSelected != null) {
             final ObjStep etape = etapeSelected;
-            etape.setLib(textNomEtape.getText());
             setPartName(input.getEtape().getLib());
             label.setText(EtapeConfigurationEditor_Configuration_de_l_etape + input.getEtape().getLib());
-            etape.setBaliseDepart(textBaliseDepart.getText());
-            etape.setBaliseArrivee(textBaliseArrivee.getText());
-            etape.setActif(checkBoxActive.getSelection());
-            etape.setArretChrono(checkBoxArretChrono.getSelection());
-            etape.setInfo(ObjStep.VAR_DESCRIPTION, textDescription.getText());
-            etape.setBaliseDepartGeneral(checkBoxDepartGeneral.getSelection());
-            etape.setBaliseArriveeGenerale(checkBoxArriveeGenerale.getSelection());
             treeViewer.refresh(etape);
             updateTreeViewer();
         }
@@ -810,68 +563,18 @@ public class EtapeConfigurationEditor extends EditorPart implements SelectionLis
     }
 
     private void updateEtapeInfo(final ObjStep etape) {
-        textNomEtape.setText(EMPTY);
-        importFile.setText(EMPTY);
-        textBaliseDepart.setText(EMPTY);
-        textBaliseArrivee.setText(EMPTY);
-        textDescription.setText(EMPTY);
         label.setText(EMPTY);
-        buttonImporter.setToolTipText(EMPTY);
         etapeSelected = null;
         if (etape != null) {
             etapeSelected = etape;
             label.setText(EtapeConfigurationEditor_Configuration_de_l_etape3 + etape.getLib());
-            textNomEtape.setText(etape.getInfoStr(ObjStep.VAR_LIB_STEP));
-            textDescription.setText(etape.getInfoStr(ObjStep.VAR_DESCRIPTION));
-            if (etape.getImportFileName() != null) {
-                importFile.setText(etape.getImportFileName());
-            }
-            if (etape.getBaliseDepart() != null) {
-                textBaliseDepart.setText(etape.getBaliseDepart());
-            }
-            if (etape.getBaliseArrivee() != null) {
-                textBaliseArrivee.setText(etape.getBaliseArrivee());
-            }
-            buttonImporter.setToolTipText(etape.getInfoStr(ObjStep.VAR_FILENAME_IMPORT));
-            checkBoxDepartGeneral.setSelection(etape.getBaliseDepart() == null);
-            checkBoxArriveeGenerale.setSelection(etape.getBaliseArrivee() == null);
-            textNomEtape.setEnabled(true);
-            importFile.setEnabled(true);
-            textBaliseDepart.setEnabled(etape.getBaliseDepart() != null);
-            textBaliseArrivee.setEnabled(etape.getBaliseArrivee() != null);
-            checkBoxActive.setSelection(etape.isActif());
-            checkBoxArretChrono.setSelection(etape.isArretChrono());
-            textDescription.setEnabled(true);
-            buttonImporter.setEnabled(true);
-            buttonShowDatas.setEnabled(true);
-            buttonValider.setEnabled(true);
-            checkBoxDepartGeneral.setEnabled(true);
-            checkBoxArriveeGenerale.setEnabled(true);
-            checkBoxActive.setEnabled(true);
-            checkBoxArretChrono.setEnabled(true);
-            buttonImportGeneral.setEnabled(true);
-            compSousEtape.setVisible(true);
-        } else {
-            textNomEtape.setEnabled(false);
-            importFile.setEnabled(false);
-            textBaliseDepart.setEnabled(false);
-            textBaliseArrivee.setEnabled(false);
-            textDescription.setEnabled(false);
-            buttonImporter.setEnabled(false);
-            buttonShowDatas.setEnabled(false);
-            checkBoxDepartGeneral.setEnabled(false);
-            checkBoxArriveeGenerale.setEnabled(false);
-            buttonValider.setEnabled(false);
-            checkBoxActive.setEnabled(false);
-            checkBoxArretChrono.setEnabled(false);
-            buttonImportGeneral.setEnabled(false);
         }
         setDirty(false);
     }
 
     private void updateTree() {
         treeEtape = treeViewer.getTree();
-        treeViewer.setLabelProvider(new EtapeLabelProvider());
+        treeViewer.setLabelProvider(new StepLabelProvider());
         treeViewer.setContentProvider(new EtapeTreeContentProvider());
         treeViewer.setAutoExpandLevel(AbstractTreeViewer.ALL_LEVELS);
         treeViewer.setInput(input);
@@ -897,56 +600,11 @@ public class EtapeConfigurationEditor extends EditorPart implements SelectionLis
             if (treeEtape.getSelectionCount() > 0) {
                 if (treeEtape.getSelection()[0].getData() instanceof ObjStep) {
                     etape = (ObjStep) treeEtape.getSelection()[0].getData();
-                    String baliseDepart = EMPTY;
-                    if (etape.getBaliseDepart() != null) {
-                        baliseDepart = etape.getBaliseDepart();
-                    }
-                    String baliseArrivee = EMPTY;
-                    if (etape.getBaliseArrivee() != null) {
-                        baliseArrivee = etape.getBaliseArrivee();
-                    }
-                    if (e.getSource().equals(checkBoxDepartGeneral)) {
-                        if (checkBoxDepartGeneral.getSelection()) {
-                            textBaliseDepart.setText(EMPTY);
-                            textBaliseDepart.setEnabled(false);
-                        } else {
-                            textBaliseDepart.setText(baliseDepart);
-                            textBaliseDepart.setEnabled(true);
-                        }
-                    }
-                    if (e.getSource().equals(checkBoxArriveeGenerale)) {
-                        if (checkBoxArriveeGenerale.getSelection()) {
-                            textBaliseArrivee.setText(EMPTY);
-                            textBaliseArrivee.setEnabled(false);
-                        } else {
-                            textBaliseArrivee.setText(baliseArrivee);
-                            textBaliseArrivee.setEnabled(true);
-                        }
-                    }
                 } else {
-                    final ObjBalise balise = (ObjBalise) treeEtape.getSelection()[0].getData();
-                    etape = (ObjStep) balise.getParent();
-                    if (e.getSource().equals(buttonEtapeSupprimer) && balise != null) {
-                        etape.removeBalise(balise);
-                        balisesTableViewer.setInput(etape);
-                        treeViewer.refresh(etape);
-                    }
                     return;
                 }
             } else {
                 return;
-            }
-            if (e.getSource().equals(buttonEtapeAjouter)) {
-                final String nr = (etape.getSteps().size() + 1) + EMPTY;
-                etape.addStep(createStep(nr, EtapeConfigurationEditor_Sous_etape + nr));
-                updateTreeViewer();
-                treeViewer.refresh(etape);
-            }
-            if (e.getSource().equals(buttonEtapeSupprimer)) {
-                final AbstractSteps etapeParent = (AbstractSteps) etape.getParent();
-                etapeParent.removeStep(etape);
-                treeViewer.refresh(etapeParent);
-                updateTreeViewer();
             }
             if (e.getSource().equals(buttonBaliseAjouter)) {
                 String nr = "31"; //$NON-NLS-1$
@@ -969,33 +627,8 @@ public class EtapeConfigurationEditor extends EditorPart implements SelectionLis
                 ajustementAutomatique(balisesTable);
                 treeViewer.refresh(etape);
             }
-            if (e.getSource().equals(buttonImportGeneral) && etapeSelected != null) {
-                final Iterable<ObjStep> listCodeSportIdent = getCodeSportIdentList(etapeSelected);
-                for (final ObjStep etapeTmp : listCodeSportIdent) {
-                    getAutoImportProcess().importSportIdent(etapeTmp);
-                }
-            }
         } catch (final Exception ex) {
             ex.printStackTrace();
-        }
-    }
-
-    private class ShowDataAction extends SelectionAdapter {
-        private final AutoResizeColumn autoResizeContext;
-
-        ShowDataAction(final AutoResizeColumn autoResizeContext) {
-            this.autoResizeContext = autoResizeContext;
-        }
-
-        @Override
-        public void widgetSelected(final SelectionEvent e) {
-            try {
-                final IWorkbenchPage page = getSite().getWorkbenchWindow().getActivePage();
-                page.openEditor(new EtapeEditorInput(etapeSelected, ChronosEditor.CHRONOS_EDITOR_ID, autoResizeContext),
-                                ChronosEditor.CHRONOS_EDITOR_ID);
-            } catch (final Exception ignore) {
-                throw new RuntimeException("Error laoding editor: " + ChronosEditor.CHRONOS_EDITOR_ID);
-            }
         }
     }
 

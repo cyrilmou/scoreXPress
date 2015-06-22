@@ -347,7 +347,8 @@ public class ResultatEtapeModel implements PropertyChangeListener {
                         -1) {
                     return false;
                 }
-                return !(resultat.isAbandon() && hideAbandon || resultat.isDeclasse() && hideDeclasse);
+                return !(resultat.isAbandon() && hideAbandon || (resultat.isHorsClassement() || resultat.isDeclasse()
+                ) && hideDeclasse);
             }
         };
     }

@@ -34,11 +34,6 @@ public class EtapeDetailsPage implements IDetailsPage {
     private ObjStep      etape = null;
     private Text         label = null;
     private Text   desc;
-    private Text   baliseDebut;
-    private Text   baliseFin;
-    private Button activate;
-    private Button arretChrono;
-    private Button cumulSousEtape;
     private boolean init = true;
 
     public EtapeDetailsPage() {
@@ -64,8 +59,8 @@ public class EtapeDetailsPage implements IDetailsPage {
         toolkit.createLabel(client, i18n("EtapeDetailsPage.Libelle"));
         label = toolkit.createText(client, EMPTY, SWT.SINGLE | BORDER);
         label.addModifyListener(new LibelleAction());
-        final GridData layoutData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING,
-                                                 GridData.VERTICAL_ALIGN_BEGINNING,
+        final GridData layoutData = new GridData(HORIZONTAL_ALIGN_BEGINNING,
+                                                 VERTICAL_ALIGN_BEGINNING,
                                                  true,
                                                  false);
         label.setLayoutData(layoutData);
@@ -74,36 +69,9 @@ public class EtapeDetailsPage implements IDetailsPage {
         desc.addModifyListener(new DescriptionAction());
         layoutData.minimumWidth = 200;
         desc.setLayoutData(layoutData);
-        /*createSpacer(toolkit, client, 2);*/
-        //cumulSousEtape = toolkit.createButton(client, i18n("EtapeDetailsPage.cumuler"), SWT.CHECK);
-        //cumulSousEtape.addSelectionListener(new CumulSousEtapeAction());
-        /*final GridData gdChechBox = new GridData(FILL_HORIZONTAL | VERTICAL_ALIGN_BEGINNING);
-        gdChechBox.horizontalSpan = 2;*/
-        //cumulSousEtape.setLayoutData(gdChechBox);
-        /*toolkit.createLabel(client, i18n("EtapeDetailsPage.debut"));
-        baliseDebut = toolkit.createText(client, EMPTY, SWT.SINGLE | BORDER);
-        baliseDebut.addModifyListener(new BaliseDebutAction());
-        baliseDebut.setLayoutData(new GridData(HORIZONTAL_ALIGN_FILL));
-        toolkit.createLabel(client, i18n("EtapeDetailsPage.fin"));
-        baliseFin = toolkit.createText(client, EMPTY, SWT.SINGLE | BORDER);
-        baliseFin.addModifyListener(new BaliseFinAction());
-        baliseFin.setLayoutData(new GridData(HORIZONTAL_ALIGN_FILL));*/
-        /*createSpacer(toolkit, client, 2);
-        activate = toolkit.createButton(client, i18n("EtapeDetailsPage.active"), SWT.CHECK);
-        activate.addSelectionListener(new ActivateAction());
-        activate.setLayoutData(gdChechBox);
-        arretChrono = toolkit.createButton(client, i18n("EtapeDetailsPage.arretchrono"), SWT.CHECK);
-        arretChrono.addSelectionListener(new ArretChronoAction());
-        arretChrono.setLayoutData(gdChechBox);*/
+
         toolkit.paintBordersFor(s1);
         s1.setClient(client);
-    }
-
-    private static void createSpacer(final FormToolkit toolkit, final Composite parent, final int span) {
-        final Label spacer = toolkit.createSeparator(parent, SWT.HORIZONTAL);
-        final GridData gd = new GridData(FILL_HORIZONTAL | GRAB_HORIZONTAL | HORIZONTAL_ALIGN_FILL);
-        gd.horizontalSpan = span;
-        spacer.setLayoutData(gd);
     }
 
     @Override
@@ -137,15 +105,6 @@ public class EtapeDetailsPage implements IDetailsPage {
             desc.setText(etape.getInfoStr(VAR_DESCRIPTION) == null ?
                                  EMPTY :
                                  etape.getInfoStr(VAR_DESCRIPTION));
-            /*baliseDebut.setText(etape.getInfoStr(VAR_BALISE_DEPART) == null ? EMPTY
-                    : etape.getInfoStr(VAR_BALISE_DEPART));
-            baliseFin.setText(etape.getInfoStr(VAR_BALISE_ARRIVEE) == null ? EMPTY
-                    : etape.getInfoStr(VAR_BALISE_ARRIVEE));
-            baliseDebut.setEnabled(!etape.isCumulerSousEtape());
-            baliseFin.setEnabled(!etape.isCumulerSousEtape());*/
-            /*activate.setSelection(etape.isActif());
-            arretChrono.setSelection(etape.isArretChrono());*/
-            //cumulSousEtape.setSelection(etape.isCumulerSousEtape());
             init = false;
         }
     }
@@ -168,53 +127,6 @@ public class EtapeDetailsPage implements IDetailsPage {
             etape = null;
         }
         refresh();
-    }
-
-    private class ArretChronoAction extends SelectionAdapter {
-        @Override
-        public void widgetSelected(final SelectionEvent e) {
-            if (!init && etape != null) {
-                etape.setArretChrono(arretChrono.getSelection());
-            }
-        }
-    }
-
-    private class ActivateAction extends SelectionAdapter {
-        @Override
-        public void widgetSelected(final SelectionEvent e) {
-            if (!init && etape != null) {
-                etape.setActif(activate.getSelection());
-            }
-        }
-    }
-
-    private class BaliseFinAction implements ModifyListener {
-        @Override
-        public void modifyText(final ModifyEvent e) {
-            if (!init && etape != null) {
-                etape.setBaliseArrivee(baliseFin.getText());
-            }
-        }
-    }
-
-    private class BaliseDebutAction implements ModifyListener {
-        @Override
-        public void modifyText(final ModifyEvent e) {
-            if (!init && etape != null) {
-                etape.setBaliseDepart(baliseDebut.getText());
-            }
-        }
-    }
-
-    private class CumulSousEtapeAction extends SelectionAdapter {
-        @Override
-        public void widgetSelected(final SelectionEvent e) {
-            if (!init && etape != null) {
-                etape.setCumulerSousEtape(cumulSousEtape.getSelection());
-                baliseDebut.setEnabled(!etape.isCumulerSousEtape());
-                baliseFin.setEnabled(!etape.isCumulerSousEtape());
-            }
-        }
     }
 
     private class DescriptionAction implements ModifyListener {

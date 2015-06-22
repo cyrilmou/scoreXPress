@@ -129,10 +129,9 @@
             <action
                     class="fr.cm.scorexpress.ihm.action.ConfigurationEtapeAction"
                     enablesFor="+"
-                    icon="resources/icons/nav_go.gif"
+                    icon="resources/icons/SportIdent_25x25.gif"
                     id="fr.cm.chronos.actions.ConfigurationEtapeAction"
-                    label="Etape ..."
-                    menubarPath="fr.cm.chronos.extensions.menu.configuration/groupEtape"/>
+                    label="Balises"/>
             <action
                     class="fr.cm.scorexpress.ihm.action.ChronosAction"
                     icon="resources/icons/SportIdent_25x25.gif"

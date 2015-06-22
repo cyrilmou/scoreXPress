@@ -112,6 +112,12 @@ public class StepSubParametragePage implements IDetailsPage, ModifyListener {
         toolkit.createLabel(stepConfig, StepDetailsPage_Libelle);
         text = toolkit.createText(stepConfig, EMPTY, SWT.SINGLE | SWT.BORDER);
         text.addModifyListener(this);
+        text.addModifyListener(new ModifyListener() {
+            @Override
+            public void modifyText(final ModifyEvent e) {
+                etape.setLib(text.getText());
+            }
+        });
         text.setLayoutData(new GridData(FILL_HORIZONTAL));
 
         toolkit.createLabel(stepConfig, StepDetailsPage_Desc);
@@ -119,25 +125,44 @@ public class StepSubParametragePage implements IDetailsPage, ModifyListener {
         desc.addModifyListener(this);
         desc.setLayoutData(new GridData(FILL_HORIZONTAL));
 
-        checkBoxDepartGeneral = toolkit.createButton(stepConfig, StepDetailsPage_Balise_depart, CHECK);
+        toolkit.createLabel(stepConfig, StepDetailsPage_Balise_departGenerale);
+
+        checkBoxDepartGeneral = toolkit.createButton(stepConfig, "", CHECK);
         checkBoxDepartGeneral.addSelectionListener(changement);
+        checkBoxDepartGeneral.setToolTipText(StepDetailsPage_Balise_departTooltip);
+
+        toolkit.createLabel(stepConfig, StepDetailsPage_Balise_depart)
+               .setToolTipText(StepDetailsPage_Balise_departTooltip);
 
         baliseDebut = toolkit.createText(stepConfig, EMPTY, SWT.SINGLE | SWT.BORDER);
         baliseDebut.addModifyListener(this);
         baliseDebut.setLayoutData(new GridData(FILL_HORIZONTAL));
+        baliseDebut.setToolTipText(StepDetailsPage_Balise_departTooltip);
 
-        checkBoxArriveeGeneral = toolkit.createButton(stepConfig, StepDetailsPage_Balise_arrivee, CHECK);
+        toolkit.createLabel(stepConfig, StepDetailsPage_Balise_arriveeGenerale)
+               .setToolTipText(StepDetailsPage_Balise_arriveeTooltip);
+
+        checkBoxArriveeGeneral = toolkit.createButton(stepConfig, "", CHECK);
         checkBoxArriveeGeneral.addSelectionListener(changement);
+        checkBoxArriveeGeneral.setToolTipText(StepDetailsPage_Balise_arriveeTooltip);
+
+        toolkit.createLabel(stepConfig, StepDetailsPage_Balise_arrivee)
+               .setToolTipText(StepDetailsPage_Balise_arriveeTooltip);
 
         baliseFin = toolkit.createText(stepConfig, EMPTY, SWT.SINGLE | SWT.BORDER);
         baliseFin.addModifyListener(this);
         baliseFin.setLayoutData(new GridData(FILL_HORIZONTAL));
+        baliseFin.setToolTipText(StepDetailsPage_Balise_arriveeTooltip);
+
+        toolkit.createLabel(stepConfig, StepDetailsPage_Arret_chrono)
+               .setToolTipText(StepDetailsPage_Arret_chronoTooltip);
+
+        arretChrono = toolkit.createButton(stepConfig, "", CHECK);
+        arretChrono.addSelectionListener(changement);
 
         activate = toolkit.createButton(stepConfig, StepDetailsPage_Active, CHECK);
         activate.addSelectionListener(changement);
 
-        arretChrono = toolkit.createButton(stepConfig, StepDetailsPage_Arret_chrono, CHECK);
-        arretChrono.addSelectionListener(changement);
         createSpacer(toolkit, stepConfig, 4);
 
         final Section sectionProperty = toolkit.createSection(parent, TWISTIE | DESCRIPTION | Section.TITLE_BAR);
@@ -364,16 +389,18 @@ public class StepSubParametragePage implements IDetailsPage, ModifyListener {
 
     private void refreshDynamicsPanel() {
         final boolean cumulSousEtapeEnabled = cumulSousEtape.getSelection();
-        if (cumulSousEtapeEnabled) {
+        if (cumulSousEtapeEnabled ||etape.isEpreuve()) {
             baliseDebut.setEnabled(false);
             baliseFin.setEnabled(false);
             checkBoxDepartGeneral.setEnabled(false);
             checkBoxArriveeGeneral.setEnabled(false);
+            arretChrono.setEnabled(false);
         } else {
             baliseDebut.setEnabled(!checkBoxDepartGeneral.getSelection());
             baliseFin.setEnabled(!checkBoxArriveeGeneral.getSelection());
             checkBoxDepartGeneral.setEnabled(true);
             checkBoxArriveeGeneral.setEnabled(true);
+            arretChrono.setEnabled(true);
         }
 
         final boolean importAvailable = epreuve.getSelection() && !cumulSousEtapeEnabled;
