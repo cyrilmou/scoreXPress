@@ -153,10 +153,17 @@ public class CalculResultatsUtils {
         upTime(resultat.getTemps(), arretChrono);
         upTime(resultat.getTempsArretChronoResultat(), arretChrono);
         arretChrono.setNull();
+
+        final Date2 chronoMini = resultat.getTempsChronoMini();
+        upTime(resultat.getTemps(), chronoMini);
+        upTime(resultat.getTempsChronoMiniResultat(), chronoMini);
+        chronoMini.setNull();
+
         final Date2 penality = resultat.getPenalite();
         upTime(resultat.getTemps(), penality);
         upTime(resultat.getPenaliteResultat(), penality);
         penality.setNull();
+
         final Date2 bonification = resultat.getBonification();
         upTime(resultat.getTemps(), bonification);
         upTime(resultat.getBonificationResultat(), bonification);

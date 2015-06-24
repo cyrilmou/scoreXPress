@@ -1,5 +1,55 @@
 package fr.cm.scorexpress.ihm.editor;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.AbstractList;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+
+import fr.cm.common.widget.MyToolkit;
+import fr.cm.common.widget.StandardToolKit;
+import fr.cm.common.widget.button.ButtonAdapter;
+import fr.cm.common.widget.composite.AbstractCompositeBuilder;
+import fr.cm.common.widget.composite.CommonCompositeBuilder;
+import fr.cm.common.widget.composite.CompositeBuilder;
+import fr.cm.common.widget.table.TableBuilder;
+import fr.cm.common.widget.table.TableColumnRenderer;
+import fr.cm.common.widget.table.TableModel;
+import fr.cm.common.workbench.WorkbenchUtils;
+import fr.cm.scorexpress.core.AutoResizeColumn;
+import fr.cm.scorexpress.core.model.AbstractGetInfo;
+import fr.cm.scorexpress.core.model.ColTable;
+import fr.cm.scorexpress.core.model.ObjResultat;
+import fr.cm.scorexpress.core.model.impl.Date2;
+import fr.cm.scorexpress.core.model.impl.DateUtils;
+import fr.cm.scorexpress.core.model.impl.ObjStep;
+import fr.cm.scorexpress.ihm.application.ImageReg;
+import fr.cm.scorexpress.ihm.application.ScoreXPressPlugin;
+import fr.cm.scorexpress.ihm.editor.input.CommonEditorInput;
+import fr.cm.scorexpress.ihm.editor.input.EtapeEditorInput;
+import fr.cm.scorexpress.ihm.editor.input.ResultatEditorInput;
+import fr.cm.scorexpress.ihm.editor.input.StepEditorInput;
+import fr.cm.scorexpress.ihm.print.IPrintable;
+import fr.cm.scorexpress.model.StepModel;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.part.EditorPart;
+
 import static fr.cm.common.widget.composite.CompositeBuilders.createCompositeBuilder;
 import static fr.cm.common.workbench.WorkbenchUtils.defineCopyViewSiteAction;
 import static fr.cm.scorexpress.ihm.application.ImageReg.getImg;
@@ -14,35 +64,6 @@ import static fr.cm.scorexpress.ihm.print.PrintPreview.openPrintPreview;
 import static org.apache.commons.lang.StringUtils.EMPTY;
 import static org.eclipse.jface.viewers.StyledCellLabelProvider.COLORS_ON_SELECTION;
 import static org.eclipse.swt.layout.GridData.*;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jface.viewers.StyledCellLabelProvider;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.*;
-import org.eclipse.swt.layout.*;
-import org.eclipse.swt.widgets.*;
-import org.eclipse.ui.*;
-import org.eclipse.ui.part.EditorPart;
-
-import fr.cm.common.widget.MyToolkit;
-import fr.cm.common.widget.StandardToolKit;
-import fr.cm.common.widget.button.ButtonAdapter;
-import fr.cm.common.widget.composite.*;
-import fr.cm.common.widget.table.*;
-import fr.cm.common.workbench.WorkbenchUtils;
-import fr.cm.scorexpress.core.AutoResizeColumn;
-import fr.cm.scorexpress.core.model.*;
-import fr.cm.scorexpress.core.model.impl.Date2;
-import fr.cm.scorexpress.core.model.impl.ObjStep;
-import fr.cm.scorexpress.ihm.application.ImageReg;
-import fr.cm.scorexpress.ihm.application.ScoreXPressPlugin;
-import fr.cm.scorexpress.ihm.editor.input.*;
-import fr.cm.scorexpress.ihm.print.IPrintable;
-import fr.cm.scorexpress.model.StepModel;
 
 public class ResultatEtapeEditor extends EditorPart implements IPrintable,
 		IAutoAjustColumnEditor {
@@ -117,12 +138,12 @@ public class ResultatEtapeEditor extends EditorPart implements IPrintable,
 		builder.addButton(model.getConfigEtapeButtonModel(), SWT.NONE)
 				.withImage(configEtapeImage)
 				.withToolTip(
-						ResultatEtapeEditor_Afficher_la_configuration_de_l_etape)
+                        ResultatEtapeEditor_Afficher_la_configuration_de_l_etape)
 				.withLayoutData(new GridData(HORIZONTAL_ALIGN_END));
 		builder.addButton(model.getConfigPenalityButtonModel(), SWT.NONE)
 				.withImage(configPenaliteImage)
 				.withToolTip(
-						ResultatEtapeEditor_Afficher_la_configuration_des_penalitees);
+                        ResultatEtapeEditor_Afficher_la_configuration_des_penalitees);
 		builder.addButton(model.getChronosButtonModel(), SWT.NONE)
 				.withImage(configChronosImage)
 				.withToolTip(ResultatEtapeEditor_Afficher_les_chronos);
@@ -136,19 +157,19 @@ public class ResultatEtapeEditor extends EditorPart implements IPrintable,
 				.getTableResultatModel();
 		final TableBuilder<ObjResultat> tableBuilder = builder
 				.addTable(tableModel,
-						SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | COLORS_ON_SELECTION)
+                        SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | COLORS_ON_SELECTION)
 				.withLine(true).selectionProvider(getSite());
 		tableBuilder.withLayoutData(new GridData(FILL_BOTH | GRAB_HORIZONTAL
 				| GRAB_VERTICAL));
 		for (final ColTable colTable : model.getColumnConfig()) {
 			tableBuilder
 					.addColumn(colTable.getChamp(), colTable.getLib(),
-							colTable.getAlign())
+                            colTable.getAlign())
 					.withWidth(colTable.getWidth())
 					.movable(true)
 					.withToolTipText(colTable.getLib())
 					.withRenderer(
-							new ResultatEtapeColumnRenderer(colTable, model));
+                            new ResultatEtapeColumnRenderer(colTable, model));
 		}
 		tableBuilder.withLayoutData(
 				new GridData(FILL_BOTH | GRAB_HORIZONTAL | GRAB_VERTICAL))
@@ -161,7 +182,7 @@ public class ResultatEtapeEditor extends EditorPart implements IPrintable,
 		final CompositeBuilder footBar = builder
 				.addComposite(SWT.NONE)
 				.withLayoutData(
-						new GridData(FILL_HORIZONTAL | HORIZONTAL_ALIGN_FILL))
+                        new GridData(FILL_HORIZONTAL | HORIZONTAL_ALIGN_FILL))
 				.withLayout(new GridLayout(3, false));
 		footBar.addStaticLabel(SWT.NONE).withText(ResultatEtapeEditor_Info);
 		final GridData layoutData = new GridData(300, 20);
@@ -346,7 +367,7 @@ public class ResultatEtapeEditor extends EditorPart implements IPrintable,
 						}
 					}
 				} else {
-					builder.append("\n  ").append(label).append(element);
+					builder.append("\n  ").append(label).append(" ").append(element);
 				}
 			}
 		}
@@ -357,7 +378,7 @@ public class ResultatEtapeEditor extends EditorPart implements IPrintable,
 				final StringBuilder builder) {
 			final Date2 date = (Date2) resultat.getInfo(info);
 			if (date != null && !date.isNull()) {
-				builder.append("\n  ").append(label).append(date);
+				builder.append("\n  ").append(label).append(" ").append(date);
 			}
 		}
 
@@ -371,19 +392,23 @@ public class ResultatEtapeEditor extends EditorPart implements IPrintable,
 					.append(resultat.getDossard().getInfoStr("S.FIRSTNAME"));
 
 			addInfo(i18n("Result.tooltip.finalTime"),
-					ObjResultat.VAR_RESULTAT_TEMPS, resultat, builder);
-			addInfoDate(i18n("Result.tooltip.circuitTime"),
-					ObjResultat.VAR_TEMPSPARCOURS, resultat, builder);
+                    ObjResultat.VAR_RESULTAT_TEMPS, resultat, builder);
+			builder.append("\n-----");
 			addInfoDate(i18n("Result.tooltip.chronoTime"),
 					ObjResultat.VAR_TEMPS_CHRONO, resultat, builder);
+            if (!resultat.getTempsArretChronoResultat().isNull()) {
+                builder.append(" = ").append(resultat.getInfo(ObjResultat.VAR_TEMPSPARCOURS)).append(" ")
+                        .append(resultat.getTempsArretChronoResultat());
+            }
+			addInfoDate(i18n("Result.tooltip.chronoMini"),
+					ObjResultat.VAR_TEMPS_CHRONO_MINI, resultat, builder);
 			addInfoDate(i18n("Result.tooltip.bonusTime"),
 					ObjResultat.VAR_BONIFICATION, resultat, builder);
 			addInfoDate(i18n("Result.tooltip.otherPenalityTime"),
 					ObjResultat.VAR_PENALITE_AUTRE, resultat, builder);
 			addInfoDate(i18n("Result.tooltip.penalityTime"),
 					ObjResultat.VAR_PENALITE_BALISE, resultat, builder);
-			addInfoDate(i18n("Result.tooltip.stopTime"),
-					ObjResultat.VAR_TEMPSARRETCHRONO, resultat, builder);
+			builder.append("\n-----");
 			addInfo(i18n("Result.tooltip.nbBalise"), ObjResultat.VAR_NB_BALISE,
 					resultat, builder);
             addInfo(i18n("Result.tooltip.nbPenaliteBalise"), ObjResultat.VAR_NB_PENALITE,

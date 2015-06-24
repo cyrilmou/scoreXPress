@@ -1,12 +1,13 @@
 package fr.cm.scorexpress.core.util;
 
+import java.util.Collection;
+import java.util.Date;
+import java.util.Iterator;
+
 import fr.cm.scorexpress.core.model.*;
 import fr.cm.scorexpress.core.model.impl.Date2;
 import fr.cm.scorexpress.core.model.impl.ObjStep;
 import fr.cm.scorexpress.core.model.impl.StepUtils;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static fr.cm.scorexpress.core.model.Balise.*;
@@ -48,14 +49,6 @@ public class PenalityUtils {
     private PenalityUtils() {
     }
 
-    public static void calculArretChrono(final ObjResultat resultat) {
-        calculArretChronoSousEtapeIter(resultat);
-    }
-
-    public static void calculArretChronoSousEtape(final ObjResultat resultat) {
-        calculArretChronoSousEtapeIter(resultat);
-    }
-
     public static void calculArretChronoSousEtapeIter(final ObjResultat resultat) {
         if (resultat == null || resultat.getParent() == null) {
             return;
@@ -69,12 +62,13 @@ public class PenalityUtils {
             final ObjResultat resSousEtape = findResultatByDossard(dossard.getNum(), activeStep);
             if (resSousEtape != null) {
                 if (activeStep.isArretChrono()) {
-                    if (!step.isCumulerSousEtape()) {
-                        downTime(dureeArretChrono, resSousEtape.getTemps());
-                    } else {
+                    if (step.isCumulerSousEtape()) {
                         downTime(resultat.getTempsArretChronoResultat(), resSousEtape.getTemps());
+                    } else {
+                        downTime(dureeArretChrono, resSousEtape.getTemps());
                     }
                 }
+                upTime(resultat.getTempsArretChronoResultat(), resSousEtape.getTempsArretChronoResultat());
             }
         }
         for (final ObjPenalite penality : step.getPenalites()) {
@@ -90,10 +84,6 @@ public class PenalityUtils {
         }
     }
 
-    public static void calculPenalitesSousEtape(final ObjResultat resultat) {
-        calculPenaliteSousEtapeIter(resultat);
-    }
-
     public static void calculPenaliteSousEtapeIter(final ObjResultat resultat) {
         if (resultat == null || resultat.getParent() == null) {
             return;
@@ -106,21 +96,24 @@ public class PenalityUtils {
             final ObjResultat resultatEtape = findResultatByDossard(d.getNum(), step);
             if (resultatEtape != null) {
                 /*
-                     * Si un résultat intermédiaire existe, seul les pénalités
-                     * intermédiaire et le nombre de balises manquées est récupéré
-                     */
+                 * Si un résultat intermédiaire existe, seul les pénalités
+                 * intermédiaire et le nombre de balises manquées sont récupérés
+                 */
                 final Date penaliteIter = resultatEtape.getPenalite();
                 upTime(resultat.getPenalite(), penaliteIter);
                 if (etape.isCumulerSousEtape()) {
                     upTime(resultat.getPenaliteResultat(), resultatEtape.getPenaliteResultat());
                     upTime(resultat.getBonificationResultat(), resultatEtape.getBonificationResultat());
-                    upTime(resultat.getTempsArretChronoResultat(), resultatEtape.getTempsArretChronoResultat());
+//                    upTime(resultat.getTempsArretChronoResultat(), resultatEtape.getTempsArretChronoResultat());
+                    upTime(resultat.getTempsChronoMiniResultat(), resultatEtape.getTempsChronoMiniResultat());
                 } else {
                     upTime(resultat.getPenalite(), resultatEtape.getPenaliteResultat());
                     upTime(resultat.getBonification(), resultatEtape.getBonificationResultat());
-                    upTime(resultat.getTempsArretChrono(), resultatEtape.getTempsArretChronoResultat());
+//                    upTime(resultat.getTempsArretChrono(), resultatEtape.getTempsArretChronoResultat());
+                    upTime(resultat.getTempsChronoMini(), resultatEtape.getTempsChronoMiniResultat());
                 }
-                upTime(resultat.getTempsArretChrono(), resultatEtape.getTempsArretChrono());
+                upTime(resultat.getTempsChronoMini(), resultatEtape.getTempsChronoMini());
+//                upTime(resultat.getTempsArretChrono(), resultatEtape.getTempsArretChrono());
                 upTime(resultat.getBonification(), resultatEtape.getBonification());
                 upTime(resultat.getPenaliteBalise(), resultatEtape.getPenaliteBalise());
                 upTime(resultat.getPenaliteAutre(), resultatEtape.getPenaliteAutre());
@@ -253,12 +246,12 @@ public class PenalityUtils {
         for (final ObjPenalite penality : etape.getPenalites()) {
             if (penality.isActivate()) {
                 // Temps mini de l'épreuve
-                final Date tempsParcoursDiff = calculTempsMiniEpreuve(tempsParcours, penality);
+                final Date tempsParcoursDiff = calculTempsMiniEpreuve(tempsParcours, penality, false);
                 upTime(tempsParcours, tempsParcoursDiff);
                 // duree.add(tempsParcoursDiff);
                 upTime(penaliteAutre, tempsParcoursDiff);
                 // Course au score
-                Date dureePenalite = calculPenaliteCourseAuScrore(tempsParcours, penality);
+                Date dureePenalite = calculPenaliteCourseAuScore(tempsParcours, penality);
                 // duree.add(dureePenalite);
                 upTime(resultatPenality, dureePenalite);
                 upTime(penaliteAutre, dureePenalite);
@@ -370,7 +363,7 @@ public class PenalityUtils {
      * @param penality      d
      * @return Date Durée de la pénalité calculée
      */
-    public static Date calculPenaliteCourseAuScrore(final Date dureeParcours, final ObjPenalite penality) {
+    public static Date calculPenaliteCourseAuScore(final Date dureeParcours, final ObjPenalite penality) {
         if (penality.getTypePenalite() == TYPE_COURSE_AU_SCORE.getValeur()) {
             if (penality.getPenalite() != null && penality.getDureeMaxi() != null) {
                 if (dureeParcours.getTime() > penality.getDureeMaxi().getTime()) {
@@ -520,19 +513,21 @@ public class PenalityUtils {
      *
      * @param dureeParcours Date
      * @param penality
+     * @param force
      * @return Date
      */
-    public static Date calculTempsMiniEpreuve(final Date dureeParcours, final ObjPenalite penality) {
-        if (penality.getTypePenalite() == TYPE_DUREE_ETAPE_MINI.getValeur()) {
-            if (dureeParcours == null || penality.getDureeMaxi().isNull()) {
-                return null;
+    public static Date calculTempsMiniEpreuve(final Date dureeParcours, final ObjPenalite penality,
+                                              final boolean force) {
+        if (force || penality.getTypePenalite() == TYPE_DUREE_ETAPE_MINI.getValeur()) {
+            if (dureeParcours == null || penality.getDureeMini().isNull()) {
+                return createDate(true);
             }
             final long diff = penality.getDureeMini().getTime() - dureeParcours.getTime();
             if (diff > 0) {
-                return new Date(diff);
+                return createDate(diff);
             }
         }
-        return new Date(0);
+        return createDate(0);
     }
 
     /**
@@ -580,6 +575,11 @@ public class PenalityUtils {
                 appendDataList(resultat, "", "", VAR_RESULTAT_BALISESMANQUEES,
                                nbPenalite + " x " + createDate(penality.getPenalite()).showSign());
             }
+            final Date penaliteMiniEpreuve = calculTempsMiniEpreuve(resultat.getTempsParcours(), penality, true);
+//            upTime(resultat.getTempsParcours(), penaliteMiniEpreuve);
+//            upTime(resultat.getPenaliteAutre(), penaliteMiniEpreuve);
+            upTime(resultat.getTempsChronoMini(), penaliteMiniEpreuve);
+
         } else if (diffBalises < 0) {
             final int nbBonus = resultat.getNbBalises() - penality.getNbBalisesMini() - resultat.getNbBalisesBonus();
             for (int i = 0; i < nbBonus; i++) {

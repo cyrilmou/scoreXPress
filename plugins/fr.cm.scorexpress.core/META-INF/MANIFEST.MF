@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Score Express
 Bundle-SymbolicName: fr.cm.scorexpress.core;singleton:=true
-Bundle-Version: 2.1.254
+Bundle-Version: 2.1.255
 Bundle-Classpath: .,
  src/lib/comm.jar
 Bundle-Activator: fr.cm.scorexpress.ihm.application.ScoreXPressPlugin

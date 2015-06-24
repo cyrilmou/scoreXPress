@@ -168,6 +168,7 @@ public class PenaliteEditor extends EditorPart {
                             PenaliteEditor_DureePenaliteBalisesMini));
                     res.add(createPenalityElement(penalite, VAR_ECHELLEPENALITE,
                                                   PenaliteEditor_DureeBonusBalisesMini));
+                    res.add(createPenalityElement(penalite, VAR_DUREEMINI, PenaliteEditor_Duree_mini));
                 }
                 if (penalite.getTypePenalite() == TYPE_BALISE_ORDONNEE.valeur) {
                     res.add(createPenalityElement(penalite, VAR_PENALITE_TIME, PenaliteEditor_Duree_de_la_penalitee));

@@ -1,16 +1,13 @@
 package fr.cm.scorexpress.core.model.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.*;
+
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import fr.cm.scorexpress.core.model.*;
 import org.apache.commons.lang.StringUtils;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.Iterator;
 
 import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Lists.newArrayList;
@@ -98,6 +95,7 @@ public class StepUtils {
             final boolean forceUpdate = forceCalcul || forceUpdate(step);
             /* Actualisation des étapes composant celle-ci */
             final Iterable<ObjStep> etapesActive = newArrayList(getActiveSubStep(step));
+            final boolean noActiveEtape = Iterables.isEmpty(etapesActive);
             final boolean calculSubStepChanged =
                     updateStepsResultat(etapesActive, forceCalcul, toUpdateResultat(forceCalcul));
 
@@ -135,41 +133,40 @@ public class StepUtils {
                     * resultat.setNotArrived(true);
                     */
                     /* S'il n'y a pas de sous-étape le concurrent est disqualifié */
-                    if (Iterables.isEmpty(etapesActive)) {
+                    if (noActiveEtape) {
                         resultat.setDeclasse(true);
                     }
-                    /* Cumul le temps de chaque sous-étapes */
+                    /* Cumule le temps de chaque sous-étapes */
                     for (final ObjStep subStep : etapesActive) {
                         if( subStep.getUserChronos().isEmpty())
                             continue;
 
                         /* Résultat de chaque concurrent */
-                        final ObjResultat res = findResultatByDossard(dossard.getNum(), subStep);
+                        final ObjResultat resIter = findResultatByDossard(dossard.getNum(), subStep);
                         /* Ajout des résultats intermédiaires */
                         if (subStep.isClassementInter()) {
-                            resultat.addResultatInter(res);
+                            resultat.addResultatInter(resIter);
                         }
                         // Ne pas cumuler les etapes de la mauvaise catégorie
                         if (isGoodCategorie(subStep, dossard.getCategory())) {
                             // Lorsque que la personne n'est pas arrivée de la
                             // sous-étape celle-ci est disqualifié automatiquement
-                            if (res == null || res.isNotArrived()) {
+                            if (resIter == null || resIter.isNotArrived()) {
                                 final boolean resultatsEmpty = subStep.getResultats().isEmpty();
                                 if (!resultatsEmpty) {
                                     resultat.setDeclasse(true);
                                     resultat.setNotArrived(true);
                                 }
                             } else {
-                                if (subStep.isArretChrono()) {
-                                } else {
-                                    upTime(resultat.getTemps(), res.getTemps());
-                                    upTime(resultat.getTempsParcours(), res.getTempsParcours());
+                                if (!subStep.isArretChrono()) {
+                                    upTime(resultat.getTemps(), resIter.getTemps());
+                                    upTime(resultat.getTempsParcours(), resIter.getTempsParcours());
                                 }
                             }
                         }
                     }
-                    calculArretChronoSousEtape(resultat);
-                    calculPenalitesSousEtape(resultat);
+                    calculArretChronoSousEtapeIter(resultat);
+                    calculPenaliteSousEtapeIter(resultat);
                     calculStatusSousEtape(resultat);
                 } else {
 
@@ -177,19 +174,18 @@ public class StepUtils {
                     if (error) {
                         /* Détermination des balises manquées */
                         calculPenaliteBalisesManquees(resultat, userChronos, true);
-                        calculPenalitesSousEtape(resultat);
-                        calculArretChrono(resultat);
-                        calculStatusSousEtape(resultat);
                     } else {
-                        /* Ajout des pénalités des sous-étapes */
-                        calculPenalitesSousEtape(resultat);
                         /* Ajout des pénalités de l'étape */
                         calculPenalitesEtape(resultat, userChronos);
-                        /* Retranchement des arrêts chronos des sous étapes */
-                        calculArretChronoSousEtape(resultat);
-                        /* Détermine le status classé ou abandon de l'étape */
-                        calculStatusSousEtape(resultat);
                     }
+
+                    /* Ajout des pénalités des sous-étapes */
+                    calculPenaliteSousEtapeIter(resultat);
+                    /* Retranchement des arrêts chronos des sous étapes */
+                    calculArretChronoSousEtapeIter(resultat);
+                    /* Détermine le status classé ou abandon de l'étape */
+                    calculStatusSousEtape(resultat);
+
                     for (final ObjStep subStep : etapesActive) {
                         /* Ajout des résultats intermédiaires */
                         if (subStep.isClassementInter()) {
@@ -201,6 +197,8 @@ public class StepUtils {
                 calculPenalityBonif(resultat);
                 calculStatusResultat(resultat);
                 calculTemps(resultat);
+
+                /* Remplace les résultats par ceux saisies */
                 if (step.isEpreuve() || step.isPenalitySaisie()) {
                     if (!dossard.getTemps().isNull() && !dossard.getTemps().equals(createDate(0))) {
                         resultat = new ObjResultat();
