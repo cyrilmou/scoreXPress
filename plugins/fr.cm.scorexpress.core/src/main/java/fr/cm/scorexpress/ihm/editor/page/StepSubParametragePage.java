@@ -414,7 +414,7 @@ public class StepSubParametragePage implements IDetailsPage, ModifyListener {
         final boolean hasSubSteps = !etape.getSteps().isEmpty() && epreuve.getSelection();
         cumulSousEtape.setEnabled(hasSubSteps || etape.isCumulerSousEtape());
         classementInter
-                .setEnabled(etape.getEpreuve() != null && etape.getEpreuve() != etape || etape.isClassementInter());
+                .setEnabled(etape.getParent() != null && etape.getParent() != etape || etape.isClassementInter());
 
         buttonImportGeneral.setEnabled(importAvailable);
 
