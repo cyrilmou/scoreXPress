@@ -221,6 +221,7 @@ public class ObjConfig extends IData {
         final ColTable cTemps = createObjColTable(VAR_RESULTAT_TEMPS, i18n("ObjConfig.TEMPS"), 90);
         final ColTable cTempsEpreuve = createObjColTable(VAR_TEMPS_CHRONO, i18n("ObjConfig.TEMPS_EPREUVE"), 90);
         final ColTable cPenality = createObjColTable(VAR_RESULTAT_PENALITE, i18n("ObjConfig.PENALITES"), 90);
+        final ColTable cBonus = createObjColTable(VAR_RESULTAT_BALISESBONUS, i18n("ObjConfig.BONIFICATION"), 90);
         final ColTable cEcart = createObjColTable(VAR_RESULTAT_ECART, i18n("ObjConfig.ECART"), 90);
         final ColTable cCategory = createObjColTable(VAR_DOSSARD_CATEGORIE, i18n("ObjConfig.CATEGORIE"), 100);
         config.addColTable(cPlace);
@@ -229,6 +230,7 @@ public class ObjConfig extends IData {
         config.addColTable(cTemps);
         config.addColTable(cTempsEpreuve);
         config.addColTable(cPenality);
+        config.addColTable(cBonus);
         config.addColTable(cEcart);
         config.addColTable(cCategory);
         return config;
