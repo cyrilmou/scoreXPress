@@ -119,6 +119,7 @@ public class PenalityUtils {
                 upTime(resultat.getPenaliteAutre(), resultatEtape.getPenaliteAutre());
                 resultat.addNbPenalite(resultatEtape.getNbPenalite());
                 resultat.addNbBalises(resultatEtape.getNbBalises());
+                appendStepDataList(resultat, step, resultatEtape, VAR_RESULTAT_BALISE_DISORDERED);
                 appendStepDataList(resultat, step, resultatEtape, VAR_RESULTAT_BALISESMANQUEES);
                 appendStepDataList(resultat, step, resultatEtape, VAR_RESULTAT_BALISES_OK);
                 appendStepDataList(resultat, step, resultatEtape, VAR_RESULTAT_BALISESBONUS);
@@ -167,6 +168,7 @@ public class PenalityUtils {
                     upTime(penaliteBalise, balise.getPenalite());
                     final String sup;
                     if (chrono != null && chrono.isCancel()) {
+                        appendDataList(resultat, "", "", VAR_RESULTAT_BALISE_DISORDERED, balise.getNum());
                         sup = "*";
                     } else {
                         sup = EMPTY;

@@ -22,7 +22,6 @@ import fr.cm.scorexpress.core.model.AbstractGetInfo;
 import fr.cm.scorexpress.core.model.ColTable;
 import fr.cm.scorexpress.core.model.ObjResultat;
 import fr.cm.scorexpress.core.model.impl.Date2;
-import fr.cm.scorexpress.core.model.impl.DateUtils;
 import fr.cm.scorexpress.core.model.impl.ObjStep;
 import fr.cm.scorexpress.ihm.application.ImageReg;
 import fr.cm.scorexpress.ihm.application.ScoreXPressPlugin;
@@ -66,7 +65,7 @@ import static org.eclipse.jface.viewers.StyledCellLabelProvider.COLORS_ON_SELECT
 import static org.eclipse.swt.layout.GridData.*;
 
 public class ResultatEtapeEditor extends EditorPart implements IPrintable,
-		IAutoAjustColumnEditor {
+        IAutoAjustColumnEditor {
     public static final String             RESULTAT_ETAPE_EDITOR_ID = "fr.cm.scorexpress.editor.ResultatEtapeEditor";
     private             Image              toggleImage              = null;
     private             Image              refreshImage             = null;
@@ -117,393 +116,396 @@ public class ResultatEtapeEditor extends EditorPart implements IPrintable,
 
     private void createTitle(final CommonCompositeBuilder<Composite, CompositeBuilder> builder) {
         builder.addLabel(model.getTitleLabelModel(), SWT.NONE)
-               .withFont(new Font(Display.getDefault(), "Tahoma", 14, SWT.NORMAL)).withLayoutData(new GridData(VERTICAL_ALIGN_CENTER | GRAB_HORIZONTAL | HORIZONTAL_ALIGN_CENTER));
+                .withFont(new Font(Display.getDefault(), "Tahoma", 14, SWT.NORMAL)).withLayoutData(new GridData(VERTICAL_ALIGN_CENTER | GRAB_HORIZONTAL | HORIZONTAL_ALIGN_CENTER));
     }
 
     private void createMenuBar(final AbstractCompositeBuilder<CompositeBuilder> parent) {
-		final CompositeBuilder builder = parent
-				.addComposite(SWT.NONE)
-				.withLayout(new GridLayout(8, false))
-				.withLayoutData(new GridData(GRAB_HORIZONTAL | FILL_HORIZONTAL));
-		final GridData gridDataCategorieCombo = new GridData();
-		gridDataCategorieCombo.widthHint = 200;
-		gridDataCategorieCombo.minimumWidth = 200;
-		builder.addButton(model.getCategoryButtonModel(), SWT.CHECK).withImage(
-				toggleImage);
-		builder.addStaticLabel(SWT.NONE).withText(ResultatEtapeEditor_Tri);
-		builder.addCombo(model.getCategoriesComboboxModel(), SWT.BORDER)
-				.withLayoutData(gridDataCategorieCombo);
-		builder.addLabel(model.getInfoLabel(), SWT.BOLD).withLayoutData(
-				new GridData(GRAB_HORIZONTAL | GridData.FILL_HORIZONTAL));
-		builder.addButton(model.getConfigEtapeButtonModel(), SWT.NONE)
-				.withImage(configEtapeImage)
-				.withToolTip(
+        final CompositeBuilder builder = parent
+                .addComposite(SWT.NONE)
+                .withLayout(new GridLayout(8, false))
+                .withLayoutData(new GridData(GRAB_HORIZONTAL | FILL_HORIZONTAL));
+        final GridData gridDataCategorieCombo = new GridData();
+        gridDataCategorieCombo.widthHint = 200;
+        gridDataCategorieCombo.minimumWidth = 200;
+        builder.addButton(model.getCategoryButtonModel(), SWT.CHECK).withImage(
+                toggleImage);
+        builder.addStaticLabel(SWT.NONE).withText(ResultatEtapeEditor_Tri);
+        builder.addCombo(model.getCategoriesComboboxModel(), SWT.BORDER)
+                .withLayoutData(gridDataCategorieCombo);
+        builder.addLabel(model.getInfoLabel(), SWT.BOLD).withLayoutData(
+                new GridData(GRAB_HORIZONTAL | GridData.FILL_HORIZONTAL));
+        builder.addButton(model.getConfigEtapeButtonModel(), SWT.NONE)
+                .withImage(configEtapeImage)
+                .withToolTip(
                         ResultatEtapeEditor_Afficher_la_configuration_de_l_etape)
-				.withLayoutData(new GridData(HORIZONTAL_ALIGN_END));
-		builder.addButton(model.getConfigPenalityButtonModel(), SWT.NONE)
-				.withImage(configPenaliteImage)
-				.withToolTip(
+                .withLayoutData(new GridData(HORIZONTAL_ALIGN_END));
+        builder.addButton(model.getConfigPenalityButtonModel(), SWT.NONE)
+                .withImage(configPenaliteImage)
+                .withToolTip(
                         ResultatEtapeEditor_Afficher_la_configuration_des_penalitees);
-		builder.addButton(model.getChronosButtonModel(), SWT.NONE)
-				.withImage(configChronosImage)
-				.withToolTip(ResultatEtapeEditor_Afficher_les_chronos);
-		builder.addButton(model.getRefreshButtonModel(), SWT.NONE)
-				.withImage(refreshImage)
-				.withToolTip(ResultatEtapeEditor_Actualiser_les_calculs);
-	}
+        builder.addButton(model.getChronosButtonModel(), SWT.NONE)
+                .withImage(configChronosImage)
+                .withToolTip(ResultatEtapeEditor_Afficher_les_chronos);
+        builder.addButton(model.getRefreshButtonModel(), SWT.NONE)
+                .withImage(refreshImage)
+                .withToolTip(ResultatEtapeEditor_Actualiser_les_calculs);
+    }
 
-	private Table createTable(final CommonCompositeBuilder<Composite, CompositeBuilder> builder) {
-		final TableModel<ObjResultat> tableModel = model
-				.getTableResultatModel();
-		final TableBuilder<ObjResultat> tableBuilder = builder
-				.addTable(tableModel,
+    private Table createTable(final CommonCompositeBuilder<Composite, CompositeBuilder> builder) {
+        final TableModel<ObjResultat> tableModel = model
+                .getTableResultatModel();
+        final TableBuilder<ObjResultat> tableBuilder = builder
+                .addTable(tableModel,
                         SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | COLORS_ON_SELECTION)
-				.withLine(true).selectionProvider(getSite());
-		tableBuilder.withLayoutData(new GridData(FILL_BOTH | GRAB_HORIZONTAL
-				| GRAB_VERTICAL));
-		for (final ColTable colTable : model.getColumnConfig()) {
-			tableBuilder
-					.addColumn(colTable.getChamp(), colTable.getLib(),
+                .withLine(true).selectionProvider(getSite());
+        tableBuilder.withLayoutData(new GridData(FILL_BOTH | GRAB_HORIZONTAL
+                | GRAB_VERTICAL));
+        for (final ColTable colTable : model.getColumnConfig()) {
+            tableBuilder
+                    .addColumn(colTable.getChamp(), colTable.getLib(),
                             colTable.getAlign())
-					.withWidth(colTable.getWidth())
-					.movable(true)
-					.withToolTipText(colTable.getLib())
-					.withRenderer(
+                    .withWidth(colTable.getWidth())
+                    .movable(true)
+                    .withToolTipText(colTable.getLib())
+                    .withRenderer(
                             new ResultatEtapeColumnRenderer(colTable, model));
-		}
-		tableBuilder.withLayoutData(
-				new GridData(FILL_BOTH | GRAB_HORIZONTAL | GRAB_VERTICAL))
-				.withHeader(true);
+        }
+        tableBuilder.withLayoutData(
+                new GridData(FILL_BOTH | GRAB_HORIZONTAL | GRAB_VERTICAL))
+                .withHeader(true);
 
-		return tableBuilder.getTable();
-	}
+        return tableBuilder.getTable();
+    }
 
-	private void createFootBar(final AbstractCompositeBuilder<CompositeBuilder> builder) {
-		final CompositeBuilder footBar = builder
-				.addComposite(SWT.NONE)
-				.withLayoutData(
+    private void createFootBar(final AbstractCompositeBuilder<CompositeBuilder> builder) {
+        final CompositeBuilder footBar = builder
+                .addComposite(SWT.NONE)
+                .withLayoutData(
                         new GridData(FILL_HORIZONTAL | HORIZONTAL_ALIGN_FILL))
-				.withLayout(new GridLayout(3, false));
-		footBar.addStaticLabel(SWT.NONE).withText(ResultatEtapeEditor_Info);
-		final GridData layoutData = new GridData(300, 20);
-		layoutData.horizontalSpan = 2;
-		footBar.addText(model.getPrintInfoTextModel(), SWT.BORDER)
-				.withLayoutData(layoutData);
+                .withLayout(new GridLayout(3, false));
+        footBar.addStaticLabel(SWT.NONE).withText(ResultatEtapeEditor_Info);
+        final GridData layoutData = new GridData(300, 20);
+        layoutData.horizontalSpan = 2;
+        footBar.addText(model.getPrintInfoTextModel(), SWT.BORDER)
+                .withLayoutData(layoutData);
 
-		footBar.addStaticLabel(SWT.NONE).withText(i18n("Result.search"));
-		footBar.addText(model.getSearchTextModel(), SWT.BORDER | SWT.SINGLE)
-				.withLayoutData(new GridData(300, 20));
-		footBar.addCheckbox(model.getFilterBySearchModel(), SWT.NONE)
-				.withLayoutData(new GridData(100, 20));
-	}
+        footBar.addStaticLabel(SWT.NONE).withText(i18n("Result.search"));
+        footBar.addText(model.getSearchTextModel(), SWT.BORDER | SWT.SINGLE)
+                .withLayoutData(new GridData(300, 20));
+        footBar.addCheckbox(model.getFilterBySearchModel(), SWT.NONE)
+                .withLayoutData(new GridData(100, 20));
+    }
 
-	public ResultatEtapeModel getModel() {
-		return model;
-	}
+    public ResultatEtapeModel getModel() {
+        return model;
+    }
 
-	@Override
-	public void dispose() {
+    @Override
+    public void dispose() {
         compositeBuilder.dispose();
-		model.dispose();
-		super.dispose();
-	}
+        model.dispose();
+        super.dispose();
+    }
 
-	@Override
-	public void doSave(final IProgressMonitor monitor) {
-		model.getStep().setInfo(ObjStep.VAR_TITLE_PRINT,
-				model.getPrintInfoTextModel().getText());
-		setDirty(false);
-	}
+    @Override
+    public void doSave(final IProgressMonitor monitor) {
+        model.getStep().setInfo(ObjStep.VAR_TITLE_PRINT,
+                model.getPrintInfoTextModel().getText());
+        setDirty(false);
+    }
 
-	@Override
-	public boolean isDirty() {
-		return model.isDirty();
-	}
+    @Override
+    public boolean isDirty() {
+        return model.isDirty();
+    }
 
-	public void setDirty(final boolean dirtyState) {
-		model.setDirty(dirtyState);
-		firePropertyChange(PROP_DIRTY);
-	}
+    public void setDirty(final boolean dirtyState) {
+        model.setDirty(dirtyState);
+        firePropertyChange(PROP_DIRTY);
+    }
 
-	@Override
-	public boolean isSaveAsAllowed() {
-		return true;
-	}
+    @Override
+    public boolean isSaveAsAllowed() {
+        return true;
+    }
 
-	@Override
-	public void doSaveAs() {
-	}
+    @Override
+    public void doSaveAs() {
+    }
 
-	@Override
-	public void setFocus() {
-	}
+    @Override
+    public void setFocus() {
+    }
 
-	@Override
-	public void print() {
-		try {
-			final AbstractList<String> titles = new ArrayList<String>();
-			final ObjStep etape = model.getStep();
-			final String title = etape.getManif().getNom();
-			String title2 = ResultatEtapeEditor_Classement + ' '
-					+ etape.getLib();
-			if (model.getCategoriesComboboxModel().getText() != null) {
-				title2 += " - " + model.getCategoriesComboboxModel().getText();
-			}
-			titles.add(title);
-			titles.add(title2);
-			if (!model.getPrintInfoTextModel().getText().equals(EMPTY)) {
-				titles.add(model.getPrintInfoTextModel().getText());
-			}
-			final String[] titlesStr = new String[titles.size()];
-			int i = 0;
-			for (Iterator<String> iter = titles.iterator(); iter.hasNext(); i++) {
-				titlesStr[i] = iter.next();
-			}
-			final String type;
-			switch (model.getMode()) {
-			case 1:
-				type = " (Details)";
-				break;
-			case 2:
-				type = " (Inter)";
-				break;
-			default:
-				type = "";
-			}
-			for (int col = 0; col < table.getColumns().length; col++) {
-				int size = 0;
-				for (final TableItem item : table.getItems()) {
-					final int textLenght = item.getText(col).length();
-					size = textLenght > size ? textLenght : size;
-				}
-				if (size == 0) {
-					table.getColumn(col).setWidth(0);
-				}
-			}
+    @Override
+    public void print() {
+        try {
+            final AbstractList<String> titles = new ArrayList<String>();
+            final ObjStep etape = model.getStep();
+            final String title = etape.getManif().getNom();
+            String title2 = ResultatEtapeEditor_Classement + ' '
+                    + etape.getLib();
+            if (model.getCategoriesComboboxModel().getText() != null) {
+                title2 += " - " + model.getCategoriesComboboxModel().getText();
+            }
+            titles.add(title);
+            titles.add(title2);
+            if (!model.getPrintInfoTextModel().getText().equals(EMPTY)) {
+                titles.add(model.getPrintInfoTextModel().getText());
+            }
+            final String[] titlesStr = new String[titles.size()];
+            int i = 0;
+            for (Iterator<String> iter = titles.iterator(); iter.hasNext(); i++) {
+                titlesStr[i] = iter.next();
+            }
+            final String type;
+            switch (model.getMode()) {
+                case 1:
+                    type = " (Details)";
+                    break;
+                case 2:
+                    type = " (Inter)";
+                    break;
+                default:
+                    type = "";
+            }
+            for (int col = 0; col < table.getColumns().length; col++) {
+                int size = 0;
+                for (final TableItem item : table.getItems()) {
+                    final int textLenght = item.getText(col).length();
+                    size = textLenght > size ? textLenght : size;
+                }
+                if (size == 0) {
+                    table.getColumn(col).setWidth(0);
+                }
+            }
 
-			final DateFormat sdf = new SimpleDateFormat("yyMMdd");
-			openPrintPreview(table, titlesStr,
-					ResultatEtapeEditor_RESULTATS_PRINT_TEXT + etape.getLib()
-							+ type + ' ' + sdf.format(new Date()));
-		} catch (Exception ignore) {
-			ignore.printStackTrace();
-		}
-	}
+            final DateFormat sdf = new SimpleDateFormat("yyMMdd");
+            openPrintPreview(table, titlesStr,
+                    ResultatEtapeEditor_RESULTATS_PRINT_TEXT + etape.getLib()
+                            + type + ' ' + sdf.format(new Date()));
+        } catch (Exception ignore) {
+            ignore.printStackTrace();
+        }
+    }
 
-	@Override
-	public AutoResizeColumn getAutoResizeContext() {
-		return model.getAutoResizeContext();
-	}
+    @Override
+    public AutoResizeColumn getAutoResizeContext() {
+        return model.getAutoResizeContext();
+    }
 
-	public static class LaunchEditorAction extends ButtonAdapter {
-		private final String id;
-		private final IEditorInput input;
-		private final ResultatEtapeEditor editor;
+    public static class LaunchEditorAction extends ButtonAdapter {
+        private final String              id;
+        private final IEditorInput        input;
+        private final ResultatEtapeEditor editor;
 
-		LaunchEditorAction(
-				final ResultatEtapeEditor editor,
-				final IEditorInput input,
-				final String id) {
-			this.editor = editor;
-			this.id = id;
-			this.input = input;
-		}
+        LaunchEditorAction(
+                final ResultatEtapeEditor editor,
+                final IEditorInput input,
+                final String id) {
+            this.editor = editor;
+            this.id = id;
+            this.input = input;
+        }
 
-		static LaunchEditorAction createStepEditorAction(final ResultatEtapeEditor editor,
-				final StepModel stepModel,
-				final ResultatEtapeModel model) {
-			return new LaunchEditorAction(editor, new StepEditorInput(
-					new StepEditorModel(stepModel)), STEP_EDITOR_ID);
-		}
+        static LaunchEditorAction createStepEditorAction(final ResultatEtapeEditor editor,
+                                                         final StepModel stepModel,
+                                                         final ResultatEtapeModel model) {
+            return new LaunchEditorAction(editor, new StepEditorInput(
+                    new StepEditorModel(stepModel)), STEP_EDITOR_ID);
+        }
 
-		static LaunchEditorAction createChronosEditorAction(final ResultatEtapeEditor editor,
-				final ResultatEtapeModel model) {
-			return new LaunchEditorAction(editor, new EtapeEditorInput(
-					model.getStep(), CHRONOS_EDITOR_ID,
-					model.getAutoResizeContext()), CHRONOS_EDITOR_ID);
-		}
+        static LaunchEditorAction createChronosEditorAction(final ResultatEtapeEditor editor,
+                                                            final ResultatEtapeModel model) {
+            return new LaunchEditorAction(editor, new EtapeEditorInput(
+                    model.getStep(), CHRONOS_EDITOR_ID,
+                    model.getAutoResizeContext()), CHRONOS_EDITOR_ID);
+        }
 
-		static LaunchEditorAction createPenalityEditorAction(final ResultatEtapeEditor editor,
-				final ResultatEtapeModel model) {
-			return new LaunchEditorAction(editor, new EtapeEditorInput(
-					model.getStep(), CHRONOS_EDITOR_ID,
-					model.getAutoResizeContext()), PENALITY_EDITOR_ID);
-		}
+        static LaunchEditorAction createPenalityEditorAction(final ResultatEtapeEditor editor,
+                                                             final ResultatEtapeModel model) {
+            return new LaunchEditorAction(editor, new EtapeEditorInput(
+                    model.getStep(), CHRONOS_EDITOR_ID,
+                    model.getAutoResizeContext()), PENALITY_EDITOR_ID);
+        }
 
-		@Override
-		public void click() {
-			WorkbenchUtils.openEditor(editor, input, id);
-		}
-	}
+        @Override
+        public void click() {
+            WorkbenchUtils.openEditor(editor, input, id);
+        }
+    }
 
-	private static class ResultatEtapeColumnRenderer extends
-			TableColumnRenderer<ObjResultat> {
-		private final ColTable colTable;
-		private final ResultatEtapeModel model;
+    private static class ResultatEtapeColumnRenderer extends
+            TableColumnRenderer<ObjResultat> {
+        private final ColTable           colTable;
+        private final ResultatEtapeModel model;
 
-		ResultatEtapeColumnRenderer(
-				final ColTable colTable,
-				final ResultatEtapeModel model) {
-			this.colTable = colTable;
-			this.model = model;
-		}
+        ResultatEtapeColumnRenderer(
+                final ColTable colTable,
+                final ResultatEtapeModel model) {
+            this.colTable = colTable;
+            this.model = model;
+        }
 
-		private static void addInfo(final String label,
-				final String attribute,
-				final AbstractGetInfo resultat,
-				final StringBuilder builder) {
-			final String element = resultat.getInfoStr(attribute);
-			if (!element.isEmpty()) {
-				if (element.length() > 80) {
-					builder.append("\n  ").append(label).append("\n    ");
-					int length = 0;
-					for (final String split : element.split("]")) {
-						length += split.length();
-						if (length < 80) {
-							builder.append(split).append(']');
-						} else {
-							length = split.length();
-							builder.append("\n    ").append(split).append(']');
-						}
-					}
-				} else {
-					builder.append("\n  ").append(label).append(" ").append(element);
-				}
-			}
-		}
+        private static void addInfo(final String label,
+                                    final String attribute,
+                                    final AbstractGetInfo resultat,
+                                    final StringBuilder builder) {
+            final String element = resultat.getInfoStr(attribute);
+            if (!element.isEmpty()) {
+                if (element.length() > 80) {
+                    builder.append("\n  ").append(label).append("\n    ");
+                    int length = 0;
+                    for (final String split : element.split("]")) {
+                        length += split.length();
+                        if (length < 80) {
+                            builder.append(split).append(']');
+                        } else {
+                            length = split.length();
+                            builder.append("\n    ").append(split).append(']');
+                        }
+                    }
+                } else {
+                    builder.append("\n  ").append(label).append(" ").append(element);
+                }
+            }
+        }
 
-		private static void addInfoDate(final String label,
-				final String info,
-				final AbstractGetInfo resultat,
-				final StringBuilder builder) {
-			final Date2 date = (Date2) resultat.getInfo(info);
-			if (date != null && !date.isNull()) {
-				builder.append("\n  ").append(label).append(" ").append(date);
-			}
-		}
+        private static void addInfoDate(final String label,
+                                        final String info,
+                                        final AbstractGetInfo resultat,
+                                        final StringBuilder builder) {
+            final Date2 date = (Date2) resultat.getInfo(info);
+            if (date != null && !date.isNull()) {
+                builder.append("\n  ").append(label).append(" ").append(date);
+            }
+        }
 
-		@Override
-		public String getToolTipText(final Object element) {
-			final ObjResultat resultat = (ObjResultat) element;
+        @Override
+        public String getToolTipText(final Object element) {
+            final ObjResultat resultat = (ObjResultat) element;
 
-			final StringBuilder builder = new StringBuilder();
+            final StringBuilder builder = new StringBuilder();
 
-			builder.append(resultat.getDossard().getNum()).append(". ")
-					.append(resultat.getDossard().getInfoStr("S.FIRSTNAME"));
+            builder.append(resultat.getDossard().getNum()).append(". ")
+                    .append(resultat.getDossard().getInfoStr("S.FIRSTNAME"));
 
-			addInfo(i18n("Result.tooltip.finalTime"),
+            addInfo(i18n("Result.tooltip.finalTime"),
                     ObjResultat.VAR_RESULTAT_TEMPS, resultat, builder);
-			builder.append("\n-----");
-			addInfoDate(i18n("Result.tooltip.chronoTime"),
-					ObjResultat.VAR_TEMPS_CHRONO, resultat, builder);
+            builder.append("\n-----");
+            addInfoDate(i18n("Result.tooltip.chronoTime"),
+                    ObjResultat.VAR_TEMPS_CHRONO, resultat, builder);
             if (!resultat.getTempsArretChronoResultat().isNull()) {
                 builder.append(" = ").append(resultat.getInfo(ObjResultat.VAR_TEMPSPARCOURS)).append(" ")
                         .append(resultat.getTempsArretChronoResultat());
             }
-			addInfoDate(i18n("Result.tooltip.chronoMini"),
-					ObjResultat.VAR_TEMPS_CHRONO_MINI, resultat, builder);
-			addInfoDate(i18n("Result.tooltip.bonusTime"),
-					ObjResultat.VAR_BONIFICATION, resultat, builder);
-			addInfoDate(i18n("Result.tooltip.otherPenalityTime"),
-					ObjResultat.VAR_PENALITE_AUTRE, resultat, builder);
-			addInfoDate(i18n("Result.tooltip.penalityTime"),
-					ObjResultat.VAR_PENALITE_BALISE, resultat, builder);
-			builder.append("\n-----");
-			addInfo(i18n("Result.tooltip.nbBalise"), ObjResultat.VAR_NB_BALISE,
-					resultat, builder);
+            addInfoDate(i18n("Result.tooltip.chronoMini"),
+                    ObjResultat.VAR_TEMPS_CHRONO_MINI, resultat, builder);
+            addInfoDate(i18n("Result.tooltip.bonusTime"),
+                    ObjResultat.VAR_BONIFICATION, resultat, builder);
+            addInfoDate(i18n("Result.tooltip.otherPenalityTime"),
+                    ObjResultat.VAR_PENALITE_AUTRE, resultat, builder);
+            addInfoDate(i18n("Result.tooltip.penalityTime"),
+                    ObjResultat.VAR_PENALITE_BALISE, resultat, builder);
+            builder.append("\n-----");
+            addInfo(i18n("Result.tooltip.nbBalise"), ObjResultat.VAR_NB_BALISE,
+                    resultat, builder);
             addInfo(i18n("Result.tooltip.nbPenaliteBalise"), ObjResultat.VAR_NB_PENALITE,
                     resultat, builder);
             addInfo(i18n("Result.tooltip.nbBaliseBonus"), ObjResultat.VAR_NB_BALISE_BONUS,
                     resultat, builder);
-			addInfo(i18n("Result.tooltip.missingBalise"),
-					ObjResultat.VAR_RESULTAT_BALISESMANQUEES, resultat, builder);
-			addInfo(i18n("Result.tooltip.baliseList"),
-					ObjResultat.VAR_RESULTAT_BALISES_OK, resultat, builder);
-			addInfo(i18n("Result.tooltip.baliseBonus"),
-					ObjResultat.VAR_RESULTAT_BALISESBONUS, resultat, builder);
+            addInfo(i18n("Result.tooltip.missingBalise"),
+                    ObjResultat.VAR_RESULTAT_BALISESMANQUEES, resultat, builder);
+            addInfo(i18n("Result.tooltip.baliseList"),
+                    ObjResultat.VAR_RESULTAT_BALISES_OK, resultat, builder);
+            addInfo(i18n("Result.tooltip.baliseBonus"),
+                    ObjResultat.VAR_RESULTAT_BALISESBONUS, resultat, builder);
+            addInfo(i18n("Result.tooltip.baliseDisordered"),
+                    ObjResultat.VAR_RESULTAT_BALISE_DISORDERED, resultat, builder);
 
-			return builder.toString();
-		}
 
-		@Override
-		public Color getToolTipBackgroundColor(final Object object) {
-			return new Color(Display.getCurrent(), 138, 191, 206);
-		}
+            return builder.toString();
+        }
 
-		@Override
-		public Font getToolTipFont(final Object object) {
-			return new Font(Display.getCurrent(), new FontData("Courier", 10,
-					SWT.BOLD));
-		}
+        @Override
+        public Color getToolTipBackgroundColor(final Object object) {
+            return new Color(Display.getCurrent(), 138, 191, 206);
+        }
 
-		@Override
-		public int getToolTipDisplayDelayTime(final Object object) {
-			return 50;
-		}
+        @Override
+        public Font getToolTipFont(final Object object) {
+            return new Font(Display.getCurrent(), new FontData("Courier", 10,
+                    SWT.BOLD));
+        }
 
-		@Override
-		public Color getBackground(final Object element) {
-			final ObjResultat resultat = (ObjResultat) element;
-			if (resultat.isError() && model.isSignalError()) {
-				resultat.showErrors();
-				return new Color(Display.getCurrent(), 255, 0, 0);
-			}
-			if (colTable.isTmp()) {
-				return new Color(Display.getCurrent(), 255, 255, 160);
-			} else {
-				return getBackgroundColorFromSelection(resultat);
-			}
-		}
+        @Override
+        public int getToolTipDisplayDelayTime(final Object object) {
+            return 50;
+        }
 
-		private Color getBackgroundColorFromSelection(final ObjResultat resultat) {
-			final int index = model.matchSelection(resultat);
-			if (index != -1) {
-				final int red = 75 * index % 255;
-				final int blue = (91 * index + (index != 0 ? 100 : 0)) % 255;
-				final int green = 255 - (133 * index + (index != 0 ? 30 : 255)) % 255;
-				return new Color(Display.getCurrent(), red, green, blue);
-			} else {
-				return null;
-			}
-		}
+        @Override
+        public Color getBackground(final Object element) {
+            final ObjResultat resultat = (ObjResultat) element;
+            if (resultat.isError() && model.isSignalError()) {
+                resultat.showErrors();
+                return new Color(Display.getCurrent(), 255, 0, 0);
+            }
+            if (colTable.isTmp()) {
+                return new Color(Display.getCurrent(), 255, 255, 160);
+            } else {
+                return getBackgroundColorFromSelection(resultat);
+            }
+        }
 
-		@Override
-		public Color getForeground(final Object element) {
-			final ObjResultat resultat = (ObjResultat) element;
-			if (resultat.isError() && model.isSignalError()) {
-				return new Color(Display.getCurrent(), 255, 255, 255);
-			} else {
-				return null;
-			}
-		}
+        private Color getBackgroundColorFromSelection(final ObjResultat resultat) {
+            final int index = model.matchSelection(resultat);
+            if (index != -1) {
+                final int red = 75 * index % 255;
+                final int blue = (91 * index + (index != 0 ? 100 : 0)) % 255;
+                final int green = 255 - (133 * index + (index != 0 ? 30 : 255)) % 255;
+                return new Color(Display.getCurrent(), red, green, blue);
+            } else {
+                return null;
+            }
+        }
 
-		@Override
-		public String getColumnText(final ObjResultat element) {
-			return element.getInfoStr(colTable.getChamp());
-		}
+        @Override
+        public Color getForeground(final Object element) {
+            final ObjResultat resultat = (ObjResultat) element;
+            if (resultat.isError() && model.isSignalError()) {
+                return new Color(Display.getCurrent(), 255, 255, 255);
+            } else {
+                return null;
+            }
+        }
 
-		@Override
-		public int compare(final ObjResultat elem1,
-				final ObjResultat elem2) {
-			if (elem1.isAbandon() != elem2.isAbandon()) {
-				if (elem1.isAbandon()) {
-					return +1;
-				}
-				return -1;
-			}
-			if (elem1.isDeclasse() != elem2.isDeclasse()) {
-				if (elem1.isDeclasse()) {
-					return +1;
-				}
-				return -1;
-			}
-			if (elem1.isHorsClassement() != elem2.isHorsClassement()) {
-				if (elem1.isHorsClassement()) {
-					return +1;
-				}
-				return -1;
-			}
-			return super.compare(elem1, elem2);
-		}
-	}
+        @Override
+        public String getColumnText(final ObjResultat element) {
+            return element.getInfoStr(colTable.getChamp());
+        }
+
+        @Override
+        public int compare(final ObjResultat elem1,
+                           final ObjResultat elem2) {
+            if (elem1.isAbandon() != elem2.isAbandon()) {
+                if (elem1.isAbandon()) {
+                    return +1;
+                }
+                return -1;
+            }
+            if (elem1.isDeclasse() != elem2.isDeclasse()) {
+                if (elem1.isDeclasse()) {
+                    return +1;
+                }
+                return -1;
+            }
+            if (elem1.isHorsClassement() != elem2.isHorsClassement()) {
+                if (elem1.isHorsClassement()) {
+                    return +1;
+                }
+                return -1;
+            }
+            return super.compare(elem1, elem2);
+        }
+    }
 }
