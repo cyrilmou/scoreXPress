@@ -53,9 +53,9 @@ public class PenalityUtils {
         if (resultat == null || resultat.getParent() == null) {
             return;
         }
-        final Date2 dureeArretChrono = resultat.getTempsArretChrono();
-        final ObjStep step = (ObjStep) resultat.getParent();
-        final ObjDossard dossard = resultat.getDossard();
+        final Date2      dureeArretChrono = resultat.getTempsArretChrono();
+        final ObjStep    step             = (ObjStep) resultat.getParent();
+        final ObjDossard dossard          = resultat.getDossard();
         /* Traite l'étape si celle-ci est active */
         for (final ObjStep activeStep : findStepByCategorie(step, dossard.getCategory())) {
             /* Traite un arrêt chrono */
@@ -88,8 +88,8 @@ public class PenalityUtils {
         if (resultat == null || resultat.getParent() == null) {
             return;
         }
-        final ObjStep etape = (ObjStep) resultat.getParent();
-        final ObjDossard d = resultat.getDossard();
+        final ObjStep    etape = (ObjStep) resultat.getParent();
+        final ObjDossard d     = resultat.getDossard();
         for (final ObjStep step : findStepByCategorie(etape, d.getCategory())) {
             /* Traite l'étape si celle-ci est active */
             /* Récupération du résultat intermédiaire */
@@ -151,9 +151,9 @@ public class PenalityUtils {
         }
         final ObjStep etape = (ObjStep) resultat.getParent();
         // Date2 duree = resultat.getTemps();
-        final Date2 penalite = resultat.getPenalite();
-        final Date2 penaliteBalise = resultat.getPenaliteBalise();
-        final Iterable<ObjBalise> balises = etape.getBalises();
+        final Date2               penalite       = resultat.getPenalite();
+        final Date2               penaliteBalise = resultat.getPenaliteBalise();
+        final Iterable<ObjBalise> balises        = etape.getBalises();
         for (final Balise balise : balises) {
             final ObjChrono chrono = userChrono.getChronoEnableHasPossible(balise.getNum());
             final boolean isNotValidate =
@@ -235,14 +235,14 @@ public class PenalityUtils {
         if (resultat == null || resultat.getParent() == null) {
             return;
         }
-        final ObjStep etape = (ObjStep) resultat.getParent();
-        final Date2 tempsParcours = resultat.getTempsParcours();
+        final ObjStep etape         = (ObjStep) resultat.getParent();
+        final Date2   tempsParcours = resultat.getTempsParcours();
         // Date2 duree = resultat.getTemps();
         final Date2 resultatPenality = resultat.getPenalite();
-        final Date2 penaliteAutre = resultat.getPenaliteAutre();
+        final Date2 penaliteAutre    = resultat.getPenaliteAutre();
         initUserChrono(infoSportIdentParent);
         boolean calculBaliseObligatoire = true;
-        boolean inclureBaliseOrdonnee = true;
+        boolean inclureBaliseOrdonnee   = true;
         for (final ObjPenalite penality : etape.getPenalites()) {
             if (penality.isActivate()) {
                 // Temps mini de l'épreuve
@@ -470,8 +470,8 @@ public class PenalityUtils {
 
     public static String[] getListPenaliteTypeStr() {
         final Collection<ObjChoix> col = getListPenaliteType();
-        final String[] res = new String[col.size()];
-        int i = 0;
+        final String[]             res = new String[col.size()];
+        int                        i   = 0;
         for (Iterator<ObjChoix> iter = col.iterator(); iter.hasNext(); i++) {
             final String element = iter.next().getLib();
             res[i] = element;
@@ -573,11 +573,10 @@ public class PenalityUtils {
             }
             if (nbPenalite > 0) {
                 appendDataList(resultat, "", "", VAR_RESULTAT_BALISESMANQUEES,
-                               nbPenalite + " x " + createDate(penality.getPenalite()).showSign());
+                        nbPenalite + " x " + createDate(penality.getPenalite()).showSign());
             }
             final Date penaliteMiniEpreuve = calculTempsMiniEpreuve(resultat.getTempsParcours(), penality, true);
-//            upTime(resultat.getTempsParcours(), penaliteMiniEpreuve);
-//            upTime(resultat.getPenaliteAutre(), penaliteMiniEpreuve);
+            upTime(resultat.getPenalite(), penaliteMiniEpreuve);
             upTime(resultat.getTempsChronoMini(), penaliteMiniEpreuve);
 
         } else if (diffBalises < 0) {
@@ -587,23 +586,40 @@ public class PenalityUtils {
             }
             if (nbBonus > 0) {
                 appendDataList(resultat, "", "", VAR_RESULTAT_BALISESBONUS,
-                               nbBonus + " x " + createDate(penality.getEchellePenalite()).showSign());
+                        nbBonus + " x " + createDate(penality.getEchellePenalite()).showSign());
             }
         }
     }
 
     public static String getPenalityTypeDescription(final ObjPenalite penality, final String penalityTimeLabel,
-                                                    final String scaleLabel, final String penalityMaxiLabel) {
+                                                    final String scaleLabel, final String penalityMaxiLabel,
+                                                    final String nbBaliseLabel, final String nbBaliseMissedLabel,
+                                                    final String parcoursLabel, final String nbBaliseMoreLabel) {
         final StringBuilder builder = new StringBuilder();
-        builder.append(getTypePenaliteStr(penality));
+        builder.append(getTypePenaliteStr(penality)).append(": ");
 
         if (isPenalityType(penality, TYPE_COURSE_AU_SCORE)) {
             builder.append(
                     String.format(" %s=%s %s=%s %s=%s", penalityMaxiLabel, penality.getDureeMaxiStr(), scaleLabel,
-                                  penality.getEchellePenaliteStr(), penalityTimeLabel, penality.getPenaliteStr())
-                          );
+                            penality.getEchellePenaliteStr(), penalityTimeLabel, penality.getPenaliteStr())
+            );
         } else if (isPenalityType(penality, TYPE_DUREE_ETAPE_MAXI)) {
-            builder.append(String.format(" %s=%s", penalityMaxiLabel, penality.getDureeMaxiStr()));
+            builder.append(String.format(" %s=%s", penalityTimeLabel, penality.getDureeMaxiStr()));
+        } else if (isPenalityType(penality, TYPE_NB_BALISES_MINI)) {
+            builder.append(
+                    String.format("\n  %s < %d => %s = %s x %s", nbBaliseLabel, penality.getNbBalisesMini(),
+                            penalityTimeLabel, nbBaliseMissedLabel, penality.getPenaliteStr())
+            );
+            if (!penality.getDureeMini().isNull()) {
+                builder.append(
+                        String.format("\n  %s < %d => %s = max(%s, %s)", nbBaliseLabel, penality.getNbBalisesMini(),
+                                penalityTimeLabel, penality.getDureeMiniStr(), parcoursLabel)
+                );
+            }
+            builder.append(
+                    String.format("\n  %s > %d => bonus = %s x %s", nbBaliseLabel, penality.getNbBalisesMini(),
+                            nbBaliseMoreLabel, penality.getPenaliteStr())
+            );
         }
         return builder.toString();
     }

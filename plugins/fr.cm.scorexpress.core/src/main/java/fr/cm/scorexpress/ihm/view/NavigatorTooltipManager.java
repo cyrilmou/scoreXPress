@@ -1,10 +1,9 @@
 package fr.cm.scorexpress.ihm.view;
 
-import fr.cm.scorexpress.core.model.AbstractBalises;
-import fr.cm.scorexpress.core.model.Balise;
-import fr.cm.scorexpress.core.model.ObjManifestation;
-import fr.cm.scorexpress.core.model.ObjPenalite;
-import fr.cm.scorexpress.core.model.Step;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import fr.cm.scorexpress.core.model.*;
 import fr.cm.scorexpress.core.model.impl.ObjStep;
 import fr.cm.scorexpress.core.model.impl.StepUtils;
 import org.eclipse.swt.graphics.Point;
@@ -51,8 +50,9 @@ public class NavigatorTooltipManager implements Listener {
         updateStartStopBalise(step, toolTip);
 
         for (final ObjPenalite penality : step.getPenalites()) {
-            toolTip.append('\n').append(getPenalityTypeDescription(penality, i18n("View.Maxi"), i18n("View.Scale"),
-                                                                   i18n("View.Penality")));
+            toolTip.append('\n').append(getPenalityTypeDescription(penality, i18n("Tooltip.Penality"),
+                    i18n("Tooltip.Scale"), i18n("Tooltip.Maxi"), i18n("Tooltip.NbBalise"),
+                    i18n("Tooltip.NbBaliseMissed"), i18n("Tooltip.Parcours"), i18n("Tooltip.NbBaliseMore")));
         }
 
         updateBaliseType(step, i18n("Tooltip.mandatory.balise"), Balise.TYPE_OBLIGATOIRE, toolTip);
@@ -60,19 +60,17 @@ public class NavigatorTooltipManager implements Listener {
         updateBaliseType(step, i18n("Tooltip.optional.balise"), Balise.TYPE_PAS_OBLIGATOIRE, toolTip);
         updateBaliseType(step, i18n("Tooltip.ordered.balise"), Balise.TYPE_ORDONNEE, toolTip);
 
-
-
         return toolTip.toString();
     }
 
     private static void updateStartStopBalise(final ObjStep step, final StringBuilder toolTip) {
         final String start = step.getBaliseDepart();
-        final String end = step.getBaliseArrivee();
+        final String end   = step.getBaliseArrivee();
 
         if (step.isEpreuve() && !step.isCumulerSousEtape() || start != null && end != null) {
             toolTip.append('\n').append(i18n("Tooltip.epreuveDesc")).append(": ")
-                   .append(start == null ? i18n("Tooltip.start") : start).append(" -> ")
-                   .append(end == null ? i18n("Tooltip.end") : end);
+                    .append(start == null ? i18n("Tooltip.start") : start).append(" -> ")
+                    .append(end == null ? i18n("Tooltip.end") : end);
         }
         if (step.isEpreuve() && step.isCumulerSousEtape()) {
             toolTip.append('\n').append(i18n("Tooltip.epreuveDesc")).append(" :");
@@ -102,9 +100,9 @@ public class NavigatorTooltipManager implements Listener {
 
     @Override
     public void handleEvent(final Event event) {
-        final Point pt = new Point(event.x, event.y);
-        final Item item = tree.getItem(pt);
-        String toolTip = EMPTY;
+        final Point pt      = new Point(event.x, event.y);
+        final Item  item    = tree.getItem(pt);
+        String      toolTip = EMPTY;
         if (item != null) {
             final Object itemData = item.getData();
             if (itemData instanceof ObjManifestation) {

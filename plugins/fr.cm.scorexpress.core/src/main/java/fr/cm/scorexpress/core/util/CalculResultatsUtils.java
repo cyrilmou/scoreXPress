@@ -155,7 +155,6 @@ public class CalculResultatsUtils {
         arretChrono.setNull();
 
         final Date2 chronoMini = resultat.getTempsChronoMini();
-        upTime(resultat.getTemps(), chronoMini);
         upTime(resultat.getTempsChronoMiniResultat(), chronoMini);
         chronoMini.setNull();
 
