@@ -13,6 +13,7 @@ import fr.cm.common.widget.table.TableBuilder;
 import fr.cm.common.widget.table.TableModel;
 import fr.cm.common.widget.text.TextBuilder;
 import fr.cm.common.widget.text.TextModel;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Layout;
@@ -75,6 +76,10 @@ public abstract class CommonCompositeBuilder<C extends Composite, B extends Abst
 
     public <T> TextBuilder<T> addText(final TextModel<T> model, final int style) {
         return addBuilder(TextBuilder.createText(toolkit, control, model, style));
+    }
+
+    public LabelBuilder addLabel(final LabelModel model) {
+        return addBuilder(LabelBuilder.createLabel(toolkit, control, model, SWT.NONE));
     }
 
     public LabelBuilder addLabel(final LabelModel model, final int style) {

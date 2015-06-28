@@ -10,6 +10,7 @@ import java.util.Iterator;
 import fr.cm.common.widget.MyToolkit;
 import fr.cm.common.widget.StandardToolKit;
 import fr.cm.common.widget.button.ButtonAdapter;
+import fr.cm.common.widget.button.ButtonListener;
 import fr.cm.common.widget.composite.AbstractCompositeBuilder;
 import fr.cm.common.widget.composite.CommonCompositeBuilder;
 import fr.cm.common.widget.composite.CompositeBuilder;
@@ -33,17 +34,13 @@ import fr.cm.scorexpress.ihm.print.IPrintable;
 import fr.cm.scorexpress.model.StepModel;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
-import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
@@ -162,18 +159,17 @@ public class ResultatEtapeEditor extends EditorPart implements IPrintable,
                 | GRAB_VERTICAL));
         for (final ColTable colTable : model.getColumnConfig()) {
             tableBuilder
-                    .addColumn(colTable.getChamp(), colTable.getLib(),
-                            colTable.getAlign())
+                    .addColumn(colTable.getChamp(), colTable.getLib(), colTable.getAlign())
                     .withWidth(colTable.getWidth())
                     .movable(true)
                     .withToolTipText(colTable.getLib())
-                    .withRenderer(
-                            new ResultatEtapeColumnRenderer(colTable, model));
+                    .withRenderer(new ResultatEtapeColumnRenderer(colTable, model));
         }
         tableBuilder.withLayoutData(
                 new GridData(FILL_BOTH | GRAB_HORIZONTAL | GRAB_VERTICAL))
                 .withHeader(true);
 
+        ViewColumnViewerToolTipSupport.enableFor(tableBuilder.getViewer());
         return tableBuilder.getTable();
     }
 
@@ -280,6 +276,8 @@ public class ResultatEtapeEditor extends EditorPart implements IPrintable,
                 }
             }
 
+            test();
+
             final DateFormat sdf = new SimpleDateFormat("yyMMdd");
             openPrintPreview(table, titlesStr,
                     ResultatEtapeEditor_RESULTATS_PRINT_TEXT + etape.getLib()
@@ -287,6 +285,32 @@ public class ResultatEtapeEditor extends EditorPart implements IPrintable,
         } catch (Exception ignore) {
             ignore.printStackTrace();
         }
+    }
+
+    void test() {
+        GC          gc    = new GC(Display.getCurrent());
+        final Image image = new Image(Display.getCurrent(), 400, 400);
+        gc.copyArea(image, 0, 0);
+        gc.dispose();
+
+        Shell popup = new Shell(Display.getCurrent());
+        popup.setText("Image");
+        popup.addListener(SWT.Close, new Listener() {
+            public void handleEvent(Event e) {
+                image.dispose();
+            }
+        });
+
+        Canvas canvas = new Canvas(popup, SWT.NONE);
+        canvas.setBounds(10, 10, 400 + 10, 400 + 10);
+        canvas.addPaintListener(new PaintListener() {
+            public void paintControl(PaintEvent e) {
+                e.gc.drawImage(image, 0, 0);
+            }
+        });
+        popup.pack();
+        popup.open();
+
     }
 
     @Override
@@ -424,7 +448,12 @@ public class ResultatEtapeEditor extends EditorPart implements IPrintable,
                     ObjResultat.VAR_RESULTAT_BALISE_DISORDERED, resultat, builder);
 
 
-            return builder.toString();
+            return "";
+        }
+
+        @Override
+        public boolean useNativeToolTip(Object object) {
+            return false;
         }
 
         @Override
@@ -440,7 +469,7 @@ public class ResultatEtapeEditor extends EditorPart implements IPrintable,
 
         @Override
         public int getToolTipDisplayDelayTime(final Object object) {
-            return 50;
+            return 0;
         }
 
         @Override

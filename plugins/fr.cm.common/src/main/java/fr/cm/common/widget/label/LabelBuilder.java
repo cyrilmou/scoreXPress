@@ -44,6 +44,16 @@ public class LabelBuilder extends CommonControlBuilder<Label, LabelBuilder> {
         return this;
     }
 
+    public LabelBuilder withBackground(final Color color) {
+        control.setBackground(color);
+        return this;
+    }
+
+    public LabelBuilder withForeground(final Color color) {
+        control.setForeground(color);
+        return this;
+    }
+
     public static class StaticLabelBuilder extends CommonControlBuilder<Label, StaticLabelBuilder> {
 
         StaticLabelBuilder(final MyToolkit toolkit, final Composite parent, final int style) {
