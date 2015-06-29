@@ -56,8 +56,8 @@ public class ImagePrintUtils {
         if (settings == null) {
             settings = new PrintSettings();
         }
-        Point size = control.getSize();
-        Image image = new Image(control.getDisplay(), size.x, size.y);
+        final Point size = control.getSize();
+        final Image image = new Image(control.getDisplay(), size.x, size.y);
         if (image == null)
             return false;
         GC gc1 = new GC(control);

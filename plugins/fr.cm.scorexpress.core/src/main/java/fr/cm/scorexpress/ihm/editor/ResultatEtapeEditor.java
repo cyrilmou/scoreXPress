@@ -10,7 +10,6 @@ import java.util.Iterator;
 import fr.cm.common.widget.MyToolkit;
 import fr.cm.common.widget.StandardToolKit;
 import fr.cm.common.widget.button.ButtonAdapter;
-import fr.cm.common.widget.button.ButtonListener;
 import fr.cm.common.widget.composite.AbstractCompositeBuilder;
 import fr.cm.common.widget.composite.CommonCompositeBuilder;
 import fr.cm.common.widget.composite.CompositeBuilder;
@@ -31,12 +30,17 @@ import fr.cm.scorexpress.ihm.editor.input.EtapeEditorInput;
 import fr.cm.scorexpress.ihm.editor.input.ResultatEditorInput;
 import fr.cm.scorexpress.ihm.editor.input.StepEditorInput;
 import fr.cm.scorexpress.ihm.print.IPrintable;
+import fr.cm.scorexpress.ihm.print.ImagePrintUtils;
 import fr.cm.scorexpress.model.StepModel;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.OwnerDrawLabelProvider;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
-import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -170,6 +174,7 @@ public class ResultatEtapeEditor extends EditorPart implements IPrintable,
                 .withHeader(true);
 
         ViewColumnViewerToolTipSupport.enableFor(tableBuilder.getViewer());
+        getSite().setSelectionProvider(tableBuilder.getViewer());
         return tableBuilder.getTable();
     }
 
@@ -276,8 +281,6 @@ public class ResultatEtapeEditor extends EditorPart implements IPrintable,
                 }
             }
 
-            test();
-
             final DateFormat sdf = new SimpleDateFormat("yyMMdd");
             openPrintPreview(table, titlesStr,
                     ResultatEtapeEditor_RESULTATS_PRINT_TEXT + etape.getLib()
@@ -285,32 +288,6 @@ public class ResultatEtapeEditor extends EditorPart implements IPrintable,
         } catch (Exception ignore) {
             ignore.printStackTrace();
         }
-    }
-
-    void test() {
-        GC          gc    = new GC(Display.getCurrent());
-        final Image image = new Image(Display.getCurrent(), 400, 400);
-        gc.copyArea(image, 0, 0);
-        gc.dispose();
-
-        Shell popup = new Shell(Display.getCurrent());
-        popup.setText("Image");
-        popup.addListener(SWT.Close, new Listener() {
-            public void handleEvent(Event e) {
-                image.dispose();
-            }
-        });
-
-        Canvas canvas = new Canvas(popup, SWT.NONE);
-        canvas.setBounds(10, 10, 400 + 10, 400 + 10);
-        canvas.addPaintListener(new PaintListener() {
-            public void paintControl(PaintEvent e) {
-                e.gc.drawImage(image, 0, 0);
-            }
-        });
-        popup.pack();
-        popup.open();
-
     }
 
     @Override
@@ -469,7 +446,7 @@ public class ResultatEtapeEditor extends EditorPart implements IPrintable,
 
         @Override
         public int getToolTipDisplayDelayTime(final Object object) {
-            return 0;
+            return 1000;
         }
 
         @Override
