@@ -18,7 +18,9 @@ import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.*;
 
 import static fr.cm.common.widget.composite.CompositeBuilders.createCompositeBuilder;
@@ -40,26 +42,19 @@ class ViewColumnViewerToolTipSupport extends
     protected ViewColumnViewerToolTipSupport(ColumnViewer viewer,
                                              int style, boolean manualActivation) {
         super(viewer, style, manualActivation);
-        setHideDelay(500);
+        setHideDelay(2000);
         setHideOnMouseDown(false);
     }
 
     @Override
     protected Composite createViewerToolTipContentArea(Event event,
                                                        ViewerCell cell, final Composite parent) {
-        /*final Composite composite = new Composite(parent, SWT.NONE);
-        composite.setLayout(new RowLayout(SWT.VERTICAL));
-        Text text = new Text(composite, SWT.SINGLE);
-        text.setText(getText(event));
-        text.setSize(100, 60);
-        DateTime calendar = new DateTime(composite, SWT.CALENDAR);
-        calendar.setEnabled(false);
-        calendar.setSize(100, 100);
-        composite.pack();
-        return composite;*/
         final ObjResultat      resultat = (ObjResultat) ((ViewerCell) getToolTipArea(event)).getElement();
         final MyToolkit        toolkit  = new StandardToolKit();
-        final CompositeBuilder builder  = createCompositeBuilder(toolkit, parent, SWT.NONE);
+        final CompositeBuilder root  = createCompositeBuilder(toolkit, parent, SWT.NONE);
+        root.withLayout(new RowLayout(SWT.VERTICAL));
+        root.withBackground(WHITE);
+        final CompositeBuilder builder  = root.addComposite(SWT.NONE);
         builder.withBackground(WHITE);
         builder.withLayout(new GridLayout(2, false));
 
@@ -101,7 +96,7 @@ class ViewColumnViewerToolTipSupport extends
                 ObjResultat.VAR_RESULTAT_BALISE_DISORDERED, resultat, builder, RED, false);
 
         final ButtonModel capture = new ButtonModel("Imprimer");
-        final Composite   control = builder.getControl();
+        final Composite   control = root.getControl();
         capture.addWidgetListener(new ButtonListener() {
             boolean printed = false;
 
@@ -109,7 +104,7 @@ class ViewColumnViewerToolTipSupport extends
             public void click() {
                 if (!printed) {
                     printed = true;
-                    ImagePrintUtils.printControl(parent);
+                    ImagePrintUtils.printControl(builder.getControl());
                 }
             }
 
@@ -119,7 +114,7 @@ class ViewColumnViewerToolTipSupport extends
             }
         });
 
-        builder.addButton(capture, SWT.PUSH);
+        root.addButton(capture, SWT.PUSH);
         control.pack();
         return control;
     }

@@ -86,6 +86,14 @@ public abstract class CommonCompositeBuilder<C extends Composite, B extends Abst
         return addBuilder(LabelBuilder.createLabel(toolkit, control, model, style));
     }
 
+    public LabelBuilder addLabel(final String label, final int style) {
+        return addBuilder(LabelBuilder.createLabel(toolkit, control, new LabelModel(label), style));
+    }
+
+    public LabelBuilder addLabel(final String label) {
+        return addBuilder(LabelBuilder.createLabel(toolkit, control, new LabelModel(label), SWT.NONE));
+    }
+
     public StaticLabelBuilder addStaticLabel(final int style) {
         return addBuilder(LabelBuilder.createStaticLabel(toolkit, control, style));
     }

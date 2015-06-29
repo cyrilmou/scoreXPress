@@ -83,9 +83,9 @@ public class TableColumnBuilder<T> {
 
     @SuppressWarnings({"TypeMayBeWeakened"})
     public TableColumnBuilder<T> withRenderer(final TableColumnRenderer<T> renderer) {
-        viewer.setLabelProvider(renderer);
+        viewer.setLabelProvider(renderer.getLabelProvider());
         if (model != null) {
-            model.setComparator(renderer);
+            model.setComparator(renderer.getComparator());
         }
         viewer.getViewer().refresh();
         if (model != null && model.isAutoResize()) {

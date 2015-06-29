@@ -1,5 +1,6 @@
 package fr.cm.common.widget.table;
 
+import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.graphics.Color;
@@ -8,6 +9,8 @@ import org.eclipse.swt.graphics.Image;
 import java.util.Comparator;
 
 public abstract class TableColumnRenderer<T> extends StyledCellLabelProvider implements ColumnComparator<T> {
+    private CellLabelProvider labelProvider;
+
     protected TableColumnRenderer() {
         super(StyledCellLabelProvider.COLORS_ON_SELECTION);
     }
@@ -94,5 +97,13 @@ public abstract class TableColumnRenderer<T> extends StyledCellLabelProvider imp
     @Override
     public int compare(final T elem1, final T elem2) {
         return getComparator(elem1).compare(elem1, elem2);
+    }
+
+    public CellLabelProvider getLabelProvider() {
+        return this;
+    }
+
+    public ColumnComparator<T> getComparator() {
+        return this;
     }
 }
