@@ -121,6 +121,8 @@ public class PenalityUtils {
                 resultat.addNbBalises(resultatEtape.getNbBalises());
                 appendStepDataList(resultat, step, resultatEtape, VAR_RESULTAT_BALISE_DISORDERED);
                 appendStepDataList(resultat, step, resultatEtape, VAR_RESULTAT_BALISESMANQUEES);
+                appendStepDataList(resultat, step, resultatEtape, VAR_RESULTAT_BALISES_PENALITES);
+                appendStepDataList(resultat, step, resultatEtape, VAR_RESULTAT_BALISES_OPTIONS);
                 appendStepDataList(resultat, step, resultatEtape, VAR_RESULTAT_BALISES_OK);
                 appendStepDataList(resultat, step, resultatEtape, VAR_RESULTAT_BALISESBONUS);
             }
@@ -174,8 +176,10 @@ public class PenalityUtils {
                         sup = EMPTY;
                     }
                     appendDataList(resultat, sup, "", VAR_RESULTAT_BALISESMANQUEES, balise.getNum());
+                    appendDataList(resultat, sup, "", VAR_RESULTAT_BALISES_PENALITES, balise.getNum());
                 } else if (TYPE_PAS_OBLIGATOIRE.equalsIgnoreCase(balise.getType())) {
                     appendDataList(resultat, "-", "", VAR_RESULTAT_BALISESMANQUEES, balise.getNum());
+                    appendDataList(resultat, "", "", VAR_RESULTAT_BALISES_OPTIONS, balise.getNum());
                 }
             } else {
                 /* Si balise valide */
@@ -183,6 +187,7 @@ public class PenalityUtils {
                     upTime(penalite, balise.getPenalite());
                     upTime(resultat.getPenaliteAutre(), balise.getPenalite());
                     appendDataList(resultat, "+", "", VAR_RESULTAT_BALISESMANQUEES, balise.getNum());
+                    appendDataList(resultat, "", "", VAR_RESULTAT_BALISES_PENALITES, balise.getNum());
                 } else {
                     // Ajout des temps de balise
                     resultat.setInfoTmp(VAR_PREFIX_BALISE + chrono.getNumBalise(), chrono.getTemps() + EMPTY);
@@ -575,6 +580,8 @@ public class PenalityUtils {
             }
             if (nbPenalite > 0) {
                 appendDataList(resultat, "", "", VAR_RESULTAT_BALISESMANQUEES,
+                        nbPenalite + " x " + createDate(penality.getPenalite()).showSign());
+                appendDataList(resultat, "", "", VAR_RESULTAT_BALISES_PENALITES,
                         nbPenalite + " x " + createDate(penality.getPenalite()).showSign());
             }
             final Date penaliteMiniEpreuve = calculTempsMiniEpreuve(resultat.getTempsParcours(), penality, true);

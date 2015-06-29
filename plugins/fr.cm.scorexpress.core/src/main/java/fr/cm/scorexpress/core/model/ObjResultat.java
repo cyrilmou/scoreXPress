@@ -1,11 +1,11 @@
 package fr.cm.scorexpress.core.model;
 
-import fr.cm.scorexpress.core.model.i18n.Messages;
-import fr.cm.scorexpress.core.model.impl.Date2;
-import fr.cm.scorexpress.core.model.impl.DateFactory;
-import fr.cm.scorexpress.core.model.impl.DateUtils;
 import java.util.ArrayList;
 import java.util.Collection;
+
+import fr.cm.scorexpress.core.model.i18n.Messages;
+import fr.cm.scorexpress.core.model.impl.Date2;
+import fr.cm.scorexpress.core.model.impl.DateUtils;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static fr.cm.scorexpress.core.model.impl.DateFactory.createDate;
@@ -23,6 +23,8 @@ public class ObjResultat extends IData implements Comparable<ObjResultat> {
     public static final String                 VAR_TEMPS_SIGNE                = "TEMPSSIGNE";
     public static final String                 VAR_RESULTAT_PLACE             = "PLACE";
     public static final String                 VAR_RESULTAT_PENALITE          = "PENALITE";
+    public static final String                 VAR_RESULTAT_BALISES_PENALITES = "BALISESPENALITES";
+    public static final String                 VAR_RESULTAT_BALISES_OPTIONS    = "BALISESOPTIONS";
     public static final String                 VAR_RESULTAT_BALISESMANQUEES   = "BALISESMANQUEES";
     public static final String                 VAR_RESULTAT_BALISESBONUS      = "BALISESBONUS";
     public static final String                 VAR_RESULTAT_BALISE_DISORDERED = "BALISESDISORDERED";
@@ -53,12 +55,13 @@ public class ObjResultat extends IData implements Comparable<ObjResultat> {
     private final       ArrayList<ObjResultat> resultatsInter                 = new ArrayList<ObjResultat>();
     private String     lib;
     private ObjDossard dossard;
-    private boolean            abandon        = false;
-    private boolean            declasse       = false;
-    private boolean            horsClassement = false;
-    private boolean            notArrived     = false;
-    private boolean            error          = false;
-    private Collection<String> errors         = newArrayList();
+    private boolean               abandon        = false;
+    private boolean               declasse       = false;
+    private boolean               horsClassement = false;
+    private boolean               notArrived     = false;
+    private boolean               error          = false;
+    private Collection<String>    errors         = newArrayList();
+    private Collection<ObjChrono> chronos        = newArrayList();
 
     public ObjResultat() {
         penaliteBalise.setAffichage(true, false, true);
@@ -458,5 +461,13 @@ public class ObjResultat extends IData implements Comparable<ObjResultat> {
 
     public Date2 getTempsChronoMiniResultat() {
         return tempsChronoMiniResultat;
+    }
+
+    public void addChrono(ObjChrono chrono) {
+        chronos.add(chrono);
+    }
+
+    public Collection<ObjChrono> getChronos() {
+        return chronos;
     }
 }

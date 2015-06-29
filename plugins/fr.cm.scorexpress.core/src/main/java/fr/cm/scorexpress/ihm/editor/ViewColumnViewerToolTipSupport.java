@@ -17,11 +17,14 @@ import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.*;
-import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
-import org.eclipse.swt.widgets.*;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 
 import static fr.cm.common.widget.composite.CompositeBuilders.createCompositeBuilder;
 import static fr.cm.scorexpress.ihm.editor.i18n.Message.i18n;
@@ -29,15 +32,18 @@ import static fr.cm.scorexpress.ihm.editor.i18n.Message.i18n;
 class ViewColumnViewerToolTipSupport extends
         ColumnViewerToolTipSupport {
 
-    public static final  Color RED   = new Color(Display.getCurrent(), 255, 0, 0);
-    public static final  Color BLACK = new Color(Display.getCurrent(), 0, 0, 0);
-    public static final  Color GREEN = new Color(Display.getCurrent(), 69, 181, 21);
-    public static final  Color BLUE  = new Color(Display.getCurrent(), 0, 0, 255);
-    private static final Font  FONT  = new Font(Display.getCurrent(), new FontData("Courier", 10,
+    public static final  Color RED           = new Color(Display.getCurrent(), 255, 0, 0);
+    public static final  Color BLACK         = new Color(Display.getCurrent(), 0, 0, 0);
+    public static final  Color GREEN         = new Color(Display.getCurrent(), 69, 181, 21);
+    public static final  Color BLUE          = new Color(Display.getCurrent(), 0, 0, 255);
+    private static final Font  FONT          = new Font(Display.getCurrent(), new FontData("Courier", 10,
             SWT.NORMAL));
-    private static final Font  BOLD  = new Font(Display.getCurrent(), new FontData("Courier", 10,
+    private static final Font  BOLD          = new Font(Display.getCurrent(), new FontData("Courier", 10,
             SWT.BOLD));
-    public static final  Color WHITE = Display.getDefault().getSystemColor(SWT.COLOR_WHITE);
+    private static final Font  ITALIC        = new Font(Display.getCurrent(), new FontData("Courier", 10,
+            SWT.ITALIC));
+    public static final  Color WHITE         = Display.getDefault().getSystemColor(SWT.COLOR_WHITE);
+    public static final  int   MAX_LINE_SIZE = 60;
 
     protected ViewColumnViewerToolTipSupport(ColumnViewer viewer,
                                              int style, boolean manualActivation) {
@@ -51,10 +57,10 @@ class ViewColumnViewerToolTipSupport extends
                                                        ViewerCell cell, final Composite parent) {
         final ObjResultat      resultat = (ObjResultat) ((ViewerCell) getToolTipArea(event)).getElement();
         final MyToolkit        toolkit  = new StandardToolKit();
-        final CompositeBuilder root  = createCompositeBuilder(toolkit, parent, SWT.NONE);
+        final CompositeBuilder root     = createCompositeBuilder(toolkit, parent, SWT.NONE);
         root.withLayout(new RowLayout(SWT.VERTICAL));
         root.withBackground(WHITE);
-        final CompositeBuilder builder  = root.addComposite(SWT.NONE);
+        final CompositeBuilder builder = root.addComposite(SWT.NONE);
         builder.withBackground(WHITE);
         builder.withLayout(new GridLayout(2, false));
 
@@ -63,7 +69,7 @@ class ViewColumnViewerToolTipSupport extends
         builder.addLabel(new LabelModel("")).withBackground(WHITE);
 
         addInfo(i18n("Result.tooltip.finalTime"),
-                ObjResultat.VAR_RESULTAT_TEMPS, resultat, builder, BLUE, false);
+                ObjResultat.VAR_RESULTAT_TEMPS, resultat, builder, BLUE, FONT, FONT);
 //        builder.append("\n-----");
         String extra = "";
         if (!resultat.getTempsArretChronoResultat().isNull()) {
@@ -81,19 +87,21 @@ class ViewColumnViewerToolTipSupport extends
                 ObjResultat.VAR_PENALITE_BALISE, resultat, builder, RED);
 //        builder.append("\n-----");
         addInfo(i18n("Result.tooltip.nbBalise"), ObjResultat.VAR_NB_BALISE,
-                resultat, builder, BLUE, false);
+                resultat, builder, BLUE, FONT, FONT);
         addInfo(i18n("Result.tooltip.nbPenaliteBalise"), ObjResultat.VAR_NB_PENALITE,
-                resultat, builder, RED, false);
+                resultat, builder, RED, FONT, FONT);
         addInfo(i18n("Result.tooltip.nbBaliseBonus"), ObjResultat.VAR_NB_BALISE_BONUS,
-                resultat, builder, GREEN, false);
+                resultat, builder, GREEN, FONT, FONT);
         addInfo(i18n("Result.tooltip.missingBalise"),
-                ObjResultat.VAR_RESULTAT_BALISESMANQUEES, resultat, builder, RED, false);
-        addInfo(i18n("Result.tooltip.baliseList"),
-                ObjResultat.VAR_RESULTAT_BALISES_OK, resultat, builder, BLACK, false);
+                ObjResultat.VAR_RESULTAT_BALISES_PENALITES, resultat, builder, RED, FONT, FONT);
         addInfo(i18n("Result.tooltip.baliseBonus"),
-                ObjResultat.VAR_RESULTAT_BALISESBONUS, resultat, builder, GREEN, false);
+                ObjResultat.VAR_RESULTAT_BALISESBONUS, resultat, builder, GREEN, FONT, FONT);
         addInfo(i18n("Result.tooltip.baliseDisordered"),
-                ObjResultat.VAR_RESULTAT_BALISE_DISORDERED, resultat, builder, RED, false);
+                ObjResultat.VAR_RESULTAT_BALISE_DISORDERED, resultat, builder, RED, FONT, FONT);
+        addInfo(i18n("Result.tooltip.missingBaliseOption"),
+                ObjResultat.VAR_RESULTAT_BALISES_OPTIONS, resultat, builder, BLACK, FONT, ITALIC);
+        addInfo(i18n("Result.tooltip.baliseList"),
+                ObjResultat.VAR_RESULTAT_BALISES_OK, resultat, builder, BLACK, FONT, FONT);
 
         final ButtonModel capture = new ButtonModel("Imprimer");
         final Composite   control = root.getControl();
@@ -129,10 +137,10 @@ class ViewColumnViewerToolTipSupport extends
             if (extra.length > 0) {
                 final CompositeBuilder extrComp = composite.addComposite(SWT.NONE).withBackground(WHITE);
                 extrComp.withLayout(new GridLayout(2, false));
-                extrComp.addLabel(new LabelModel(date + "")).withForeground(color).withBackground(WHITE);
-                extrComp.addLabel(new LabelModel(extra[0] + "")).withForeground(BLUE).withBackground(WHITE);
+                extrComp.addLabel(new LabelModel(date + "")).withForeground(color).withFont(FONT).withBackground(WHITE);
+                extrComp.addLabel(new LabelModel(extra[0] + "")).withForeground(BLUE).withFont(FONT).withBackground(WHITE);
             } else {
-                composite.addLabel(new LabelModel(date + ""), SWT.NONE).withForeground(color).withBackground(WHITE);
+                composite.addLabel(new LabelModel(date + ""), SWT.NONE).withFont(FONT).withForeground(color).withBackground(WHITE);
             }
         }
     }
@@ -141,21 +149,21 @@ class ViewColumnViewerToolTipSupport extends
                                 final String attribute,
                                 final AbstractGetInfo resultat,
                                 final CompositeBuilder composite,
-                                final Color color, boolean bold) {
+                                final Color color, Font font, Font fontValue) {
         final String        element = resultat.getInfoStr(attribute);
         final StringBuilder builder = new StringBuilder();
         if (!element.isEmpty()) {
             Collection<String> lines = new ArrayList<String>();
-            if (element.length() > 80) {
+            if (element.length() > MAX_LINE_SIZE) {
                 int length = 0;
                 for (final String split : element.split("]")) {
-                    length += split.length();
-                    if (length < 80) {
+                    length += split.length() + 1;
+                    if (length < MAX_LINE_SIZE) {
                         builder.append(split).append(']');
                     } else {
-                        builder.append(split).append(']');
                         lines.add(builder.toString());
                         builder.setLength(0);
+                        builder.append(split).append(']');
                     }
                     length = builder.length();
                 }
@@ -170,12 +178,12 @@ class ViewColumnViewerToolTipSupport extends
             for (final String line : lines) {
                 if (!start) {
                     start = true;
-                    composite.addLabel(new LabelModel(label), SWT.NONE).withFont(bold ? BOLD : FONT).withBackground(WHITE);
+                    composite.addLabel(new LabelModel(label), SWT.NONE).withFont(font).withBackground(WHITE);
                 } else {
-                    composite.addLabel(new LabelModel(""), SWT.NONE).withFont(FONT).withBackground(WHITE);
+                    composite.addLabel(new LabelModel(""), SWT.NONE).withFont(font).withBackground(WHITE);
                 }
                 composite.addLabel(new LabelModel(line), SWT.NONE)
-                        .withForeground(color).withBackground(WHITE);
+                        .withForeground(color).withBackground(WHITE).withFont(fontValue);
             }
         }
     }
