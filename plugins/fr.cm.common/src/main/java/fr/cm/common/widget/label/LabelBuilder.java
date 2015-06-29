@@ -24,6 +24,10 @@ public class LabelBuilder extends CommonControlBuilder<Label, LabelBuilder> {
                 control.setToolTipText(model.getTooltip());
             }
 
+            public void setVisible(boolean visible) {
+                control.setVisible(visible);
+            }
+
             @Override
             public void onEnable(final boolean enable) {
                 control.setEnabled(enable);

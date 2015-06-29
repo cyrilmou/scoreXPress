@@ -5,4 +5,6 @@ import fr.cm.common.widget.StateListener;
 public interface LabelStateListener extends StateListener {
 
     void onChanged();
+
+    void setVisible(boolean visible);
 }

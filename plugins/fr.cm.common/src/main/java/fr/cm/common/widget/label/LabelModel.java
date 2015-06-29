@@ -29,4 +29,10 @@ public class LabelModel extends CommonModel<LabelStateListener, LabelListener> {
     public void setTooltip(final String tooltip) {
         this.tooltip = tooltip;
     }
+
+    public void setVisible(boolean visible) {
+        for (final LabelStateListener listener : getStateListeners()) {
+            listener.setVisible(visible);
+        }
+    }
 }

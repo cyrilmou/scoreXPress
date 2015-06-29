@@ -65,8 +65,18 @@ public class TextBuilder<T> extends CommonControlBuilder<StyledText, TextBuilder
                     updateInProgress = false;
                 }
             }
+
+            public void setVisible(boolean visible) {
+                control.setVisible(visible);
+            }
+
         };
         model.addStateListener(textStateListener);
+    }
+
+    public TextBuilder withWidth(int width) {
+        control.setSize(width, control.getSize().y);
+        return this;
     }
 
     public static Text createText(final FormToolkit toolkit, final Composite client, final String label,

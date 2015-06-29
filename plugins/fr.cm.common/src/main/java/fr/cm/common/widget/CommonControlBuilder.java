@@ -36,4 +36,8 @@ public abstract class CommonControlBuilder<C extends Control, B extends ControlB
     public void dispose(){
 
     }
+
+    public C getControl() {
+        return control;
+    }
 }

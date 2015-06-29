@@ -4,6 +4,8 @@ import static com.google.common.collect.Lists.newArrayList;
 import static org.apache.commons.lang.StringUtils.EMPTY;
 import java.util.Collection;
 
+import org.eclipse.swt.widgets.Composite;
+
 public class TextModel<T> {
     private final Collection<TextStateListener<T>>  stateListeners  = newArrayList();
     private final Collection<TextModifyListener<T>> modifyListeners = newArrayList();
@@ -24,6 +26,12 @@ public class TextModel<T> {
         }
         value = text;
         block = false;
+    }
+
+    public void setVisible(final boolean visible) {
+        for (final TextStateListener<T> listener : stateListeners) {
+            listener.setVisible(visible);
+        }
     }
 
     public String getText() {
