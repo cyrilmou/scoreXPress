@@ -77,6 +77,15 @@
                 id="fr.cm.scorexpress.view.navigateur"
                 name="Navigateur">
         </view>
+        <view
+              allowMultiple="true"
+              category="fr.cm.scorexpress.views"
+              class="fr.cm.scorexpress.ihm.view.ResultatView"
+              icon="icons/logo25x25.gif"
+              id="fr.cm.scorexpress.core.view1"
+              name="Résultats"
+              restorable="true">
+        </view>
     </extension>
     <extension
             point="org.eclipse.ui.newWizards">

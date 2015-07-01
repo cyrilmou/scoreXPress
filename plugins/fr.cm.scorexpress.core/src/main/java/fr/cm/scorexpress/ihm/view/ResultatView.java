@@ -1,14 +1,20 @@
 package fr.cm.scorexpress.ihm.view;
 
 import fr.cm.common.widget.StandardToolKit;
+import fr.cm.common.widget.button.ButtonAdapter;
+import fr.cm.common.widget.button.ButtonModel;
 import fr.cm.common.widget.composite.CompositeBuilder;
 import fr.cm.scorexpress.core.model.ObjResultat;
+import fr.cm.scorexpress.ihm.print.ImagePrintUtils;
+import fr.cm.scorexpress.ihm.print.PrintSettings;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.ISelectionListener;
@@ -19,9 +25,11 @@ import static fr.cm.common.widget.composite.CompositeBuilders.createCompositeBui
 import static fr.cm.scorexpress.ihm.editor.ViewColumnViewerToolTipSupport.updateResultat;
 
 public class ResultatView extends ViewPart {
-    public static final Color WHITE = Display.getDefault().getSystemColor(SWT.COLOR_WHITE);
+    public static final Color WHITE        = Display.getDefault().getSystemColor(SWT.COLOR_WHITE);
+    public static final Color SYSTEM_COLOR = Display.getDefault().getSystemColor(SWT.COLOR_DARK_CYAN);
     private ScrolledComposite sc;
     private Composite         composite;
+    private ButtonModel       imprimer;
     private ISelectionListener listener = new ISelectionListener() {
         public void selectionChanged(IWorkbenchPart sourcepart, ISelection selection) {
             // we ignore our own selections
@@ -43,42 +51,44 @@ public class ResultatView extends ViewPart {
     }
 
     private void showItems(final Object[] items) {
+        final CompositeBuilder builder = createCompositeBuilder(new StandardToolKit(), sc, SWT.NONE);
+        builder.withLayout(new GridLayout(1, false)).withBackground(WHITE);
+
+        builder.addButton(imprimer, SWT.NONE);
         for (Object item : items) {
-            if (item instanceof ObjResultat) {
-                showItem((ObjResultat) item);
+            if (item != null &&  item instanceof ObjResultat) {
+                updateResultat(builder.getControl(), (ObjResultat) item);
             }
         }
-    }
-
-    private void showItem(final ObjResultat resultat) {
-
-        if (resultat != null) {
-            final CompositeBuilder builder = createCompositeBuilder(new StandardToolKit(), sc, SWT.NONE);
-
-            builder.withLayout(new GridLayout(2, false)).withBackground(WHITE);
-            updateResultat(builder.getControl(), resultat);
-
-            sc.setContent(builder.getControl());
-            sc.setExpandHorizontal(true);
-            sc.setExpandVertical(true);
-            sc.setMinSize(builder.getControl().computeSize(SWT.DEFAULT, SWT.DEFAULT));
-            if (composite != null) {
-                composite.dispose();
-            }
-            composite = builder.getControl();
+        sc.setContent(builder.getControl());
+        sc.setExpandHorizontal(true);
+        sc.setExpandVertical(true);
+        sc.setMinSize(builder.getControl().computeSize(SWT.DEFAULT, SWT.DEFAULT));
+        if (composite != null) {
+            composite.dispose();
         }
-    }
-
-    private void showText() {
+        composite = builder.getControl();
     }
 
     public void createPartControl(final Composite parent) {
+        imprimer = new ButtonModel("Imprimer");
+
         sc = new ScrolledComposite(parent, SWT.V_SCROLL | SWT.H_SCROLL);
 
         final CompositeBuilder builder = createCompositeBuilder(new StandardToolKit(), sc, SWT.NONE);
         composite = builder.getControl();
 
         builder.withLayout(new GridLayout(2, false)).withBackground(WHITE);
+
+        imprimer.addWidgetListener(new ButtonAdapter() {
+            @Override
+            public void click() {
+                final PrintSettings settings = new PrintSettings();
+                settings.setTopString("Résultat");
+                ImagePrintUtils.printControl(composite, settings);
+            }
+        });
+
 
         sc.setContent(composite);
         sc.setExpandHorizontal(true);

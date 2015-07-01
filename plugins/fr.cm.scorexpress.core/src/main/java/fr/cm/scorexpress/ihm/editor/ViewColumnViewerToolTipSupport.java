@@ -35,11 +35,11 @@ public class ViewColumnViewerToolTipSupport extends ColumnViewerToolTipSupport {
     public static final  Color BLACK         = new Color(Display.getCurrent(), 0, 0, 0);
     public static final  Color GREEN         = new Color(Display.getCurrent(), 69, 181, 21);
     public static final  Color BLUE          = new Color(Display.getCurrent(), 0, 0, 255);
+    public static final  Color WHITE         = Display.getDefault().getSystemColor(SWT.COLOR_WHITE);
+    public static final  int   MAX_LINE_SIZE = 60;
     private static final Font  FONT          = new Font(Display.getCurrent(), new FontData("Courier", 10, SWT.NORMAL));
     private static final Font  BOLD          = new Font(Display.getCurrent(), new FontData("Courier", 10, SWT.BOLD));
     private static final Font  ITALIC        = new Font(Display.getCurrent(), new FontData("Courier", 10, SWT.ITALIC));
-    public static final  Color WHITE         = Display.getDefault().getSystemColor(SWT.COLOR_WHITE);
-    public static final  int   MAX_LINE_SIZE = 60;
 
     protected ViewColumnViewerToolTipSupport(ColumnViewer viewer, int style, boolean manualActivation) {
         super(viewer, style, manualActivation);
@@ -50,15 +50,39 @@ public class ViewColumnViewerToolTipSupport extends ColumnViewerToolTipSupport {
     @Override
     protected Composite createViewerToolTipContentArea(Event event, ViewerCell cell, final Composite parent) {
         final ObjResultat resultat = (ObjResultat) ((ViewerCell) getToolTipArea(event)).getElement();
-        return updateResultat(parent, resultat);
-    }
 
-    public static Composite updateResultat(Composite parent, ObjResultat resultat) {
-        final MyToolkit        toolkit = new StandardToolKit();
-        final CompositeBuilder root    = createCompositeBuilder(toolkit, parent, SWT.NONE);
+        final CompositeBuilder root = createCompositeBuilder(new StandardToolKit(), parent, SWT.NONE);
         root.withLayout(new RowLayout(SWT.VERTICAL));
         root.withBackground(WHITE);
-        final CompositeBuilder builder = root.addComposite(SWT.NONE);
+        final CompositeBuilder builder = updateResultat(root.getControl(), resultat);
+
+        final ButtonModel capture = new ButtonModel("Imprimer");
+        capture.addWidgetListener(new ButtonListener() {
+            boolean printed = false;
+
+            @Override
+            public void click() {
+                if (!printed) {
+                    printed = true;
+                    ImagePrintUtils.printControl(builder.getControl());
+                }
+            }
+
+            @Override
+            public void onActivate() {
+
+            }
+        });
+
+        root.addButton(capture, SWT.PUSH);
+
+        root.getControl().pack();
+        return root.getControl();
+    }
+
+    public static CompositeBuilder updateResultat(final Composite parent, final ObjResultat resultat) {
+        final MyToolkit        toolkit = new StandardToolKit();
+        final CompositeBuilder builder = createCompositeBuilder(toolkit, parent, SWT.NONE);
         builder.withBackground(WHITE);
         builder.withLayout(new GridLayout(2, false));
 
@@ -84,28 +108,7 @@ public class ViewColumnViewerToolTipSupport extends ColumnViewerToolTipSupport {
         addInfo(i18n("Result.tooltip.missingBaliseOption"), ObjResultat.VAR_RESULTAT_BALISES_OPTIONS, resultat, builder, BLACK, FONT, ITALIC);
         addInfo(i18n("Result.tooltip.baliseList"), ObjResultat.VAR_RESULTAT_BALISES_OK, resultat, builder, BLACK, FONT, FONT);
 
-        final ButtonModel capture = new ButtonModel("Imprimer");
-        final Composite   control = root.getControl();
-        capture.addWidgetListener(new ButtonListener() {
-            boolean printed = false;
-
-            @Override
-            public void click() {
-                if (!printed) {
-                    printed = true;
-                    ImagePrintUtils.printControl(builder.getControl());
-                }
-            }
-
-            @Override
-            public void onActivate() {
-
-            }
-        });
-
-        root.addButton(capture, SWT.PUSH);
-        control.pack();
-        return control;
+        return builder;
     }
 
     private static void addInfoDate(final String label, final String info, final AbstractGetInfo resultat, final CompositeBuilder composite, final Color color, final String... extra) {
