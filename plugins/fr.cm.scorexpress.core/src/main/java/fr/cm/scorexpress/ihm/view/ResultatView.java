@@ -21,12 +21,13 @@ import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
 
+import static fr.cm.common.widget.button.ButtonBuilder.createButton;
 import static fr.cm.common.widget.composite.CompositeBuilders.createCompositeBuilder;
 import static fr.cm.scorexpress.ihm.editor.ViewColumnViewerToolTipSupport.updateResultat;
 
 public class ResultatView extends ViewPart {
     public static final Color WHITE        = Display.getDefault().getSystemColor(SWT.COLOR_WHITE);
-    public static final Color SYSTEM_COLOR = Display.getDefault().getSystemColor(SWT.COLOR_DARK_CYAN);
+    private final StandardToolKit toolkit = new StandardToolKit();
     private ScrolledComposite sc;
     private Composite         composite;
     private ButtonModel       imprimer;
@@ -51,12 +52,11 @@ public class ResultatView extends ViewPart {
     }
 
     private void showItems(final Object[] items) {
-        final CompositeBuilder builder = createCompositeBuilder(new StandardToolKit(), sc, SWT.NONE);
+        final CompositeBuilder builder = createCompositeBuilder(toolkit, sc, SWT.NONE);
         builder.withLayout(new GridLayout(1, false)).withBackground(WHITE);
 
-        builder.addButton(imprimer, SWT.NONE);
-        for (Object item : items) {
-            if (item != null &&  item instanceof ObjResultat) {
+       for (Object item : items) {
+            if (item != null && item instanceof ObjResultat) {
                 updateResultat(builder.getControl(), (ObjResultat) item);
             }
         }
@@ -72,10 +72,18 @@ public class ResultatView extends ViewPart {
 
     public void createPartControl(final Composite parent) {
         imprimer = new ButtonModel("Imprimer");
+        parent.setLayout(new GridLayout(1, false));
+        createButton(toolkit, parent, imprimer, SWT.NONE);
 
         sc = new ScrolledComposite(parent, SWT.V_SCROLL | SWT.H_SCROLL);
+        final GridData layoutData = new GridData();
+        layoutData.grabExcessHorizontalSpace = true;
+        layoutData.grabExcessVerticalSpace = true;
+        layoutData.verticalAlignment = GridData.FILL;
+        layoutData.horizontalAlignment = GridData.FILL;
+        sc.setLayoutData(layoutData);
 
-        final CompositeBuilder builder = createCompositeBuilder(new StandardToolKit(), sc, SWT.NONE);
+        final CompositeBuilder builder = createCompositeBuilder(toolkit, sc, SWT.NONE);
         composite = builder.getControl();
 
         builder.withLayout(new GridLayout(2, false)).withBackground(WHITE);
