@@ -27,6 +27,7 @@ import static fr.cm.scorexpress.ihm.editor.ViewColumnViewerToolTipSupport.update
 
 public class ResultatView extends ViewPart {
     public static final Color WHITE        = Display.getDefault().getSystemColor(SWT.COLOR_WHITE);
+    public static final Color SYSTEM_COLOR = Display.getDefault().getSystemColor(SWT.COLOR_DARK_CYAN);
     private final StandardToolKit toolkit = new StandardToolKit();
     private ScrolledComposite sc;
     private Composite         composite;

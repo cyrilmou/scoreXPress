@@ -123,7 +123,13 @@ public class ImagePrintUtils {
 
         // We are committed, set the printerData in the settings
         settings.setPrinterData(newPrinterData);
-        printImage(image1, shell.getDisplay().getDPI(), settings);
+        final Point dpi;
+        if (imageDPI != null) {
+            dpi = imageDPI;
+        } else {
+            dpi = shell.getDisplay().getDPI();
+        }
+        printImage(image1, dpi, settings);
         if (!printer.isDisposed()) {
             printer.dispose();
         }
@@ -165,7 +171,34 @@ public class ImagePrintUtils {
                     }
                     return;
                 }
-                drawImage(printer, printer.getDPI(), printer.getBounds(), image1, imageDPI, settings1);
+                final Rectangle bounds         = printer.getBounds();
+                float           printerScale   = (float) bounds.width / (float) bounds.height;
+                final int       imageWidth     = image1.getBounds().width;
+                final int       imageHeight    = image1.getBounds().height;
+                int             newImageHeight = (int) ((float) imageWidth / printerScale);
+                int             nbPages        = imageHeight / newImageHeight;
+                if (imageHeight % newImageHeight > 0) {
+                    nbPages++;
+                }
+
+                for (int page = 0; page < nbPages; page++) {
+                    printer.startPage();
+                    final Image image2 = new Image(image1.getDevice(), imageWidth, newImageHeight);
+
+                    final GC gc = new GC(image2);
+                    final int y = page * newImageHeight;
+                    if (y + newImageHeight > imageHeight) {
+                        final int truncHeight = imageHeight -  y;
+                        gc.drawImage(image1, 0, y, imageWidth, truncHeight, 0, 0, imageWidth, truncHeight);
+                    } else {
+                        gc.drawImage(image1, 0, y, imageWidth, newImageHeight, 0, 0, imageWidth, newImageHeight);
+                    }
+                    gc.dispose();
+
+                    drawImage(printer, printer.getDPI(), bounds, image2, imageDPI, settings1);
+                    image2.dispose();
+                    printer.endPage();
+                }
                 if (image1 != null && !image1.isDisposed()) {
                     image1.dispose();
                 }
