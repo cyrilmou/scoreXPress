@@ -618,6 +618,8 @@ public class PenalityUtils {
                 builder.append(String.format("\n  %s < %d => %s = max(%s, %s)", nbBaliseLabel, penality.getNbBalisesMini(), penalityTimeLabel, penality.getDureeMiniStr(), parcoursLabel));
             }
             builder.append(String.format("\n  %s > %d => bonus = %s x %s", nbBaliseLabel, penality.getNbBalisesMini(), nbBaliseMoreLabel, penality.getPenaliteStr()));
+        } else{
+            builder.append(penality.getInfoStr(VAR_LIB));
         }
         return builder.toString();
     }
