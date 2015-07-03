@@ -5,33 +5,41 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import fr.cm.scorexpress.core.model.ObjChrono;
+
 public class DateUtils {
 
-    private static final transient DateFormat sdf = getSimpleDateFormat("HH:mm:ss");
-    private static final transient DateFormat sdf2 = getSimpleDateFormat2("mm:ss");
-    private static final transient DateFormat sdf3 = getSimpleDateFormat("+HH:mm:ss");
-    private static final transient NumberFormat nf = new DecimalFormat("#,#########");
-    private static final transient DateFormat sdfJour = getSimpleDateFormat("dd");
-    private static final transient DateFormat sdfHeure = getSimpleDateFormat("HH");
-    private static final transient DateFormat sdfMinute = getSimpleDateFormat(":mm:ss");
-    private static final transient DateFormat sdfDate = getSimpleDateFormat("hh:mm:ss dd/MM/yyyy");
-    private static final transient NumberFormat df = new DecimalFormat("00");
-    private static final transient DateFormat sdfPerso = null;
+    private static final transient DateFormat   sdfMinutes = getSimpleDateFormat("mm:ss");
+    private static final transient DateFormat   sdf        = getSimpleDateFormat("HH:mm:ss");
+    private static final transient DateFormat   sdf2       = getSimpleDateFormat2("mm:ss");
+    private static final transient DateFormat   sdf3       = getSimpleDateFormat("+HH:mm:ss");
+    private static final transient NumberFormat nf         = new DecimalFormat("#,#########");
+    private static final transient DateFormat   sdfJour    = getSimpleDateFormat("dd");
+    private static final transient DateFormat   sdfHeure   = getSimpleDateFormat("HH");
+    private static final transient DateFormat   sdfMinute  = getSimpleDateFormat(":mm:ss");
+    private static final transient DateFormat   sdfSecond  = getSimpleDateFormat(":ss");
+    private static final transient DateFormat   sdfDate    = getSimpleDateFormat("hh:mm:ss dd/MM/yyyy");
+    private static final transient NumberFormat df         = new DecimalFormat("00");
+    private static final transient DateFormat   sdfPerso   = null;
 
     private DateUtils() {
     }
 
+    public static int compare(final ObjChrono chrono1, final ObjChrono chrono2) {
+        return chrono1.getTemps().compareTo(chrono2.getTemps());
+    }
+
     private static DateFormat getSimpleDateFormat2(final String pattern) {
-        final DateFormat sdf = new SimpleDateFormat(pattern);
-        final TimeZone timeZone = TimeZone.getDefault();
+        final DateFormat sdf      = new SimpleDateFormat(pattern);
+        final TimeZone   timeZone = TimeZone.getDefault();
         timeZone.setRawOffset(-3600000);
         sdf.setTimeZone(timeZone);
         return sdf;
     }
 
     private static DateFormat getSimpleDateFormat(final String pattern) {
-        final DateFormat sdf = new SimpleDateFormat(pattern);
-        final TimeZone timeZone = TimeZone.getDefault();
+        final DateFormat sdf      = new SimpleDateFormat(pattern);
+        final TimeZone   timeZone = TimeZone.getDefault();
         timeZone.setRawOffset(0);
         sdf.setTimeZone(timeZone);
         return sdf;
@@ -62,7 +70,7 @@ public class DateUtils {
     public static long parseDate(final String source) {
         try {
             return sdfDate.parse(source).getTime();
-        } catch (Exception e) {
+        } catch (final Exception e) {
             return 0;
         }
     }
@@ -77,7 +85,7 @@ public class DateUtils {
         if (sdfPerso != null) {
             try {
                 return sdfPerso.parse(heure);
-            } catch (ParseException e) {
+            } catch (final ParseException e) {
                 e.printStackTrace();
                 return new Date(0);
             }
@@ -89,29 +97,28 @@ public class DateUtils {
                 d = new Date(d.getTime() * -1);
             }
             return d;
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
         }
         try {
             return sdf3.parse(heure);
-        } catch (Exception ex3) {
+        } catch (final Exception ex3) {
         }
         try {
             if (!negatif) {
                 Date d = sdf2.parse(heure);
-                final long offset = Calendar.getInstance().getTimeZone().getOffset(
-                        d.getTime());
+                final long offset = Calendar.getInstance().getTimeZone().getOffset(d.getTime());
                 if (d.getTime() > 0) {
                     d = new Date(d.getTime() - offset);
                 }
                 return d;
             }
-        } catch (ParseException ex2) {
+        } catch (final ParseException ex2) {
         }
         try {
             final double val = nf.parse(heure).doubleValue();
             final long milliseconde = new Double(val * 24 * 3600000).longValue();
             return new Date(milliseconde);
-        } catch (Exception ex1) {
+        } catch (final Exception ex1) {
             return new Date(0);
         }
     }
@@ -126,8 +133,7 @@ public class DateUtils {
             if (date.getTime() < 0) {
                 signe = "-";
                 nbHour = date.getTime() / 3600000;
-                date = DateFactory.createDate(nbHour * 3600000
-                        - date.getTime());
+                date = DateFactory.createDate(nbHour * 3600000 - date.getTime());
             } else if (!hidePlus) {
                 signe = "+";
             }
@@ -145,7 +151,28 @@ public class DateUtils {
                 return df.format(nbHour) + sdfMinute.format(date);
             }
             return signe + sdf.format(date);
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
+            return null;
+        }
+    }
+
+    public static String getMinutesStr(final Date date, final boolean hidePlus) {
+        if (sdfPerso != null) {
+            return sdfPerso.format(date);
+        }
+        try {
+            final long nbMinutes = date.getTime() / 60000;
+            String signe = "";
+            if (date.getTime() < 0) {
+                signe = "-";
+            } else if (!hidePlus) {
+                signe = "+";
+            }
+            if (nbMinutes >= 60) {
+                return getHeureStr(date, hidePlus);
+            }
+            return signe + nbMinutes + sdfSecond.format(date);
+        } catch (final Exception ex) {
             return null;
         }
     }

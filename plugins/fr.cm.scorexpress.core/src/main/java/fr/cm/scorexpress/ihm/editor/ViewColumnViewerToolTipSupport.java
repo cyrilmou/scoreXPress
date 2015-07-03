@@ -1,6 +1,5 @@
 package fr.cm.scorexpress.ihm.editor;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import fr.cm.common.widget.MyToolkit;
@@ -26,35 +25,37 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static fr.cm.common.widget.composite.CompositeBuilders.createCompositeBuilder;
+import static fr.cm.scorexpress.ihm.editor.ToolTipFormatter.lineFormater;
 import static fr.cm.scorexpress.ihm.editor.i18n.Message.i18n;
 
 public class ViewColumnViewerToolTipSupport extends ColumnViewerToolTipSupport {
+    public static final int MAX_LINE_SIZE = 60;
 
     public static final  Color RED           = new Color(Display.getCurrent(), 255, 0, 0);
     public static final  Color BLACK         = new Color(Display.getCurrent(), 0, 0, 0);
     public static final  Color GREEN         = new Color(Display.getCurrent(), 69, 181, 21);
     public static final  Color BLUE          = new Color(Display.getCurrent(), 0, 0, 255);
     public static final  Color WHITE         = Display.getDefault().getSystemColor(SWT.COLOR_WHITE);
-    public static final  int   MAX_LINE_SIZE = 60;
     private static final Font  FONT          = new Font(Display.getCurrent(), new FontData("Courier", 10, SWT.NORMAL));
     private static final Font  BOLD          = new Font(Display.getCurrent(), new FontData("Courier", 10, SWT.BOLD));
     private static final Font  ITALIC        = new Font(Display.getCurrent(), new FontData("Courier", 10, SWT.ITALIC));
 
-    protected ViewColumnViewerToolTipSupport(ColumnViewer viewer, int style, boolean manualActivation) {
+    protected ViewColumnViewerToolTipSupport(final ColumnViewer viewer, final int style, final boolean manualActivation) {
         super(viewer, style, manualActivation);
         setHideDelay(2000);
         setHideOnMouseDown(false);
     }
 
     @Override
-    protected Composite createViewerToolTipContentArea(Event event, ViewerCell cell, final Composite parent) {
+    protected Composite createViewerToolTipContentArea(final Event event, final ViewerCell cell, final Composite parent) {
         final ObjResultat resultat = (ObjResultat) ((ViewerCell) getToolTipArea(event)).getElement();
 
         final CompositeBuilder root = createCompositeBuilder(new StandardToolKit(), parent, SWT.NONE);
         root.withLayout(new RowLayout(SWT.VERTICAL));
         root.withBackground(WHITE);
-        final CompositeBuilder builder = updateResultat(root.getControl(), resultat);
+        final CompositeBuilder builder = updateResultat(root.getControl(), resultat, MAX_LINE_SIZE);
 
         final ButtonModel capture = new ButtonModel("Imprimer");
         capture.addWidgetListener(new ButtonListener() {
@@ -80,7 +81,7 @@ public class ViewColumnViewerToolTipSupport extends ColumnViewerToolTipSupport {
         return root.getControl();
     }
 
-    public static CompositeBuilder updateResultat(final Composite parent, final ObjResultat resultat) {
+    public static CompositeBuilder updateResultat(final Composite parent, final ObjResultat resultat, int maxLineSize) {
         final MyToolkit        toolkit = new StandardToolKit();
         final CompositeBuilder builder = createCompositeBuilder(toolkit, parent, SWT.NONE);
         builder.withBackground(WHITE);
@@ -89,7 +90,8 @@ public class ViewColumnViewerToolTipSupport extends ColumnViewerToolTipSupport {
         builder.addLabel(new LabelModel(resultat.getDossard().getNum() + ". " + resultat.getDossard().getInfoStr("S.FIRSTNAME"))).withFont(BOLD).withBackground(WHITE);
         builder.addLabel(new LabelModel("")).withBackground(WHITE);
 
-        addInfo(i18n("Result.tooltip.finalTime"), ObjResultat.VAR_RESULTAT_TEMPS, resultat, builder, BLUE, FONT, FONT);
+        addInfo(i18n("Result.tooltip.place"), ObjResultat.VAR_RESULTAT_PLACE, resultat, builder, BLUE, FONT, BOLD, maxLineSize);
+        addInfo(i18n("Result.tooltip.finalTime"), ObjResultat.VAR_RESULTAT_TEMPS, resultat, builder, BLUE, FONT, FONT, maxLineSize);
         String extra = "";
         if (!resultat.getTempsArretChronoResultat().isNull()) {
             extra = " = " + resultat.getInfo(ObjResultat.VAR_TEMPSPARCOURS) + " " + resultat.getTempsArretChronoResultat();
@@ -99,14 +101,14 @@ public class ViewColumnViewerToolTipSupport extends ColumnViewerToolTipSupport {
         addInfoDate(i18n("Result.tooltip.bonusTime"), ObjResultat.VAR_BONIFICATION, resultat, builder, GREEN);
         addInfoDate(i18n("Result.tooltip.otherPenalityTime"), ObjResultat.VAR_PENALITE_AUTRE, resultat, builder, RED);
         addInfoDate(i18n("Result.tooltip.penalityTime"), ObjResultat.VAR_PENALITE_BALISE, resultat, builder, RED);
-        addInfo(i18n("Result.tooltip.nbBalise"), ObjResultat.VAR_NB_BALISE, resultat, builder, BLUE, FONT, FONT);
-        addInfo(i18n("Result.tooltip.nbPenaliteBalise"), ObjResultat.VAR_NB_PENALITE, resultat, builder, RED, FONT, FONT);
-        addInfo(i18n("Result.tooltip.nbBaliseBonus"), ObjResultat.VAR_NB_BALISE_BONUS, resultat, builder, GREEN, FONT, FONT);
-        addInfo(i18n("Result.tooltip.missingBalise"), ObjResultat.VAR_RESULTAT_BALISES_PENALITES, resultat, builder, RED, FONT, FONT);
-        addInfo(i18n("Result.tooltip.baliseBonus"), ObjResultat.VAR_RESULTAT_BALISESBONUS, resultat, builder, GREEN, FONT, FONT);
-        addInfo(i18n("Result.tooltip.baliseDisordered"), ObjResultat.VAR_RESULTAT_BALISE_DISORDERED, resultat, builder, RED, FONT, FONT);
-        addInfo(i18n("Result.tooltip.missingBaliseOption"), ObjResultat.VAR_RESULTAT_BALISES_OPTIONS, resultat, builder, BLACK, FONT, ITALIC);
-        addInfo(i18n("Result.tooltip.baliseList"), ObjResultat.VAR_RESULTAT_BALISES_OK, resultat, builder, BLACK, FONT, FONT);
+        addInfo(i18n("Result.tooltip.nbBalise"), ObjResultat.VAR_NB_BALISE, resultat, builder, BLUE, FONT, FONT, maxLineSize);
+        addInfo(i18n("Result.tooltip.nbPenaliteBalise"), ObjResultat.VAR_NB_PENALITE, resultat, builder, RED, FONT, FONT, maxLineSize);
+        addInfo(i18n("Result.tooltip.nbBaliseBonus"), ObjResultat.VAR_NB_BALISE_BONUS, resultat, builder, GREEN, FONT, FONT, maxLineSize);
+        addInfo(i18n("Result.tooltip.missingBalise"), ObjResultat.VAR_RESULTAT_BALISES_PENALITES, resultat, builder, RED, FONT, FONT, maxLineSize);
+        addInfo(i18n("Result.tooltip.baliseBonus"), ObjResultat.VAR_RESULTAT_BALISESBONUS, resultat, builder, GREEN, FONT, FONT, maxLineSize);
+        addInfo(i18n("Result.tooltip.baliseDisordered"), ObjResultat.VAR_RESULTAT_BALISE_DISORDERED, resultat, builder, RED, FONT, FONT, maxLineSize);
+        addInfo(i18n("Result.tooltip.missingBaliseOption"), ObjResultat.VAR_RESULTAT_BALISES_OPTIONS, resultat, builder, BLACK, FONT, ITALIC, maxLineSize);
+        addInfo(i18n("Result.tooltip.baliseList"), ObjResultat.VAR_RESULTAT_BALISES_OK, resultat, builder, BLACK, FONT, FONT, maxLineSize);
 
         return builder;
     }
@@ -126,31 +128,11 @@ public class ViewColumnViewerToolTipSupport extends ColumnViewerToolTipSupport {
         }
     }
 
-    private static void addInfo(final String label, final String attribute, final AbstractGetInfo resultat, final CompositeBuilder composite, final Color color, Font font, Font fontValue) {
+    private static void addInfo(final String label, final String attribute, final AbstractGetInfo resultat, final CompositeBuilder composite, final Color color, final Font font, final Font fontValue, int maxLineSize) {
         final String        element = resultat.getInfoStr(attribute);
         final StringBuilder builder = new StringBuilder();
         if (!element.isEmpty()) {
-            Collection<String> lines = new ArrayList<String>();
-            if (element.length() > MAX_LINE_SIZE) {
-                int length = 0;
-                for (final String split : element.split("]")) {
-                    length += split.length() + 1;
-                    if (length < MAX_LINE_SIZE) {
-                        builder.append(split).append(']');
-                    } else {
-                        lines.add(builder.toString());
-                        builder.setLength(0);
-                        builder.append(split).append(']');
-                    }
-                    length = builder.length();
-                }
-                if (length > 0) {
-                    lines.add(builder.toString());
-                }
-
-            } else {
-                lines.add(element);
-            }
+            final Collection<String> lines = lineFormater(element, builder, maxLineSize);
             boolean start = false;
             for (final String line : lines) {
                 if (!start) {

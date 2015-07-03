@@ -1,21 +1,14 @@
 package fr.cm.scorexpress.core.util;
 
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
-import fr.cm.scorexpress.core.model.AbstractSteps;
-import fr.cm.scorexpress.core.model.ObjChrono;
-import fr.cm.scorexpress.core.model.ObjDossard;
-import fr.cm.scorexpress.core.model.ObjResultat;
-import fr.cm.scorexpress.core.model.ObjUserChronos;
-import fr.cm.scorexpress.core.model.impl.Date2;
-import fr.cm.scorexpress.core.model.impl.ObjStep;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
+import fr.cm.scorexpress.core.model.*;
+import fr.cm.scorexpress.core.model.impl.Date2;
+import fr.cm.scorexpress.core.model.impl.ObjStep;
 
 import static com.google.common.collect.Collections2.filter;
 import static com.google.common.collect.Collections2.transform;
@@ -114,6 +107,16 @@ public class CalculResultatsUtils {
                 }
                 return false;
             }
+            if (errorDepart) {
+                result.setDepartTime(createDate(true));
+            } else {
+                result.setDepartTime(createDate(startChrono.getTemps()));
+            }
+            if (errorEnd) {
+                result.setArriveeTime(createDate(true));
+            } else {
+                result.setArriveeTime(createDate(endChrono.getTemps()));
+            }
         } else {
             result.setNotArrived(true);
             result.setDeclasse(true);
@@ -125,8 +128,8 @@ public class CalculResultatsUtils {
         if (resultat == null || resultat.getParent() == null) {
             return;
         }
-        final AbstractSteps steps = (AbstractSteps) resultat.getParent();
-        final ObjDossard dossard = resultat.getDossard();
+        final AbstractSteps steps   = (AbstractSteps) resultat.getParent();
+        final ObjDossard    dossard = resultat.getDossard();
         for (final ObjStep subStep : steps.getSteps()) {
             /* Traite l'étape si celle-ci est active */
             if (subStep.isActif()) {
@@ -195,7 +198,7 @@ public class CalculResultatsUtils {
                     return true;
                 }
                 final CharSequence resultCategory = objResultat.getDossard().getCategory();
-                final Matcher matcher = pattern.matcher(resultCategory);
+                final Matcher      matcher        = pattern.matcher(resultCategory);
                 return matcher.matches();
             }
         };
@@ -203,14 +206,14 @@ public class CalculResultatsUtils {
 
     private static Function<ObjResultat, ObjResultat> toNumeroteResult(final boolean byCategory) {
         return new Function<ObjResultat, ObjResultat>() {
+            private final Map<String, Integer> categoryNr = new HashMap<String, Integer>();
             private ObjResultat first = null;
             private ObjResultat last = null;
             private int nr = 1;
-            private final Map<String, Integer> categoryNr = new HashMap<String, Integer>();
 
             private int incrNr(final ObjResultat resultat) {
-                final String cat = resultat.getDossard().getCategory();
-                int result = 1;
+                final String cat    = resultat.getDossard().getCategory();
+                int          result = 1;
                 if (categoryNr.containsKey(cat)) {
                     final Integer value = categoryNr.get(cat);
                     result = value.intValue() + 1;
@@ -225,12 +228,10 @@ public class CalculResultatsUtils {
                     return null;
                 }
                 if (last != null && equalsDate(last.getTemps(), resultat.getTemps())) {
-                    resultat.setInfo(VAR_RESULTAT_PLACE,
-                                     noNumberForAbandonAndDisqualify(resultat, last.getInfoStr(VAR_RESULTAT_PLACE)));
+                    resultat.setInfo(VAR_RESULTAT_PLACE, noNumberForAbandonAndDisqualify(resultat, last.getInfoStr(VAR_RESULTAT_PLACE)));
                 } else {
                     if (byCategory) {
-                        resultat.setInfo(VAR_RESULTAT_PLACE,
-                                         noNumberForAbandonAndDisqualify(resultat, incrNr(resultat) + EMPTY));
+                        resultat.setInfo(VAR_RESULTAT_PLACE, noNumberForAbandonAndDisqualify(resultat, incrNr(resultat) + EMPTY));
                     } else {
                         resultat.setInfo(VAR_RESULTAT_PLACE, noNumberForAbandonAndDisqualify(resultat, nr + EMPTY));
                     }

@@ -24,7 +24,7 @@ public class ObjResultat extends IData implements Comparable<ObjResultat> {
     public static final String                 VAR_RESULTAT_PLACE             = "PLACE";
     public static final String                 VAR_RESULTAT_PENALITE          = "PENALITE";
     public static final String                 VAR_RESULTAT_BALISES_PENALITES = "BALISESPENALITES";
-    public static final String                 VAR_RESULTAT_BALISES_OPTIONS    = "BALISESOPTIONS";
+    public static final String                 VAR_RESULTAT_BALISES_OPTIONS   = "BALISESOPTIONS";
     public static final String                 VAR_RESULTAT_BALISESMANQUEES   = "BALISESMANQUEES";
     public static final String                 VAR_RESULTAT_BALISESBONUS      = "BALISESBONUS";
     public static final String                 VAR_RESULTAT_BALISE_DISORDERED = "BALISESDISORDERED";
@@ -62,6 +62,8 @@ public class ObjResultat extends IData implements Comparable<ObjResultat> {
     private boolean               error          = false;
     private Collection<String>    errors         = newArrayList();
     private Collection<ObjChrono> chronos        = newArrayList();
+    private Date2 departTime;
+    private Date2 arriveeTime;
 
     public ObjResultat() {
         penaliteBalise.setAffichage(true, false, true);
@@ -108,7 +110,7 @@ public class ObjResultat extends IData implements Comparable<ObjResultat> {
                 res += "(HC)";
             }
             return res;
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             return Messages.i18n("ObjResultat.NC");
         }
     }
@@ -463,11 +465,27 @@ public class ObjResultat extends IData implements Comparable<ObjResultat> {
         return tempsChronoMiniResultat;
     }
 
-    public void addChrono(ObjChrono chrono) {
+    public void addChrono(final ObjChrono chrono) {
         chronos.add(chrono);
     }
 
     public Collection<ObjChrono> getChronos() {
         return chronos;
+    }
+
+    public void setDepartTime(final Date2 departTime) {
+        this.departTime = departTime;
+    }
+
+    public void setArriveeTime(final Date2 arriveeTime) {
+        this.arriveeTime = arriveeTime;
+    }
+
+    public Date2 getArriveeTime() {
+        return arriveeTime;
+    }
+
+    public Date2 getDepartTime() {
+        return departTime;
     }
 }

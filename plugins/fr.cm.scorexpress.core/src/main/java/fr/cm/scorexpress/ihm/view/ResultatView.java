@@ -14,7 +14,6 @@ import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.ISelectionListener;
@@ -28,10 +27,12 @@ import static fr.cm.scorexpress.ihm.editor.ViewColumnViewerToolTipSupport.update
 public class ResultatView extends ViewPart {
     public static final Color WHITE        = Display.getDefault().getSystemColor(SWT.COLOR_WHITE);
     public static final Color SYSTEM_COLOR = Display.getDefault().getSystemColor(SWT.COLOR_DARK_CYAN);
+    public static final int MAX_LINE_SIZE = 100;
     private final StandardToolKit toolkit = new StandardToolKit();
     private ScrolledComposite sc;
     private Composite         composite;
     private ButtonModel       imprimer;
+    private IWorkbenchPart    sourcepart;
     private ISelectionListener listener = new ISelectionListener() {
         public void selectionChanged(IWorkbenchPart sourcepart, ISelection selection) {
             // we ignore our own selections
@@ -45,7 +46,7 @@ public class ResultatView extends ViewPart {
      * Shows the given selection in this view.
      */
     public void showSelection(IWorkbenchPart sourcepart, ISelection selection) {
-        setContentDescription(sourcepart.getTitle());
+        this.sourcepart = sourcepart;
         if (selection instanceof IStructuredSelection) {
             IStructuredSelection ss = (IStructuredSelection) selection;
             showItems(ss.toArray());
@@ -56,11 +57,19 @@ public class ResultatView extends ViewPart {
         final CompositeBuilder builder = createCompositeBuilder(toolkit, sc, SWT.NONE);
         builder.withLayout(new GridLayout(1, false)).withBackground(WHITE);
 
-       for (Object item : items) {
+        boolean found = false;
+        for (Object item : items) {
             if (item != null && item instanceof ObjResultat) {
-                updateResultat(builder.getControl(), (ObjResultat) item);
+                found = true;
+                updateResultat(builder.getControl(), (ObjResultat) item, MAX_LINE_SIZE);
             }
         }
+        if (!found) {
+            builder.dispose();
+            return;
+        }
+        setContentDescription(sourcepart.getTitle());
+
         sc.setContent(builder.getControl());
         sc.setExpandHorizontal(true);
         sc.setExpandVertical(true);
