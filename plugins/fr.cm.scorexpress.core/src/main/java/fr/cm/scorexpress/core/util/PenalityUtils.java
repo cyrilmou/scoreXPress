@@ -206,7 +206,7 @@ public class PenalityUtils {
             final Balise balise = balisesOk.get(chrono);
             if (balise != null) {
                 final String extra;
-                if (start != null) {
+                if (start != null && !start.isNull()) {
                     final Date2 date2 = DateFactory.createDate(chrono.getTemps());
                     DateUtils.downTime(date2, start);
                     extra = String.format("(%s)", DateUtils.getMinutesStr(date2, false));

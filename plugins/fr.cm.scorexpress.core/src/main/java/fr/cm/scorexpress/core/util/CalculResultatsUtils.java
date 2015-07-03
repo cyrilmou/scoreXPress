@@ -105,23 +105,28 @@ public class CalculResultatsUtils {
                 if (errorDureeNegative) {
                     result.getTempsParcours().setAffichage(true, false, true);
                 }
+                updateDepartArriveeStep(result, errorDepart, startChrono, endChrono, errorEnd);
                 return false;
             }
-            if (errorDepart) {
-                result.setDepartTime(createDate(true));
-            } else {
-                result.setDepartTime(createDate(startChrono.getTemps()));
-            }
-            if (errorEnd) {
-                result.setArriveeTime(createDate(true));
-            } else {
-                result.setArriveeTime(createDate(endChrono.getTemps()));
-            }
+            updateDepartArriveeStep(result, errorDepart, startChrono, endChrono, errorEnd);
         } else {
             result.setNotArrived(true);
             result.setDeclasse(true);
         }
         return true;
+    }
+
+    private static void updateDepartArriveeStep(final ObjResultat result, final boolean errorDepart, final ObjChrono startChrono, final ObjChrono endChrono, final boolean errorEnd) {
+        if (errorDepart) {
+            result.setDepartTime(createDate(true));
+        } else {
+            result.setDepartTime(createDate(startChrono.getTemps()));
+        }
+        if (errorEnd) {
+            result.setArriveeTime(createDate(true));
+        } else {
+            result.setArriveeTime(createDate(endChrono.getTemps()));
+        }
     }
 
     public static void calculStatusSousEtape(final ObjResultat resultat) {

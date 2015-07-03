@@ -161,10 +161,11 @@ public class DateUtils {
             return sdfPerso.format(date);
         }
         try {
-            final long nbMinutes = date.getTime() / 60000;
+            long nbMinutes = date.getTime() / 60000;
             String signe = "";
             if (date.getTime() < 0) {
                 signe = "-";
+                nbMinutes *= -1;
             } else if (!hidePlus) {
                 signe = "+";
             }
