@@ -1,18 +1,17 @@
 package fr.cm.scorexpress.ihm.view.dnd;
 
+import java.io.*;
+
 import fr.cm.scorexpress.core.model.impl.ObjStep;
 import org.eclipse.swt.dnd.ByteArrayTransfer;
 import org.eclipse.swt.dnd.TransferData;
 
-import java.io.*;
-
 public class StepTransfer extends ByteArrayTransfer {
-    private static final StepTransfer instance = new StepTransfer();
-    private static final String TYPE_NAME = "step-transfer-format";
-    private static final int TYPEID = registerType(TYPE_NAME);
+    private static final StepTransfer instance  = new StepTransfer();
+    private static final String       TYPE_NAME = "step-transfer-format";
+    private static final int          TYPEID    = registerType(TYPE_NAME);
 
-    public static StepTransfer getStepTransfer() {
-        return instance;
+    private StepTransfer() {
     }
 
     protected ObjStep fromByteArray(final byte[] bytes) {
@@ -25,9 +24,6 @@ public class StepTransfer extends ByteArrayTransfer {
         }
     }
 
-    private StepTransfer() {
-    }
-
     protected int[] getTypeIds() {
         return new int[]{TYPEID};
     }
@@ -37,9 +33,10 @@ public class StepTransfer extends ByteArrayTransfer {
     }
 
     protected void javaToNative(final Object object, final TransferData transferData) {
-        final byte[] bytes = toByteArray((ObjStep) object);
-        if (bytes != null)
+        final byte[] bytes = toByteArray(object);
+        if (bytes != null) {
             super.javaToNative(bytes, transferData);
+        }
     }
 
     protected Object nativeToJava(final TransferData transferData) {
@@ -51,7 +48,11 @@ public class StepTransfer extends ByteArrayTransfer {
         return (ObjStep) dataIn.readObject();
     }
 
-    protected byte[] toByteArray(final ObjStep step) {
+    protected byte[] toByteArray(final Object object) {
+        if (!(object instanceof ObjStep)) {
+            return null;
+        }
+        final ObjStep               step    = (ObjStep) object;
         final ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
 
         byte[] bytes = null;
@@ -70,5 +71,9 @@ public class StepTransfer extends ByteArrayTransfer {
 
     private void writeStep(final ObjStep step, final ObjectOutputStream dataOut) throws IOException {
         dataOut.writeObject(step);
+    }
+
+    public static StepTransfer getStepTransfer() {
+        return instance;
     }
 }
