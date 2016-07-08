@@ -31,11 +31,12 @@ public class NavigatorTooltipManager implements Listener {
 
         tree.addListener(MouseMove, new NavigatorTooltipManager(tree));
         tree.addListener(MouseExit, new Listener() {
-            @Override
-            public void handleEvent(final Event event) {
-                tree.setToolTipText(EMPTY);
-            }
-        });
+                             @Override
+                             public void handleEvent(final Event event) {
+                                 tree.setToolTipText(EMPTY);
+                             }
+                         }
+        );
     }
 
     private static String createToolTip(final ObjStep step) {
@@ -67,15 +68,16 @@ public class NavigatorTooltipManager implements Listener {
         final String start = step.getBaliseDepart();
         final String end   = step.getBaliseArrivee();
 
-        if (step.isEpreuve() && !step.isCumulerSousEtape() || start != null && end != null) {
-            toolTip.append('\n').append(i18n("Tooltip.epreuveDesc")).append(": ")
-                    .append(start == null ? i18n("Tooltip.start") : start).append(" -> ")
-                    .append(end == null ? i18n("Tooltip.end") : end);
-        }
         if (step.isEpreuve() && step.isCumulerSousEtape()) {
             toolTip.append('\n').append(i18n("Tooltip.epreuveDesc")).append(" :");
             for (final Step subStep : step.getSteps()) {
                 toolTip.append("\n  + ").append(subStep.getLib());
+            }
+        }else{
+            toolTip.append('\n').append(i18n("Tooltip.epreuveDesc")).append(": ");
+            if(!step.isEpreuve()){
+                toolTip.append(start == null ? i18n("Tooltip.start") : start).append(" -> ")
+                        .append(end == null ? i18n("Tooltip.end") : end);
             }
         }
     }
