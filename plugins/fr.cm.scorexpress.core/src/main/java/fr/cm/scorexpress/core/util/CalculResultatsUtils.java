@@ -80,6 +80,9 @@ public class CalculResultatsUtils {
             }
             if (errorEnd) {
                 error = true;
+                if(!step.isEpreuve()){
+                    result.setDeclasse(true);
+                }
             }
             if (errorDepart && !errorEnd) {
                 result.setError(true);
@@ -98,6 +101,7 @@ public class CalculResultatsUtils {
                     errorDureeNegative = true;
                     result.addError("Duree negative");
                     result.getTemps().setAffichage(true, false, true);
+                    result.setDeclasse(true);
                 }
                 /* Calcul du temps de parcours de l'étape sauvegardée */
                 result.getTempsParcours().setTime(result.getTemps().getTime());
@@ -279,11 +283,12 @@ public class CalculResultatsUtils {
     }
 
     public static void updateClassement(final Iterable<ObjResultat> results, final boolean byCategory) {
-        final List<ObjResultat> newResults = newArrayList(results);
-        Collections.sort(newResults, byTime());
-        Collections.sort(newResults, byDeclassed());
-        Collections.sort(newResults, byAbandon());
-        newArrayList(transform(newResults, toNumeroteResult(byCategory)));
+        filterResults(results, new Predicate<ObjResultat>() {
+                          @Override
+                          public boolean apply(final ObjResultat input) {
+                              return true;
+                          }
+                      }, byCategory);
     }
 }
 

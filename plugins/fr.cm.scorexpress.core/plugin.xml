@@ -239,6 +239,16 @@
                     tooltip="Masquer les abandons"/>
             <action
                     class="fr.cm.scorexpress.ihm.action.HideResultatAction"
+                    icon="resources/icons/next_nav.gif"
+                    id="fr.cm.chronos.actions.HideTooltip"
+                    label="Aide"
+                    menubarPath="fr.cm.chronos.extensions.menu.Affichage/group1"
+                    state="false"
+                    style="toggle"
+                    toolbarPath="additions"
+                    tooltip="Masquer les bulles d'aide"/>
+            <action
+                    class="fr.cm.scorexpress.ihm.action.HideResultatAction"
                     icon="resources/icons/ihigh_obj.gif"
                     id="fr.cm.chronos.actions.SignalError"
                     label="Signaler erreurs (rouge)"

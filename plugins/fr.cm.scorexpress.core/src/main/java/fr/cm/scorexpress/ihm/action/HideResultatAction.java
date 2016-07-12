@@ -10,6 +10,7 @@ import org.eclipse.ui.IEditorPart;
 public class HideResultatAction implements IEditorActionDelegate {
     public static final String      ID_HIDE_DECLASSE = "fr.cm.chronos.actions.HideDeclasse";
     public static final String      ID_HIDE_ABANDON  = "fr.cm.chronos.actions.HideAbandon";
+    public static final String      ID_HIDE_TOOLTIP  = "fr.cm.chronos.actions.HideTooltip";
     public static final String      ID_SIGNAL_ERROR  = "fr.cm.chronos.actions.SignalError";
     public static final String      ID_AJUSTE_COLUMN = "fr.cm.chronos.actions.AdjustColumn";
     private             IEditorPart editor           = null;
@@ -51,6 +52,9 @@ public class HideResultatAction implements IEditorActionDelegate {
             }
             if (action.getId().equals(ID_HIDE_ABANDON)) {
                 resultatEtapeEditor.getModel().setHideAbandon(action.isChecked());
+            }
+            if (action.getId().equals(ID_HIDE_TOOLTIP)) {
+                resultatEtapeEditor.getModel().setHideTooltip(action.isChecked());
             }
             if (action.getId().equals(ID_SIGNAL_ERROR)) {
                 resultatEtapeEditor.getModel().setSignalError(action.isChecked());

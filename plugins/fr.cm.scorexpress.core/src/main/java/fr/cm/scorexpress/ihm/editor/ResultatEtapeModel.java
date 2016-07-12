@@ -64,6 +64,7 @@ public class ResultatEtapeModel implements PropertyChangeListener {
     private final TextModifyAdapter<String> modifySearchTextListener;
     private boolean hideDeclasse     = false;
     private boolean hideAbandon      = false;
+    private boolean hideTooltip      = false;
     private boolean dirty            = false;
     private boolean signalError      = false;
     private String  infoLabelContent = "";
@@ -185,6 +186,14 @@ public class ResultatEtapeModel implements PropertyChangeListener {
     public void setHideAbandon(final boolean hideAbandon) {
         this.hideAbandon = hideAbandon;
         tableModel.refilter();
+    }
+
+    public boolean isHideTooltip() {
+        return hideTooltip;
+    }
+
+    public void setHideTooltip(boolean hideTooltip) {
+        this.hideTooltip = hideTooltip;
     }
 
     public String getLabel() {

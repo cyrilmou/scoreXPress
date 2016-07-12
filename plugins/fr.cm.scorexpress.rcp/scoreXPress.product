@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="ScoreXPress" uid="fr.cm.scorexpress.product" id="fr.cm.scorexpress.rcp.product" application="fr.cm.scorexpress.rcp.application" version="2.1.260" useFeatures="false" includeLaunchers="true">
+<product name="ScoreXPress" uid="fr.cm.scorexpress.product" id="fr.cm.scorexpress.rcp.product" application="fr.cm.scorexpress.rcp.application" version="2.1.261" useFeatures="false" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/fr.cm.scorexpress.rcp/icons/About.gif"/>
@@ -59,6 +59,7 @@ contact: chronosraid@gmail.com\n
       <plugin id="org.apache.xerces"/>
       <plugin id="org.apache.xml.resolver"/>
       <plugin id="org.apache.xml.serializer"/>
+      <plugin id="org.eclipse.compare.core"/>
       <plugin id="org.eclipse.core.commands"/>
       <plugin id="org.eclipse.core.contenttype"/>
       <plugin id="org.eclipse.core.databinding"/>
@@ -79,6 +80,7 @@ contact: chronosraid@gmail.com\n
       <plugin id="org.eclipse.core.resources.win32.x86" fragment="true"/>
       <plugin id="org.eclipse.core.runtime"/>
       <plugin id="org.eclipse.core.runtime.compatibility.registry" fragment="true"/>
+      <plugin id="org.eclipse.core.variables"/>
       <plugin id="org.eclipse.equinox.app"/>
       <plugin id="org.eclipse.equinox.common"/>
       <plugin id="org.eclipse.equinox.http.registry"/>
@@ -125,12 +127,14 @@ contact: chronosraid@gmail.com\n
       <plugin id="org.eclipse.ui"/>
       <plugin id="org.eclipse.ui.carbon" fragment="true"/>
       <plugin id="org.eclipse.ui.cocoa" fragment="true"/>
+      <plugin id="org.eclipse.ui.console"/>
       <plugin id="org.eclipse.ui.forms"/>
       <plugin id="org.eclipse.ui.ide"/>
       <plugin id="org.eclipse.ui.intro"/>
       <plugin id="org.eclipse.ui.views.log"/>
       <plugin id="org.eclipse.ui.win32" fragment="true"/>
       <plugin id="org.eclipse.ui.workbench"/>
+      <plugin id="org.eclipse.ui.workbench.texteditor"/>
    </plugins>
 
 

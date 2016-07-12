@@ -49,7 +49,8 @@ class ResultatEtapeColumnRenderer extends TableColumnRenderer<ObjResultat> {
         addInfo(i18n("Result.tooltip.baliseBonus"), ObjResultat.VAR_RESULTAT_BALISESBONUS, resultat, builder);
         addInfo(i18n("Result.tooltip.baliseDisordered"), ObjResultat.VAR_RESULTAT_BALISE_DISORDERED, resultat, builder);
 
-
+        if(model.isHideTooltip())
+            return null;
         return builder.toString();
     }
 

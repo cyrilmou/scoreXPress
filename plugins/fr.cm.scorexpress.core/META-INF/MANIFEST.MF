@@ -19,7 +19,8 @@ Require-Bundle: fr.cm.common;bundle-version="[2.1.0,3.0.0)";visibility:=reexport
  org.eclipse.help,
  org.eclipse.help.base,
  org.eclipse.help.ui,
- org.eclipse.help.webapp
+ org.eclipse.help.webapp,
+ org.eclipse.ui.console
 Bundle-ActivationPolicy: lazy
 Export-Package: fr.cm.scorexpress.applicative,
  fr.cm.scorexpress.commands,

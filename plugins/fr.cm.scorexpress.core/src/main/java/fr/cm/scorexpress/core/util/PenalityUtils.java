@@ -598,8 +598,9 @@ public class PenalityUtils {
             for (int i = 0; i < nbBonus; i++) {
                 downTime(resultat.getBonification(), penality.getEchellePenalite());
             }
-            if (nbBonus > 0) {
-                appendDataList(resultat, "", "", VAR_RESULTAT_BALISESBONUS, nbBonus + " x " + createDate(penality.getEchellePenalite()).showSign());
+            final Date2 echellePenalite = createDate(penality.getEchellePenalite());
+            if (nbBonus > 0 && !echellePenalite.equals(createDate(0))) {
+                appendDataList(resultat, "", "", VAR_RESULTAT_BALISESBONUS, nbBonus + " x " + echellePenalite.showSign());
             }
         }
     }
