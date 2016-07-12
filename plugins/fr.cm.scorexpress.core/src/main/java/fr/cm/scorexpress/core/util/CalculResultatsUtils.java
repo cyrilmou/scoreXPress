@@ -150,6 +150,9 @@ public class CalculResultatsUtils {
                     if (resultatEtape.isError()) {
                         resultat.setError(true);
                     }
+                    if (resultatEtape.isTriche()) {
+                        resultat.setTriche(true);
+                    }
                     // Déclassement du resultat si le résultat de la sous-étape est déclassé
                     if (resultatEtape.isDeclasse()) {
                         //resultat.addError("{Declasse dans une sous-etape}");

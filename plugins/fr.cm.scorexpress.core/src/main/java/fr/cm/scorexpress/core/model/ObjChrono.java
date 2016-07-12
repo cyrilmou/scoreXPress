@@ -4,15 +4,16 @@ import fr.cm.scorexpress.core.model.impl.Date2;
 import static fr.cm.scorexpress.core.model.impl.DateFactory.createDate;
 
 public class ObjChrono extends IData {
-    private static final long serialVersionUID = 3671369196661391371L;
-    public static final String VAR_CHRONO_DOSSARD = "DOSSARD";
-    public static final String VAR_CHRONO_DOSSARD_SPORTIDENT = "N° dép.";
-    public static final String VAR_CHRONO_NUMBALISE = "NUMBALISE";
-    public static final String VAR_CHRONO_HEURE = "HEURE";
+    private static final long   serialVersionUID              = 3671369196661391371L;
+    public static final  String VAR_CHRONO_DOSSARD            = "DOSSARD";
+    public static final  String VAR_CHRONO_DOSSARD_SPORTIDENT = "N° dép.";
+    public static final  String VAR_CHRONO_NUMBALISE          = "NUMBALISE";
+    public static final  String VAR_CHRONO_HEURE              = "HEURE";
 
-    private String numBalise;
-    private Date2 temps;
+    private String  numBalise;
+    private Date2   temps;
     private boolean cancel = false;
+    private boolean triche;
 
     public ObjChrono(final String numBalise) {
         this.numBalise = numBalise;
@@ -108,5 +109,13 @@ public class ObjChrono extends IData {
 
     public String toString() {
         return '<' + numBalise + ",tps=" + temps + ',' + cancel + '>';
+    }
+
+    public boolean isTriche() {
+        return triche;
+    }
+
+    public void setTriche(final boolean triche) {
+        this.triche = triche;
     }
 }

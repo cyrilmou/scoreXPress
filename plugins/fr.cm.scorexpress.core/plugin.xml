@@ -243,7 +243,7 @@
                     id="fr.cm.chronos.actions.HideTooltip"
                     label="Aide"
                     menubarPath="fr.cm.chronos.extensions.menu.Affichage/group1"
-                    state="false"
+                    state="true"
                     style="toggle"
                     toolbarPath="additions"
                     tooltip="Masquer les bulles d'aide"/>

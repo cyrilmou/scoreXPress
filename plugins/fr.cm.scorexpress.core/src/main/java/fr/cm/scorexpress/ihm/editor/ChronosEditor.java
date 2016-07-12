@@ -115,6 +115,7 @@ public class ChronosEditor extends EditorPart implements IAutoAjustColumnEditor,
                 ajustementDesColonnes();
             }
         });
+        autoAjustement = this.input.getAutoResizeContext().isAutoResize();
     }
 
     @Override
@@ -413,7 +414,9 @@ public class ChronosEditor extends EditorPart implements IAutoAjustColumnEditor,
             if (index != -1) {
                 final String numBalise = champ.substring(VAR_PREFIX_BALISE.length());
                 final ObjChrono chrono = userChronos.getChronoEnableHasPossible(numBalise);
-                if (chrono != null && chrono.isCancel()) {
+                if (chrono != null && chrono.isTriche()) {
+                    return Display.getCurrent().getSystemColor(COLOR_RED);
+                } else if (chrono != null && chrono.isCancel()) {
                     return Display.getCurrent().getSystemColor(COLOR_DARK_GREEN);
                 } else {
                     if (chrono == null || chrono.isNull()) {

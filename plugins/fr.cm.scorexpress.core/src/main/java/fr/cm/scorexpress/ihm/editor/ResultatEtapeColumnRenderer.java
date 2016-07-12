@@ -77,6 +77,9 @@ class ResultatEtapeColumnRenderer extends TableColumnRenderer<ObjResultat> {
     @Override
     public Color getBackground(final Object element) {
         final ObjResultat resultat = (ObjResultat) element;
+        if(resultat.isTriche()){
+            return new Color(Display.getCurrent(), 255, 128, 0);
+        }
         if (resultat.isError() && model.isSignalError()) {
             resultat.showErrors();
             return new Color(Display.getCurrent(), 255, 0, 0);

@@ -60,6 +60,7 @@ public class ObjResultat extends IData implements Comparable<ObjResultat> {
     private boolean               horsClassement = false;
     private boolean               notArrived     = false;
     private boolean               error          = false;
+    private boolean               triche         = false;
     private Collection<String>    errors         = newArrayList();
     private Collection<ObjChrono> chronos        = newArrayList();
     private Date2 departTime;
@@ -473,19 +474,27 @@ public class ObjResultat extends IData implements Comparable<ObjResultat> {
         return chronos;
     }
 
-    public void setDepartTime(final Date2 departTime) {
-        this.departTime = departTime;
+    public Date2 getArriveeTime() {
+        return arriveeTime;
     }
 
     public void setArriveeTime(final Date2 arriveeTime) {
         this.arriveeTime = arriveeTime;
     }
 
-    public Date2 getArriveeTime() {
-        return arriveeTime;
-    }
-
     public Date2 getDepartTime() {
         return departTime;
+    }
+
+    public void setDepartTime(final Date2 departTime) {
+        this.departTime = departTime;
+    }
+
+    public boolean isTriche() {
+        return triche;
+    }
+
+    public void setTriche(final boolean triche) {
+        this.triche = triche;
     }
 }

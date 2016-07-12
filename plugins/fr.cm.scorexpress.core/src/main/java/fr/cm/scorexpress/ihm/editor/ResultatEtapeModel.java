@@ -64,7 +64,7 @@ public class ResultatEtapeModel implements PropertyChangeListener {
     private final TextModifyAdapter<String> modifySearchTextListener;
     private boolean hideDeclasse     = false;
     private boolean hideAbandon      = false;
-    private boolean hideTooltip      = false;
+    private boolean hideTooltip      = true;
     private boolean dirty            = false;
     private boolean signalError      = false;
     private String  infoLabelContent = "";
