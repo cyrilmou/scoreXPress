@@ -1,30 +1,14 @@
 package fr.cm.scorexpress.data;
 
-import fr.cm.scorexpress.core.model.ColTable;
-import fr.cm.scorexpress.core.model.ObjCategorie;
-import fr.cm.scorexpress.core.model.ObjChrono;
-import fr.cm.scorexpress.core.model.ObjChronoArrivee;
-import fr.cm.scorexpress.core.model.ObjChronoDepart;
-import fr.cm.scorexpress.core.model.ObjConfig;
-import fr.cm.scorexpress.core.model.ObjDossard;
-import fr.cm.scorexpress.core.model.ObjUserChronos;
-import fr.cm.scorexpress.core.model.StepUtil;
+import java.io.*;
+import java.util.*;
+import java.util.regex.Pattern;
+
+import fr.cm.scorexpress.core.model.*;
 import fr.cm.scorexpress.core.model.impl.Date2;
 import fr.cm.scorexpress.core.model.impl.DateFactory;
 import fr.cm.scorexpress.core.model.impl.DateUtils;
 import fr.cm.scorexpress.core.model.impl.ObjStep;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.regex.Pattern;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static fr.cm.scorexpress.core.model.ObjDossard.VAR_DOSSARD_CATEGORIE;
@@ -209,6 +193,7 @@ public class UserChronosLoader {
             for (int nrLigneCSV = 0; (ligne = dis.readLine()) != null; nrLigneCSV++) {
                 if (nrLigneCSV > 0) { // Titre
                     final ObjUserChronos userChronos = new ObjUserChronos("0");
+                    final ArrayList<ObjChrono> chronos = new ArrayList<ObjChrono>();
                     userChronosList.add(userChronos);
                     String puce = null;
                     final ObjChrono arrivee = new ObjChronoArrivee(DateFactory.createDate(0));
@@ -238,11 +223,11 @@ public class UserChronosLoader {
                             puce = val;
                             userChronos.setPuce(puce);
                         } else if (arg == 9) {
-                            userChronos.addChrono(new ObjChronoDepart(DateFactory.createDate("0:00:00")));
+                            chronos.add(new ObjChronoDepart(DateFactory.createDate("0:00:00")));
                         } else if (arg == 11) {
                             arrivee.setTemps(DateFactory.createDate(val));
                             userChronos.setPuce(puce);
-                            userChronos.addChrono(arrivee);
+                            chronos.add(arrivee);
                         } else if (arg >= 46) {
                             final String tempsBaliseStr = getNext(ligne);
                             if (hasMore(ligne)) {
@@ -255,9 +240,21 @@ public class UserChronosLoader {
                             } else if( !time.isNull()) {
                                 final ObjChrono chrono = new ObjChrono(val);
                                 chrono.setTemps(time);
-                                userChronos.addChrono(chrono);
+                                chronos.add(chrono);
                             }
                         }
+                    }
+                    Collections.sort(chronos, new Comparator<ObjChrono>() {
+                                         @Override
+                                         public int compare(final ObjChrono o1, final ObjChrono o2) {
+                                             if (o2.isNull()) { return -1; }
+                                             if (o1.isNull()) { return 1; }
+                                             return DateUtils.compare(o1, o2);
+                                         }
+                                     }
+                    );
+                    for (final ObjChrono chrono : chronos) {
+                        userChronos.addChrono(chrono);
                     }
                 } else {
                     for (final ColTable colTable : config.getColTableAll()) {

@@ -49,8 +49,8 @@ public class PenalityUtils {
         if (resultat == null || resultat.getParent() == null) {
             return;
         }
-        final ObjStep    step             = (ObjStep) resultat.getParent();
-        final ObjDossard dossard          = resultat.getDossard();
+        final ObjStep    step    = (ObjStep) resultat.getParent();
+        final ObjDossard dossard = resultat.getDossard();
         /* Traite l'étape si celle-ci est active */
         for (final ObjStep subStep : findStepByCategorie(step, dossard.getCategory())) {
             /* Traite un arrêt chrono */
@@ -137,6 +137,11 @@ public class PenalityUtils {
         final Iterable<ObjBalise>    balises        = etape.getBalises();
         final Map<ObjChrono, Balise> balisesOk      = new LinkedHashMap<ObjChrono, Balise>();
         final Date2                  departTime     = resultat.getDepartTime();
+        final Date2                  arriveeTime    = resultat.getArriveeTime();
+        final boolean arriveeIsValide = departTime.compareTo(arriveeTime) > 0 &&
+                !arriveeTime.isNull() &&
+                !arriveeTime.equals(createDate(0));
+
         for (final Balise balise : balises) {
             final ObjChrono chrono = userChrono.getChronoEnableHasPossible(balise.getNum());
             final boolean isNotValidate =
@@ -169,6 +174,7 @@ public class PenalityUtils {
                     appendDataList(resultat, "+", "", VAR_RESULTAT_BALISESMANQUEES, balise.getNum());
                     appendDataList(resultat, "", "", VAR_RESULTAT_BALISES_PENALITES, balise.getNum());
                 } else {
+                    balisesOk.put(chrono, balise);
                     // Ajout des temps de balise
                     resultat.setInfoTmp(VAR_PREFIX_BALISE + chrono.getNumBalise(), chrono.getTemps() + EMPTY);
                     if (TYPE_OBLIGATOIRE.equalsIgnoreCase(balise.getType()) ||
@@ -177,7 +183,6 @@ public class PenalityUtils {
                         increaseValue(resultat, VAR_NB_BALISE, 1);
                         increaseValue(resultat, VAR_NB_POINTS_BALISE, balise.getPoints());
                         //                        appendDataList(resultat, "", "", VAR_RESULTAT_BALISES_OK, balise.getNum());
-                        balisesOk.put(chrono, balise);
                     } else if (TYPE_BONUS.equalsIgnoreCase(balise.getType())) {
                         downTime(resultat.getBonificationResultat(), balise.getPenalite());
                         increaseValue(resultat, VAR_NB_BALISE, 1);
@@ -185,16 +190,19 @@ public class PenalityUtils {
                         increaseValue(resultat, VAR_NB_POINTS_BALISE, balise.getPoints());
                         appendDataList(resultat, "", "", VAR_RESULTAT_BALISESBONUS, balise.getNum());
                     }
-                    final Date2 arriveeTime = resultat.getArriveeTime();
-                    if (departTime.compareTo(arriveeTime) > 0 &&
-                            !arriveeTime.isNull() &&
-                            !arriveeTime.equals(createDate(0)) &&
-                            chrono.getTemps().compareTo(arriveeTime) > 0) {
-                        chrono.setTriche(true);
-                        resultat.setTriche(true);
+                    if (arriveeIsValide) {
+                        if (chrono.getTemps().compareTo(arriveeTime) > 0) {
+                            chrono.setTriche(true);
+                            resultat.setTriche(true);
+                        }
+
                     }
                 }
             }
+        }
+        final String baliseArrivee = etape.getBaliseArrivee();
+        if (arriveeIsValide && baliseArrivee != null) {
+            balisesOk.put(new ObjChrono(baliseArrivee), new ObjBalise(baliseArrivee, END_TYPE_BALISE, ""));
         }
         final ArrayList<ObjChrono> allChronos = newArrayList(balisesOk.keySet());
         Collections.sort(allChronos, new Comparator<ObjChrono>() {

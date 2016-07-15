@@ -19,6 +19,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -40,6 +41,10 @@ public class ViewColumnViewerToolTipSupport extends ColumnViewerToolTipSupport {
     private static final Font  FONT   = new Font(Display.getCurrent(), new FontData("Courier", 10, SWT.NORMAL));
     private static final Font  BOLD   = new Font(Display.getCurrent(), new FontData("Courier", 10, SWT.BOLD));
     private static final Font  ITALIC = new Font(Display.getCurrent(), new FontData("Courier", 10, SWT.ITALIC));
+    public static final GridData LAYOUT_DATA = new GridData();
+    static {
+        LAYOUT_DATA.widthHint = 240;
+    }
 
     protected ViewColumnViewerToolTipSupport(final ColumnViewer viewer, final int style,
                                              final boolean manualActivation) {
@@ -168,7 +173,7 @@ public class ViewColumnViewerToolTipSupport extends ColumnViewerToolTipSupport {
             for (final String line : lines) {
                 if (!start) {
                     start = true;
-                    composite.addLabel(new LabelModel(label), SWT.NONE).withFont(font).withBackground(WHITE);
+                    composite.addLabel(new LabelModel(label), SWT.NONE).withLayoutData(LAYOUT_DATA).withFont(font).withBackground(WHITE);
                 } else {
                     composite.addLabel(new LabelModel(""), SWT.NONE).withFont(font).withBackground(WHITE);
                 }

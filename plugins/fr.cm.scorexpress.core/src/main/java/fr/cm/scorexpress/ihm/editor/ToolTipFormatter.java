@@ -2,8 +2,11 @@ package fr.cm.scorexpress.ihm.editor;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static java.util.Arrays.asList;
 
 public class ToolTipFormatter {
     private ToolTipFormatter() {
@@ -13,15 +16,16 @@ public class ToolTipFormatter {
         final Collection<String> lines = new ArrayList<String>();
         if (text.length() > maxLineSize) {
             int length = 0;
-            boolean first1 = true;
             final Collection<String> slipped = newArrayList();
-            for (final String split : text.split("]")) {
-                boolean first = true;
-                for (final String split2 : ((first1 ? "" : "]") + split).split(",")) {
-                    slipped.add((first ? "" : ",") + split2);
-                    first = false;
+            final Iterator<String> iter2 = asList(text.split("]")).iterator();
+            while (iter2.hasNext() ) {
+                final String split = iter2.next();
+                final List<String> listSplit = asList((split + "]" + (iter2.hasNext()?"":"]")).split(","));
+                final Iterator<String> iter = listSplit.iterator();
+                while (iter.hasNext()) {
+                    final String split2 =  iter.next();
+                    slipped.add(split2 + (iter.hasNext() ? ",": ""));
                 }
-                first1 = false;
             }
             for (final String split : slipped) {
                 length += split.length();
