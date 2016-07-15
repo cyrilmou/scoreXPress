@@ -3,12 +3,7 @@ package fr.cm.scorexpress.core.model.impl;
 import com.google.common.base.Predicate;
 import fr.cm.scorexpress.core.model.*;
 import java.beans.PropertyChangeEvent;
-import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static fr.cm.scorexpress.core.model.BaliseUtils.findNumBaliseOfType;
@@ -36,16 +31,16 @@ public class ObjStep extends IData<IData>
     private String lib;
     private boolean actif = true;
 
-    private       boolean                    epreuve          = false;
-    private       boolean                    cumulerSousEtape = false;
-    private       boolean                    classementInter  = false;
-    private       boolean                    penalitySaisie   = false;
-    private       int                        nextDossard      = 0;
-    private final Collection<ObjBalise>         balises          = newArrayList();
-    private final List<ObjStep>              steps            = newArrayList();
-    private final Collection<ObjPenalite>    penalites        = newArrayList();
-    private final AbstractList<ObjDossard>   dossards         = newArrayList();
-    private final Collection<ObjUserChronos> usersChronos     = newArrayList();
+    private       boolean                     epreuve          = false;
+    private       boolean                     cumulerSousEtape = false;
+    private       boolean                     classementInter  = false;
+    private       boolean                     penalitySaisie   = false;
+    private       int                         nextDossard      = 0;
+    private final Collection<ObjBalise>       balises          = newArrayList();
+    private final List<ObjStep>               steps            = newArrayList();
+    private final Collection<ObjPenalite>     penalites        = newArrayList();
+    private final AbstractList<ObjDossard>    dossards         = newArrayList();
+    private final Map<String, ObjUserChronos> usersChronos     = new HashMap<String, ObjUserChronos>();
 
     private       String                  numero         = null;
     private       String                  importFileName = null;
@@ -448,10 +443,10 @@ public class ObjStep extends IData<IData>
 
     @Override
     public boolean addUserChronos(final ObjUserChronos userChronos) {
-        if (usersChronos.remove(userChronos)) {
+        if (usersChronos.remove(userChronos.getDossard()) != null) {
             userChronos.removePropertyChangeListener(this);
         }
-        final boolean result = usersChronos.add(userChronos);
+        final boolean result = usersChronos.put(userChronos.getDossard(), userChronos) != null;
         userChronos.addPropertyChangeListener(this);
         firePropertyChange("UserChronos", null, userChronos);
         return result;
@@ -460,19 +455,24 @@ public class ObjStep extends IData<IData>
     @Override
     public Collection<ObjUserChronos> getUserChronos() {
         if (isEpreuve()) {
-            return unmodifiableCollection(usersChronos);
+            return unmodifiableCollection(usersChronos.values());
         } else {
             if (parent != null && parent instanceof IUserChronos) {
                 return ((IUserChronos) parent).getUserChronos();
             }
-            return unmodifiableCollection(usersChronos);
+            return unmodifiableCollection(usersChronos.values());
         }
+    }
+
+    @Override
+    public ObjUserChronos getUserChronosByDossard(final String dossard) {
+        return usersChronos.get(dossard);
     }
 
     @Override
     public boolean removeUserChronos(final ObjUserChronos userChronos) {
         modifyCalculData();
-        return usersChronos.remove(userChronos);
+        return usersChronos.remove(userChronos.getDossard()) != null;
     }
 
     @Override
@@ -501,20 +501,11 @@ public class ObjStep extends IData<IData>
 
     public ObjUserChronos getUserChronos(final String puce) {
         final ObjUserChronos userChronos = new ObjUserChronos(puce);
-        for (final ObjUserChronos usersChrono : usersChronos) {
+        for (final ObjUserChronos usersChrono : usersChronos.values()) {
             if (userChronos.getPuce().equals(usersChrono.getPuce())) {
                 if (userChronos.equals(usersChrono)) {
                     return usersChrono;
                 }
-            }
-        }
-        return null;
-    }
-
-    public ObjUserChronos findUserChronosByDossard(final Object numDossard) {
-        for (final ObjUserChronos usersChrono : usersChronos) {
-            if (usersChrono.getDossard().equals(numDossard)) {
-                return usersChrono;
             }
         }
         return null;

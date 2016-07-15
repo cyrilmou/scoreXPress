@@ -70,11 +70,12 @@ public class StepUtils {
 
     public static Iterable<ObjStep> getActiveSubStep(final AbstractSteps step) {
         return filter(step.getSteps(), new Predicate<Step>() {
-            @Override
-            public boolean apply(final Step step) {
-                return step.isActif();
-            }
-        });
+                          @Override
+                          public boolean apply(final Step step) {
+                              return step.isActif();
+                          }
+                      }
+        );
     }
 
     public static boolean updateStepsResultat(final Iterable<ObjStep> steps, final boolean calculForced,
@@ -195,10 +196,10 @@ public class StepUtils {
         }
     }
 
-    private static void cumulTempsParcours(final Iterable<ObjStep> etapesActive, final ObjDossard dossard, final ObjResultat resultat) {
+    private static void cumulTempsParcours(final Iterable<ObjStep> etapesActive, final ObjDossard dossard,
+                                           final ObjResultat resultat) {
         for (final ObjStep subStep : etapesActive) {
-            if( subStep.getUserChronos().isEmpty())
-                continue;
+            if (subStep.getUserChronos().isEmpty()) { continue; }
 
             // Ne pas cumuler les etapes de la mauvaise catégorie
             if (isGoodCategorie(subStep, dossard.getCategory())) {
@@ -225,7 +226,7 @@ public class StepUtils {
     }
 
     private static Iterable<ObjDossard> getDefaultDossards(final ObjStep step) {
-        final Iterable<ObjDossard> dossards;
+        final Iterable<ObjDossard>   dossards;
         final Collection<ObjDossard> heritedDossards = gatherAllDossards(step);
         if (heritedDossards.isEmpty()) {
             dossards = step.getDossards();
@@ -306,7 +307,7 @@ public class StepUtils {
     }
 
     public static String getConfiguredBalises(final AbstractBalises step, final String baliseType) {
-        final StringBuilder builder = new StringBuilder();
+        final StringBuilder      builder = new StringBuilder();
         final Collection<String> balises = new ArrayList<String>();
         for (final Balise balise : step.getBalises()) {
             if (BaliseUtils.isTypeBalise(balise, baliseType)) {
@@ -327,7 +328,7 @@ public class StepUtils {
     }
 
     public static String getConfiguredBalises2(final AbstractBalises step, final String baliseType) {
-        final StringBuilder builder = new StringBuilder();
+        final StringBuilder      builder = new StringBuilder();
         final Collection<Balise> balises = new ArrayList<Balise>();
         for (final Balise balise : step.getBalises()) {
             if (BaliseUtils.isTypeBalise(balise, baliseType)) {

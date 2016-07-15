@@ -25,16 +25,16 @@ import static fr.cm.common.widget.composite.CompositeBuilders.createCompositeBui
 import static fr.cm.scorexpress.ihm.editor.ViewColumnViewerToolTipSupport.updateResultat;
 
 public class ResultatView extends ViewPart {
-    public static final Color WHITE        = Display.getDefault().getSystemColor(SWT.COLOR_WHITE);
-    public static final Color SYSTEM_COLOR = Display.getDefault().getSystemColor(SWT.COLOR_DARK_CYAN);
-    public static final int MAX_LINE_SIZE = 100;
-    private final StandardToolKit toolkit = new StandardToolKit();
+    public static final Color           WHITE         = Display.getDefault().getSystemColor(SWT.COLOR_WHITE);
+    public static final Color           SYSTEM_COLOR  = Display.getDefault().getSystemColor(SWT.COLOR_DARK_CYAN);
+    public static final int             MAX_LINE_SIZE = 100;
+    private final       StandardToolKit toolkit       = new StandardToolKit();
     private ScrolledComposite sc;
     private Composite         composite;
     private ButtonModel       imprimer;
     private IWorkbenchPart    sourcepart;
     private ISelectionListener listener = new ISelectionListener() {
-        public void selectionChanged(IWorkbenchPart sourcepart, ISelection selection) {
+        public void selectionChanged(final IWorkbenchPart sourcepart, final ISelection selection) {
             // we ignore our own selections
             if (sourcepart != ResultatView.this) {
                 showSelection(sourcepart, selection);
@@ -45,10 +45,10 @@ public class ResultatView extends ViewPart {
     /**
      * Shows the given selection in this view.
      */
-    public void showSelection(IWorkbenchPart sourcepart, ISelection selection) {
+    public void showSelection(final IWorkbenchPart sourcepart, final ISelection selection) {
         this.sourcepart = sourcepart;
         if (selection instanceof IStructuredSelection) {
-            IStructuredSelection ss = (IStructuredSelection) selection;
+            final IStructuredSelection ss = (IStructuredSelection) selection;
             showItems(ss.toArray());
         }
     }
@@ -58,7 +58,7 @@ public class ResultatView extends ViewPart {
         builder.withLayout(new GridLayout(1, false)).withBackground(WHITE);
 
         boolean found = false;
-        for (Object item : items) {
+        for (final Object item : items) {
             if (item != null && item instanceof ObjResultat) {
                 found = true;
                 updateResultat(builder.getControl(), (ObjResultat) item, MAX_LINE_SIZE);

@@ -366,7 +366,7 @@ public class PenalityUtils {
             final ObjResultat res = findResultatByDossard(dossard.getNum(), activeStep);
             // Lorsque que la personne n'est pas arrivée de la
             // sous-étape celle-ci est disqualifié automatiquement
-            if (!res.isNotArrived()) {
+            if (res != null && !res.isNotArrived()) {
                 if (activeStep.isArretChrono()) {
                     downTime(resultat.getTemps(), res.getTemps());
                 }

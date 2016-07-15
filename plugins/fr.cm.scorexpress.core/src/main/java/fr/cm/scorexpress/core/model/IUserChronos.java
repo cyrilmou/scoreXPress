@@ -7,10 +7,11 @@ import java.util.Collection;
 
 public interface IUserChronos {
 
-    public boolean addUserChronos(ObjUserChronos chrono);
+    boolean addUserChronos(ObjUserChronos chrono);
 
-    public boolean removeUserChronos(ObjUserChronos chrono);
+    boolean removeUserChronos(ObjUserChronos chrono);
 
-    public Collection<ObjUserChronos> getUserChronos();
+    Collection<ObjUserChronos> getUserChronos();
 
+    ObjUserChronos getUserChronosByDossard(String dossard);
 }

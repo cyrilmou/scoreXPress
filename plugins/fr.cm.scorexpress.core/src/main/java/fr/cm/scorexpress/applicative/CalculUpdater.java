@@ -37,9 +37,9 @@ public class CalculUpdater implements Runnable {
     private synchronized void calcul(final ICalculResult calculResult) {
         final ObjStep step = calculResult.getStep();
         final Date debut = new Date();
-        System.out.print("Calcul des resultats de " + step + " en "); //$NON-NLS-1$
         StepUtils.updateResultat(step);
         final long milliseconde = new Date(new Date().getTime() - debut.getTime()).getTime();
+        System.out.print("Calcul des resultats de " + step + " en "); //$NON-NLS-1$
         System.out.println(milliseconde + " ms"); //$NON-NLS-1$
         calculResult.updateFinish(step);
     }

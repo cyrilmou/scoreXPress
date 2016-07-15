@@ -83,7 +83,7 @@
               class="fr.cm.scorexpress.ihm.view.ResultatView"
               icon="icons/logo25x25.gif"
               id="fr.cm.scorexpress.core.view1"
-              name="Résultats"
+              name="Détails chronos"
               restorable="true">
         </view>
     </extension>

@@ -249,14 +249,14 @@ public class UserChronosLoader {
                                 ligne = nextSeparator(ligne);
                             }
                             arg++;
-                            final ObjChrono chrono = new ObjChrono(val);
-                            Date2 time = DateFactory.createDate(tempsBaliseStr);
+                            final Date2 time = DateFactory.createDate(tempsBaliseStr);
                             if (time.getTime() < 0) {
-                                System.out.println(time);
-                                time = DateFactory.createDate(tempsBaliseStr);
+                                System.err.println("Negative time for num" + userChronos.getDossard()+ ": " + time);
+                            } else if( !time.isNull()) {
+                                final ObjChrono chrono = new ObjChrono(val);
+                                chrono.setTemps(time);
+                                userChronos.addChrono(chrono);
                             }
-                            chrono.setTemps(time);
-                            userChronos.addChrono(chrono);
                         }
                     }
                 } else {

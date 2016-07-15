@@ -32,7 +32,8 @@ public class CalculResultatsUtils {
     public static void getResultatOfEtape() {
     }
 
-    public static boolean initTempsParcours(final ObjResultat result, final ObjUserChronos userChronos, final String numBaliseDepart, final String numBaliseArrivee) {
+    public static boolean initTempsParcours(final ObjResultat result, final ObjUserChronos userChronos,
+                                            final String numBaliseDepart, final String numBaliseArrivee) {
         final ObjStep step = (ObjStep) result.getParent();
         if (userChronos != null) {
             boolean errorDepart = false;
@@ -81,7 +82,7 @@ public class CalculResultatsUtils {
             }
             if (errorEnd) {
                 error = true;
-                if(!step.isEpreuve()){
+                if (!step.isEpreuve()) {
                     result.setDeclasse(true);
                 }
             }
@@ -121,7 +122,9 @@ public class CalculResultatsUtils {
         return true;
     }
 
-    private static void updateDepartArriveeStep(final ObjResultat result, final boolean errorDepart, final ObjChrono startChrono, final ObjChrono endChrono, final boolean errorEnd) {
+    private static void updateDepartArriveeStep(final ObjResultat result, final boolean errorDepart,
+                                                final ObjChrono startChrono, final ObjChrono endChrono,
+                                                final boolean errorEnd) {
         if (errorDepart) {
             result.setDepartTime(createDate(true));
         } else {
@@ -232,10 +235,14 @@ public class CalculResultatsUtils {
                     return null;
                 }
                 if (last != null && equalsDate(last.getTemps(), resultat.getTemps())) {
-                    resultat.setInfo(VAR_RESULTAT_PLACE, noNumberForAbandonAndDisqualify(resultat, last.getInfoStr(VAR_RESULTAT_PLACE)));
+                    resultat.setInfo(VAR_RESULTAT_PLACE,
+                                     noNumberForAbandonAndDisqualify(resultat, last.getInfoStr(VAR_RESULTAT_PLACE))
+                    );
                 } else {
                     if (byCategory) {
-                        resultat.setInfo(VAR_RESULTAT_PLACE, noNumberForAbandonAndDisqualify(resultat, incrNr(resultat) + EMPTY));
+                        resultat.setInfo(VAR_RESULTAT_PLACE,
+                                         noNumberForAbandonAndDisqualify(resultat, incrNr(resultat) + EMPTY)
+                        );
                     } else {
                         resultat.setInfo(VAR_RESULTAT_PLACE, noNumberForAbandonAndDisqualify(resultat, nr + EMPTY));
                     }
@@ -269,7 +276,8 @@ public class CalculResultatsUtils {
         }
     }
 
-    public static Collection<ObjResultat> filterResults(final Iterable<ObjResultat> results, final Predicate<ObjResultat> filter, final boolean byCategory) {
+    public static Collection<ObjResultat> filterResults(final Iterable<ObjResultat> results,
+                                                        final Predicate<ObjResultat> filter, final boolean byCategory) {
         final List<ObjResultat> newResults = newArrayList(results);
         Collections.sort(newResults, byTime());
         Collections.sort(newResults, byDeclassed());
@@ -283,7 +291,8 @@ public class CalculResultatsUtils {
                           public boolean apply(final ObjResultat input) {
                               return true;
                           }
-                      }, byCategory);
+                      }, byCategory
+        );
     }
 }
 
