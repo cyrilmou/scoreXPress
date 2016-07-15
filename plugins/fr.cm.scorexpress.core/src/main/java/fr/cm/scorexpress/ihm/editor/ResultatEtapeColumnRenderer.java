@@ -28,13 +28,15 @@ class ResultatEtapeColumnRenderer extends TableColumnRenderer<ObjResultat> {
 
         final StringBuilder builder = new StringBuilder();
 
-        builder.append(resultat.getDossard().getNum()).append(". ").append(resultat.getDossard().getInfoStr("S.FIRSTNAME"));
+        builder.append(resultat.getDossard().getNum()).append(". ")
+                .append(resultat.getDossard().getInfoStr("S.FIRSTNAME"));
 
         addInfo(i18n("Result.tooltip.finalTime"), ObjResultat.VAR_RESULTAT_TEMPS, resultat, builder);
         builder.append("\n-----");
         addInfoDate(i18n("Result.tooltip.chronoTime"), ObjResultat.VAR_TEMPS_CHRONO, resultat, builder);
         if (!resultat.getTempsArretChronoResultat().isNull()) {
-            builder.append(" = ").append(resultat.getInfo(ObjResultat.VAR_TEMPSPARCOURS)).append(" ").append(resultat.getTempsArretChronoResultat());
+            builder.append(" = ").append(resultat.getInfo(ObjResultat.VAR_TEMPSPARCOURS)).append(" ")
+                    .append(resultat.getTempsArretChronoResultat());
         }
         addInfoDate(i18n("Result.tooltip.chronoMini"), ObjResultat.VAR_TEMPS_CHRONO_MINI, resultat, builder);
         addInfoDate(i18n("Result.tooltip.bonusTime"), ObjResultat.VAR_BONIFICATION, resultat, builder);
@@ -49,8 +51,7 @@ class ResultatEtapeColumnRenderer extends TableColumnRenderer<ObjResultat> {
         addInfo(i18n("Result.tooltip.baliseBonus"), ObjResultat.VAR_RESULTAT_BALISESBONUS, resultat, builder);
         addInfo(i18n("Result.tooltip.baliseDisordered"), ObjResultat.VAR_RESULTAT_BALISE_DISORDERED, resultat, builder);
 
-        if(model.isHideTooltip())
-            return null;
+        if (model.isHideTooltip()) { return null; }
         return builder.toString();
     }
 
@@ -77,18 +78,19 @@ class ResultatEtapeColumnRenderer extends TableColumnRenderer<ObjResultat> {
     @Override
     public Color getBackground(final Object element) {
         final ObjResultat resultat = (ObjResultat) element;
-        if(resultat.isTriche()){
+        if (resultat.isTriche()) {
             return new Color(Display.getCurrent(), 255, 128, 0);
         }
         if (resultat.isError() && model.isSignalError()) {
             resultat.showErrors();
             return new Color(Display.getCurrent(), 255, 0, 0);
         }
+        final Color color = getBackgroundColorFromSelection(resultat);
+        if (color != null) { return color; }
         if (colTable.isTmp()) {
             return new Color(Display.getCurrent(), 255, 255, 160);
-        } else {
-            return getBackgroundColorFromSelection(resultat);
         }
+        return null;
     }
 
     private Color getBackgroundColorFromSelection(final ObjResultat resultat) {
@@ -141,7 +143,8 @@ class ResultatEtapeColumnRenderer extends TableColumnRenderer<ObjResultat> {
         return super.compare(elem1, elem2);
     }
 
-    private static void addInfo(final String label, final String attribute, final AbstractGetInfo resultat, final StringBuilder builder) {
+    private static void addInfo(final String label, final String attribute, final AbstractGetInfo resultat,
+                                final StringBuilder builder) {
         final String element = resultat.getInfoStr(attribute);
         if (!element.isEmpty()) {
             if (element.length() > 80) {
@@ -162,7 +165,8 @@ class ResultatEtapeColumnRenderer extends TableColumnRenderer<ObjResultat> {
         }
     }
 
-    private static void addInfoDate(final String label, final String info, final AbstractGetInfo resultat, final StringBuilder builder) {
+    private static void addInfoDate(final String label, final String info, final AbstractGetInfo resultat,
+                                    final StringBuilder builder) {
         final Date2 date = (Date2) resultat.getInfo(info);
         if (date != null && !date.isNull()) {
             builder.append("\n  ").append(label).append(" ").append(date);
