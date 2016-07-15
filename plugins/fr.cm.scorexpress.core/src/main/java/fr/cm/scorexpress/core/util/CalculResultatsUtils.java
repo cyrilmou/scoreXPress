@@ -18,6 +18,7 @@ import static fr.cm.scorexpress.core.model.ObjResultat.VAR_RESULTAT_PLACE;
 import static fr.cm.scorexpress.core.model.StepUtil.findResultatByDossard;
 import static fr.cm.scorexpress.core.model.impl.DateFactory.createDate;
 import static fr.cm.scorexpress.core.model.impl.DateUtils.equalsDate;
+import static fr.cm.scorexpress.core.model.impl.DateUtils.setTime;
 import static fr.cm.scorexpress.core.model.impl.DateUtils.upTime;
 import static fr.cm.scorexpress.utils.ResultatComparator.*;
 import static org.apache.commons.lang.StringUtils.EMPTY;
@@ -164,24 +165,15 @@ public class CalculResultatsUtils {
     }
 
     public static void calculTemps(final ObjResultat resultat) {
-        final Date2 arretChrono = resultat.getTempsArretChrono();
+        setTime(resultat.getTemps(), resultat.getTempsParcours());
+        final Date2 arretChrono = resultat.getTempsArretChronoResultat();
         upTime(resultat.getTemps(), arretChrono);
-        upTime(resultat.getTempsArretChronoResultat(), arretChrono);
-        arretChrono.setNull();
 
-        final Date2 chronoMini = resultat.getTempsChronoMini();
-        upTime(resultat.getTempsChronoMiniResultat(), chronoMini);
-        chronoMini.setNull();
-
-        final Date2 penality = resultat.getPenalite();
+        final Date2 penality = resultat.getPenaliteResultat();
         upTime(resultat.getTemps(), penality);
-        upTime(resultat.getPenaliteResultat(), penality);
-        penality.setNull();
 
-        final Date2 bonification = resultat.getBonification();
+        final Date2 bonification = resultat.getBonificationResultat();
         upTime(resultat.getTemps(), bonification);
-        upTime(resultat.getBonificationResultat(), bonification);
-        bonification.setNull();
     }
 
     public static Date2 getDepart() {

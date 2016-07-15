@@ -46,12 +46,8 @@ public class ObjResultat extends IData implements Comparable<ObjResultat> {
     private final       Date2                  bonificationResultat           = createDate(true);
     private final       Date2                  tempsArretChronoResultat       = createDate(true);
     private final       Date2                  tempsChronoMiniResultat        = createDate(true);
-    private final       Date2                  penalite                       = createDate(true);
     private final       Date2                  penaliteBalise                 = createDate(true);
     private final       Date2                  penaliteAutre                  = createDate(true);
-    private final       Date2                  tempsArretChrono               = createDate(true);
-    private final       Date2                  tempsChronoMini                = createDate(true);
-    private final       Date2                  tempsBonification              = createDate(true);
     private final       ArrayList<ObjResultat> resultatsInter                 = new ArrayList<ObjResultat>();
     private String     lib;
     private ObjDossard dossard;
@@ -68,11 +64,9 @@ public class ObjResultat extends IData implements Comparable<ObjResultat> {
 
     public ObjResultat() {
         penaliteBalise.setAffichage(true, false, true);
-        tempsArretChrono.setAffichage(true, false, true);
         penaliteAutre.setAffichage(true, false, true);
         penaliteResultat.setAffichage(true, false, true);
         bonificationResultat.setAffichage(true, false, true);
-        tempsChronoMini.setAffichage(true, false, true);
         tempsChronoMiniResultat.setAffichage(true, false, true);
     }
 
@@ -197,7 +191,7 @@ public class ObjResultat extends IData implements Comparable<ObjResultat> {
             return true;
         }
         if (attribut.equalsIgnoreCase(VAR_RESULTAT_PENALITE)) {
-            penalite.setTime(createDate(EMPTY + val).getTime());
+            penaliteResultat.setTime(createDate(EMPTY + val).getTime());
             return true;
         }
         if (attribut.equalsIgnoreCase(VAR_TEMPSPARCOURS)) {
@@ -232,9 +226,9 @@ public class ObjResultat extends IData implements Comparable<ObjResultat> {
 
     }
 
-    public Date2 getPenalite() {
-        return penalite;
-    }
+//    public Date2 getPenalite() {
+//        return penalite;
+//    }
 
     public Date2 getPenaliteBalise() {
         return penaliteBalise;
@@ -314,10 +308,6 @@ public class ObjResultat extends IData implements Comparable<ObjResultat> {
         return tempsParcours;
     }
 
-    public Date2 getTempsArretChrono() {
-        return tempsArretChrono;
-    }
-
     public boolean isNotArrived() {
         return notArrived;
     }
@@ -392,10 +382,6 @@ public class ObjResultat extends IData implements Comparable<ObjResultat> {
         return unmodifiableList(resultatsInter);
     }
 
-    public Date2 getBonification() {
-        return tempsBonification;
-    }
-
     public boolean isHorsClassement() {
         return horsClassement;
     }
@@ -410,26 +396,14 @@ public class ObjResultat extends IData implements Comparable<ObjResultat> {
             builder.append(dossard.getNum());
         }
         builder.append(",tps=").append(tempsResultat);
-        if (!penalite.isNull()) {
-            builder.append(",pen=").append(penalite);
-        }
         if (!penaliteResultat.isNull()) {
             builder.append(",penalRes=").append(penaliteResultat);
-        }
-        if (!tempsBonification.isNull()) {
-            builder.append(",bonif=").append(tempsBonification);
         }
         if (!bonificationResultat.isNull()) {
             builder.append(",bonifRes=").append(bonificationResultat);
         }
-        if (!tempsArretChrono.isNull()) {
-            builder.append(",arret=").append(tempsArretChrono);
-        }
         if (!tempsArretChronoResultat.isNull()) {
             builder.append(",arretRes=").append(tempsArretChronoResultat);
-        }
-        if (!tempsChronoMini.isNull()) {
-            builder.append(",chronoMini=").append(tempsChronoMini);
         }
         if (!tempsChronoMiniResultat.isNull()) {
             builder.append(",chronoMiniRes=").append(tempsChronoMiniResultat);
@@ -456,10 +430,6 @@ public class ObjResultat extends IData implements Comparable<ObjResultat> {
 
     public Date2 getTempsArretChronoResultat() {
         return tempsArretChronoResultat;
-    }
-
-    public Date2 getTempsChronoMini() {
-        return tempsChronoMini;
     }
 
     public Date2 getTempsChronoMiniResultat() {

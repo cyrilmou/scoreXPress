@@ -14,6 +14,8 @@ import static com.google.common.collect.Lists.newArrayList;
 import static fr.cm.scorexpress.core.model.StepUtil.findResultatByDossard;
 import static fr.cm.scorexpress.core.model.StepUtil.gatherAllDossards;
 import static fr.cm.scorexpress.core.model.impl.DateFactory.createDate;
+import static fr.cm.scorexpress.core.model.impl.DateUtils.downTime;
+import static fr.cm.scorexpress.core.model.impl.DateUtils.setTime;
 import static fr.cm.scorexpress.core.model.impl.DateUtils.upTime;
 import static fr.cm.scorexpress.core.util.CalculResultatsUtils.*;
 import static fr.cm.scorexpress.core.util.PenalityUtils.*;
@@ -30,7 +32,7 @@ public class StepUtils {
     static String format(final Date d) {
         try {
             return sdf.format(d);
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             return null;
         }
     }
@@ -38,7 +40,7 @@ public class StepUtils {
     static Date parse(final String dateStr) {
         try {
             return sdf.parse(dateStr);
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             return null;
         }
     }
@@ -127,47 +129,12 @@ public class StepUtils {
                 /*  Si aucune base d'information chronométre n'est définie au niveau
           du parent, alors cumuler les sous-étapes */
                 if (step.isCumulerSousEtape()) {
-                    /*
-                    * Cumul des temps des sous-étapes
-                    * resultat.setDisqualifier(true);
-                    * resultat.setNotArrived(true);
-                    */
                     /* S'il n'y a pas de sous-étape le concurrent est disqualifié */
                     if (noActiveEtape) {
                         resultat.setDeclasse(true);
                     }
                     /* Cumule le temps de chaque sous-étapes */
-                    for (final ObjStep subStep : etapesActive) {
-                        if( subStep.getUserChronos().isEmpty())
-                            continue;
-
-                        /* Résultat de chaque concurrent */
-                        final ObjResultat resIter = findResultatByDossard(dossard.getNum(), subStep);
-                        /* Ajout des résultats intermédiaires */
-                        if (subStep.isClassementInter()) {
-                            resultat.addResultatInter(resIter);
-                        }
-                        // Ne pas cumuler les etapes de la mauvaise catégorie
-                        if (isGoodCategorie(subStep, dossard.getCategory())) {
-                            // Lorsque que la personne n'est pas arrivée de la
-                            // sous-étape celle-ci est disqualifié automatiquement
-                            if (resIter == null || resIter.isNotArrived()) {
-                                final boolean resultatsEmpty = subStep.getResultats().isEmpty();
-                                if (!resultatsEmpty) {
-                                    resultat.setDeclasse(true);
-                                    resultat.setNotArrived(true);
-                                }
-                            } else {
-                                if (!subStep.isArretChrono()) {
-                                    upTime(resultat.getTemps(), resIter.getTemps());
-                                    upTime(resultat.getTempsParcours(), resIter.getTempsParcours());
-                                }
-                            }
-                        }
-                    }
-                    calculArretChronoSousEtapeIter(resultat);
-                    calculPenaliteSousEtapeIter(resultat);
-                    calculStatusSousEtape(resultat);
+                    cumulTempsParcours(etapesActive, dossard, resultat);
                 } else {
 
                     final boolean error = initTempsParcours(resultat, userChronos, numBaliseDepart, numBaliseArrivee);
@@ -178,22 +145,16 @@ public class StepUtils {
                         /* Ajout des pénalités de l'étape */
                         calculPenalitesEtape(resultat, userChronos);
                     }
-
-                    /* Ajout des pénalités des sous-étapes */
-                    calculPenaliteSousEtapeIter(resultat);
-                    /* Retranchement des arrêts chronos des sous étapes */
-                    calculArretChronoSousEtapeIter(resultat);
-                    /* Détermine le status classé ou abandon de l'étape */
-                    calculStatusSousEtape(resultat);
-
-                    for (final ObjStep subStep : etapesActive) {
-                        /* Ajout des résultats intermédiaires */
-                        if (subStep.isClassementInter()) {
-                            final ObjResultat res = findResultatByDossard(dossard.getNum(), subStep);
-                            resultat.addResultatInter(res);
-                        }
-                    }
                 }
+                /* Retranchement des arrêts chronos des sous étapes */
+                calculArretChronoSousEtapeIter(resultat);
+                    /* Ajout des pénalités des sous-étapes */
+                calculPenaliteSousEtapeIter(resultat);
+                    /* Détermine le status classé ou abandon de l'étape */
+                calculStatusSousEtape(resultat);
+
+                addResultatsIntermediaires(etapesActive, dossard, resultat);
+
                 calculPenalityBonif(resultat);
                 calculStatusResultat(resultat);
                 calculTemps(resultat);
@@ -204,18 +165,62 @@ public class StepUtils {
                         resultat = new ObjResultat();
                         resultat.setParent(step);
                         resultat.setDossard(dossard);
-                        upTime(resultat.getTemps(), dossard.getTemps());
+                        setTime(resultat.getTempsParcours(), dossard.getTemps());
+                        /* On recalcul le temps de parcours en fonction les pénalités
+                        * Grosse bidouille */
+                        downTime(resultat.getTempsParcours(), resultat.getTempsArretChronoResultat());
+                        downTime(resultat.getTempsParcours(), resultat.getPenaliteResultat());
+                        resultat.setTriche(true);
+
                         calculStatusResultat(resultat);
                         calculTemps(resultat);
                     }
                 }
-                // Ajoute le résultat du dossard à l'étape, uniquement si la
-                // durée est calculable et appartenant à la catégorie fitré
                 resultats.add(resultat);
             }
             step.setResultat(resultats);
             updateClassement(resultats, byCategory);
             return forceUpdate;
+        }
+    }
+
+    private static void addResultatsIntermediaires(final Iterable<ObjStep> etapesActive, final ObjDossard dossard,
+                                                   final ObjResultat resultat) {
+        for (final ObjStep subStep : etapesActive) {
+            /* Ajout des résultats intermédiaires */
+            if (subStep.isClassementInter()) {
+                final ObjResultat res = findResultatByDossard(dossard.getNum(), subStep);
+                resultat.addResultatInter(res);
+            }
+        }
+    }
+
+    private static void cumulTempsParcours(final Iterable<ObjStep> etapesActive, final ObjDossard dossard, final ObjResultat resultat) {
+        for (final ObjStep subStep : etapesActive) {
+            if( subStep.getUserChronos().isEmpty())
+                continue;
+
+            // Ne pas cumuler les etapes de la mauvaise catégorie
+            if (isGoodCategorie(subStep, dossard.getCategory())) {
+                /* Résultat de chaque concurrent */
+                final ObjResultat resSubStep = findResultatByDossard(dossard.getNum(), subStep);
+
+                // Lorsque que la personne n'est pas arrivée de la
+                // sous-étape celle-ci est disqualifié automatiquement
+                if (resSubStep == null || resSubStep.isNotArrived()) {
+                    final boolean resultatsEmpty = subStep.getResultats().isEmpty();
+                    // Si au moins une equipe est arrivee alors disqualifier l'equipe
+                    // Sinon ne rien faire
+                    if (!resultatsEmpty) {
+                        resultat.setDeclasse(true);
+                        resultat.setNotArrived(true);
+                    }
+                } else {
+                    if (!subStep.isArretChrono()) { // Ne devrait pas être un arrêt chrono
+                        upTime(resultat.getTempsParcours(), resSubStep.getTempsParcours());
+                    }
+                }
+            }
         }
     }
 

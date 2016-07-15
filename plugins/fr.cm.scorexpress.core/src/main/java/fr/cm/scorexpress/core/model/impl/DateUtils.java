@@ -63,6 +63,10 @@ public class DateUtils {
         }
     }
 
+    public static void setTime(final Date2 d1, final Date2 d2){
+        d1.setTime(d2.getTime());
+    }
+
     public static String showDate(final Date date) {
         return sdfDate.format(date);
     }
