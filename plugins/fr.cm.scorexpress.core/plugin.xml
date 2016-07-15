@@ -136,17 +136,17 @@
                     label="Pénalités..."
                     menubarPath="fr.cm.chronos.extensions.menu.configuration/groupEtape"/>
             <action
-                    class="fr.cm.scorexpress.ihm.action.ConfigurationEtapeAction"
-                    enablesFor="+"
-                    icon="resources/icons/SportIdent_25x25.gif"
-                    id="fr.cm.chronos.actions.ConfigurationEtapeAction"
-                    label="Balises"/>
+                  class="fr.cm.scorexpress.ihm.action.ConfigurationEtapeAction"
+                  enablesFor="+"
+                  icon="resources/icons/SportIdent_25x25.gif"
+                  id="fr.cm.chronos.actions.ConfigurationEtapeAction"
+                  label="Balises"
+                  menubarPath="fr.cm.chronos.extensions.menu.configuration/groupEtape"/>
             <action
                     class="fr.cm.scorexpress.ihm.action.ChronosAction"
                     icon="resources/icons/SportIdent_25x25.gif"
                     id="fr.cm.chronos.actions.ChronosAction"
-                    label="Chronos"
-                    menubarPath="fr.cm.chronos.extensions.menu.configuration/groupEtape"/>
+                    label="Chronos"/>
             <action
                     class="fr.cm.scorexpress.ihm.action.ConfigEtapeAction"
                     enablesFor="+"
