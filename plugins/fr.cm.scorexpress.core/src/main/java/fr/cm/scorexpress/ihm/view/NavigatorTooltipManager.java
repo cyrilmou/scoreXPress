@@ -1,8 +1,5 @@
 package fr.cm.scorexpress.ihm.view;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import fr.cm.scorexpress.core.model.*;
 import fr.cm.scorexpress.core.model.impl.ObjStep;
 import fr.cm.scorexpress.core.model.impl.StepUtils;
@@ -69,15 +66,19 @@ public class NavigatorTooltipManager implements Listener {
         final String end   = step.getBaliseArrivee();
 
         if (step.isEpreuve() && step.isCumulerSousEtape()) {
-            toolTip.append('\n').append(i18n("Tooltip.epreuveDesc")).append(" :");
+            toolTip.append('\n').append(i18n("Tooltip.epreuveDesc")).append(": ");
             for (final Step subStep : step.getSteps()) {
                 toolTip.append("\n  + ").append(subStep.getLib());
             }
         }else{
             toolTip.append('\n').append(i18n("Tooltip.epreuveDesc")).append(": ");
-            if(!step.isEpreuve()){
-                toolTip.append(start == null ? i18n("Tooltip.start") : start).append(" -> ")
-                        .append(end == null ? i18n("Tooltip.end") : end);
+            if (!step.isEpreuve()) {
+                if (start == null && end == null) {
+                    toolTip.append(i18n("Tooltip.betweenFirstAndEndPoint"));
+                } else {
+                    toolTip.append(start == null ? i18n("Tooltip.start") : start).append(" -> ")
+                            .append(end == null ? i18n("Tooltip.end") : end);
+                }
             }
         }
     }
