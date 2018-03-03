@@ -1,6 +1,8 @@
 package fr.cm.scorexpress.core.model;
 
 import fr.cm.scorexpress.core.model.impl.Date2;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -250,5 +252,53 @@ public final class ObjUserChronos extends IData implements IChronos, Comparable<
         if (!fund) {
             addChrono(new ObjChronoArrivee(endTime));
         }
+    }
+
+    public ObjChrono getFirstBaliseGet(final Collection<ObjBalise> balises) {
+        final Collection<String> baliseIds = createBaliseIds(balises);
+        ObjChrono fund = null;
+        for (final ObjChrono chrono : chronos) {
+            try {
+                if (!chrono.isNull() && baliseIds.contains(chrono.getNumBalise())) {
+                    if (chrono.isCancel()) {
+                        fund = chrono;
+                    } else {
+                        return chrono;
+                    }
+                }
+            } catch (Exception ex) {
+            }
+        }
+        return fund;
+    }
+
+    public ObjChrono getLastBaliseGet(final Collection<ObjBalise> balises) {
+        final Collection<String> baliseIds = createBaliseIds(balises);
+
+        ObjChrono fund = null;
+        final Iterator<ObjChrono>
+                iter = chronos.descendingIterator();
+        while (iter.hasNext()) {
+            final ObjChrono chrono = iter.next();
+            try {
+                if (!chrono.isNull() && baliseIds.contains(chrono.getNumBalise())) {
+                    if (chrono.isCancel()) {
+                        fund = chrono;
+                    } else {
+                        return chrono;
+                    }
+                }
+            } catch (Exception ex) {
+            }
+        }
+        return fund;
+    }
+
+    private static Collection<String> createBaliseIds(final Collection<ObjBalise> balises) {
+        final Collection<String> baliseIds = new ArrayList<String>();
+        for (final ObjBalise balise : balises) {
+            baliseIds.add(balise.getNum());
+        }
+        return baliseIds;
     }
 }

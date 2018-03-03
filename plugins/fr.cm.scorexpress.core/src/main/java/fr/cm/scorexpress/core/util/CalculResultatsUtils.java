@@ -17,9 +17,7 @@ import static fr.cm.scorexpress.core.model.ObjResultat.VAR_RESULTAT_ECART;
 import static fr.cm.scorexpress.core.model.ObjResultat.VAR_RESULTAT_PLACE;
 import static fr.cm.scorexpress.core.model.StepUtil.findResultatByDossard;
 import static fr.cm.scorexpress.core.model.impl.DateFactory.createDate;
-import static fr.cm.scorexpress.core.model.impl.DateUtils.equalsDate;
-import static fr.cm.scorexpress.core.model.impl.DateUtils.setTime;
-import static fr.cm.scorexpress.core.model.impl.DateUtils.upTime;
+import static fr.cm.scorexpress.core.model.impl.DateUtils.*;
 import static fr.cm.scorexpress.utils.ResultatComparator.*;
 import static org.apache.commons.lang.StringUtils.EMPTY;
 
@@ -36,50 +34,47 @@ public class CalculResultatsUtils {
                                             final String numBaliseDepart, final String numBaliseArrivee) {
         final ObjStep step = (ObjStep) result.getParent();
         if (userChronos != null) {
+            final boolean notConfigured = numBaliseDepart == null  && numBaliseArrivee == null && !step.isEpreuve();
             boolean errorDepart = false;
+
             /* Récupération de l'heure de départ et d'arrivée du dossard */
             final ObjChrono startChrono;
-            if (numBaliseDepart != null) {
+            if (notConfigured) {
+                startChrono = userChronos.getFirstBaliseGet(step.getBalises());
+            } else if (numBaliseDepart != null) {
                 startChrono = userChronos.getChrono(numBaliseDepart);
-                if (startChrono == null || startChrono.isNull()) {
-                    // Si le concurrent n'est pas au départ de l'épreuve
-                    // il est disqualifié
-                    result.setDeclasse(true);
-                    errorDepart = true;
-                }
             } else {
                 startChrono = userChronos.getChronoDepart();
-                if (startChrono == null || startChrono.isNull()) {
-                    // Si le concurrent n'est pas au départ de l'épreuve
-                    // il est disqualifié
-                    result.setDeclasse(true);
-                    errorDepart = true;
-                }
             }
+            if (startChrono == null || startChrono.isNull()) {
+                // Si le concurrent n'est pas au départ de l'épreuve
+                // il est disqualifié
+                result.setDeclasse(true);
+                errorDepart = true;
+            }
+
             boolean error = false;
             if (errorDepart) {
                 error = true;
             }
             final ObjChrono endChrono;
             boolean errorEnd = false;
-            if (numBaliseArrivee != null) {
+            if (notConfigured) {
+                endChrono = userChronos.getLastBaliseGet(step.getBalises());
+            } else if (numBaliseArrivee != null) {
                 if (step.isArretChrono()) {
                     endChrono = userChronos.getChronoLast(numBaliseArrivee);
                 } else {
                     endChrono = userChronos.getChrono(numBaliseArrivee);
                 }
-                if (endChrono == null || endChrono.isNull()) {
-                    // Si le concurrent n'est pas arrivée
-                    result.setNotArrived(true);
-                    errorEnd = true;
-                }
             } else {
                 endChrono = userChronos.getChronoArrivee();
-                if (endChrono == null || endChrono.isNull()) {
-                    // Si le concurrent n'est pas arrivée
-                    errorEnd = true;
-                }
             }
+            if (endChrono == null || endChrono.isNull()) {
+                // Si le concurrent n'est pas arrivée
+                errorEnd = true;
+            }
+
             if (errorEnd) {
                 error = true;
                 if (!step.isEpreuve()) {
