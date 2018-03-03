@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="ScoreXPress" uid="fr.cm.scorexpress.product" id="fr.cm.scorexpress.rcp.product" application="fr.cm.scorexpress.rcp.application" version="2.1.263" useFeatures="false" includeLaunchers="true">
+<product name="ScoreXPress" uid="fr.cm.scorexpress.product" id="fr.cm.scorexpress.rcp.product" application="fr.cm.scorexpress.rcp.application" version="2.1.264" useFeatures="false" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/fr.cm.scorexpress.rcp/icons/About.gif"/>
