@@ -28,6 +28,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
+
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
@@ -39,35 +40,36 @@ import static org.eclipse.swt.SWT.DRAW_TRANSPARENT;
 import static org.eclipse.swt.layout.GridData.FILL_BOTH;
 
 public class PrintPreview extends Composite implements PaintListener {
-    private static final NumberFormat sdfZoom         = NumberFormat.getInstance();
+    private static final NumberFormat sdfZoom = NumberFormat.getInstance();
     /**
      * Doit être toujours supérieur à 3
      */
-    private static final int          stringMaxLength = 27;
-    private static Printer     printer;
+    private static final int stringMaxLength = 27;
+    private static Printer printer;
     private static PrinterData printerData;
-    private static double             zoom            = 100.0;
-    private static boolean            trunc           = true;
-    private        Button             buttonImprimer  = null;
-    private        Button             buttonPrecedent = null;
-    private        Button             buttonSuivant   = null;
-    private        Button             checkBoxTrunk   = null;
-    private        Canvas             canvas          = null;
-    private        CCombo             cComboZoom      = null;
-    private        ArrayList<Integer> columnWidth     = new ArrayList<Integer>();
-    private        String[][]         lines           = new String[0][0];
-    private PrintDialog dialog;
+    private static double zoom = 100.0;
+    private static boolean trunc = true;
+    private static PrintDialog dialog = null;
+    private Button buttonImprimer = null;
+    private Button buttonPrecedent = null;
+    private Button buttonSuivant = null;
+    private Button checkBoxTrunk = null;
+    private Canvas canvas = null;
+    private CCombo cComboZoom = null;
+    private ArrayList<Integer> columnWidth = new ArrayList<Integer>();
+    private String[][] lines = new String[0][0];
     private int fontSize = 50;
     private GridData gridCanvasData;
-    private String   label;
-    private int         lineHeight   = 0;
-    private PrintMargin printMargin  = null;
-    private Table       mTable       = null;
-    private int         nbLineByPage = 0;
-    private int         nrPage       = 1;
-    private Rectangle   printArea    = null;
-    private int         spacing      = 0;
-    private String[]    titles       = new String[0];
+    private String label;
+    private int lineHeight = 0;
+    private PrintMargin printMargin = null;
+    private Table mTable = null;
+    private int nbLineByPage = 0;
+    private int nrPage = 1;
+    private int selectedPage = 1;
+    private Rectangle printArea = null;
+    private int spacing = 0;
+    private String[] titles = new String[0];
 
     public PrintPreview(final Composite parent, final int style) {
         super(parent, style);
@@ -93,7 +95,7 @@ public class PrintPreview extends Composite implements PaintListener {
         shell.setLayout(new FillLayout());
         shell.setText(i18n("PrintPreview.PRINT_TEXT"));
         final PrintPreview print = new PrintPreview(shell, SWT.NONE, table, titles, label);
-        print.createPage(1, false);
+        print.createPage(2, false);
         shell.pack();
         shell.open();
         while (!shell.isDisposed()) {
@@ -110,7 +112,9 @@ public class PrintPreview extends Composite implements PaintListener {
         // Compute the trim
         final Rectangle trim = printer.computeTrim(0, 0, 0, 0);
         // Get the printer's DPI
-        final Point dpi = printer.getDPI();
+        final Point dpiO = printer.getDPI();
+        final Point dpi = new Point(dpiO.x / 2, dpiO.y / 2);
+
         // Calculate the printable area, using 1 inch margins
         int left = trim.x + dpi.x;
         if (left < rect.x) {
@@ -136,30 +140,34 @@ public class PrintPreview extends Composite implements PaintListener {
     }
 
     private Rectangle calculPageLayout() {
-        final int canvasBorder = 10;
         final Rectangle printerLayout = printer.getClientArea();
         final Point canvasSize = canvas.getSize();
-        double viewScaleFactor = (canvasSize.x - canvasBorder * 2) * 1.0 / printerLayout.width;
-        viewScaleFactor = Math.min(viewScaleFactor, (canvasSize.y - canvasBorder * 2) * 1.0 / printerLayout.height);
+        final double viewScaleFactor = getScaleFactor();
         final int offsetX = (int) (canvasSize.x - (viewScaleFactor * printerLayout.width)) / 2;
         final int offsetY = (int) (canvasSize.y - (viewScaleFactor * printerLayout.height)) / 2;
         return new Rectangle(offsetX, offsetY, (int) (viewScaleFactor * printerLayout.width),
-                             (int) (viewScaleFactor * printerLayout.height));
+                (int) (viewScaleFactor * printerLayout.height));
     }
 
     private Rectangle calculPageSize() {
-        final int canvasBorder = 10;
         final Rectangle printerBound = printer.getBounds();
         final Point canvasSize = canvas.getSize();
-        double viewScaleFactor = (canvasSize.x - canvasBorder * 2) * 1.0 / printerBound.width;
-        viewScaleFactor = Math.min(viewScaleFactor, (canvasSize.y - canvasBorder * 2) * 1.0 / printerBound.height);
+        final double viewScaleFactor = getScaleFactor();
         final int offsetX = (canvasSize.x - (int) (viewScaleFactor * printerBound.width)) / 2;
         final int offsetY = (canvasSize.y - (int) (viewScaleFactor * printerBound.height)) / 2;
         final int marginOffsetX = offsetX + (int) (viewScaleFactor * printMargin.left);
         final int marginOffsetY = offsetY + (int) (viewScaleFactor * printMargin.top);
         return new Rectangle(marginOffsetX, marginOffsetY,
-                             (int) (viewScaleFactor * (printMargin.right - printMargin.left)),
-                             (int) (viewScaleFactor * (printMargin.bottom - printMargin.top)));
+                (int) (viewScaleFactor * (printMargin.right - printMargin.left)),
+                (int) (viewScaleFactor * (printMargin.bottom - printMargin.top)));
+    }
+
+    private double getScaleFactor() {
+        final int canvasBorder = canvas.getBorderWidth();
+        final Rectangle printerBound = printer.getBounds();
+        final Rectangle canvasSize = canvas.getBounds();
+        double viewScaleFactor = (canvasSize.width - canvasBorder * 2) * 1.0 / printerBound.width;
+        return Math.min(viewScaleFactor, (canvasSize.height - canvasBorder * 2) * 1.0 / printerBound.height);
     }
 
     private void calculTableSize(final GC gc) {
@@ -180,10 +188,9 @@ public class PrintPreview extends Composite implements PaintListener {
             if (lines.length == 0) {
 
             } else {
-                while (fontSize > 6 && (dim.width <= 0 || dim.width > widthArea)) {
+                while (fontSize > 1 && (dim.width <= 0 || dim.width > widthArea)) {
                     fontSize--;
                     columnWidth = new ArrayList<Integer>();
-                    font100.dispose();
                     final Font currentFont = createFont(fontSize);
                     gc.setFont(currentFont);
                     lineHeight = gc.stringExtent("??").y;
@@ -197,7 +204,7 @@ public class PrintPreview extends Composite implements PaintListener {
                             if (gc.stringExtent(val).y > lineHeight) {
                                 lineHeight = gc.stringExtent(val).y;
                             }
-                        /* On concerve la plus grande largeur de colonne */
+                            /* On concerve la plus grande largeur de colonne */
                             if (j >= columnWidth.size()) {
                                 columnWidth.add(width);
                             } else {
@@ -214,6 +221,7 @@ public class PrintPreview extends Composite implements PaintListener {
                             break;
                         }
                     }
+                    currentFont.dispose();
                 }
             }
             dim.height = (int) ((dim.width * 100.0 * printArea.height) / (printArea.width * ratio));
@@ -232,8 +240,8 @@ public class PrintPreview extends Composite implements PaintListener {
 
     private void createCanvas() {
         gridCanvasData = new GridData(FILL_BOTH);
-        gridCanvasData.widthHint = 500;
-        gridCanvasData.heightHint = 500;
+        gridCanvasData.widthHint = Display.getCurrent().getBounds().width * 2 / 3;
+        gridCanvasData.heightHint = Display.getCurrent().getBounds().height * 2 / 3;
         canvas = new Canvas(this, BORDER);
         canvas.setLayoutData(gridCanvasData);
         canvas.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_GRAY));
@@ -254,7 +262,7 @@ public class PrintPreview extends Composite implements PaintListener {
         final Composite compositeMenu = new Composite(this, SWT.NONE);
         compositeMenu.setLayoutData(gridDataMenu);
         compositeMenu.setLayout(gridLayout1);
-        compositeMenu.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_RED));
+//        compositeMenu.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_RED));
         buttonPrecedent = new Button(compositeMenu, SWT.NONE);
         buttonPrecedent.setText(i18n("PrintPreview.PREVIOUS"));
         buttonSuivant = new Button(compositeMenu, SWT.NONE);
@@ -262,14 +270,16 @@ public class PrintPreview extends Composite implements PaintListener {
         buttonSuivant.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(final SelectionEvent e) {
-                nrPage++;
+                selectedPage++;
+                nrPage = selectedPage;
                 createPage(nrPage, false);
             }
         });
         buttonPrecedent.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(final SelectionEvent e) {
-                nrPage--;
+                selectedPage--;
+                nrPage = selectedPage;
                 createPage(nrPage, false);
             }
         });
@@ -300,6 +310,7 @@ public class PrintPreview extends Composite implements PaintListener {
                     setPrinter(printer, 0.0);
                     printArea = calculPrintArea(PrintPreview.printer);
                 }
+                nrPage = selectedPage;
                 createPage(nrPage, false);
             }
 
@@ -311,6 +322,7 @@ public class PrintPreview extends Composite implements PaintListener {
                     zoom = new Double(cComboZoom.getText());
                 } catch (NumberFormatException ignored) {
                 }
+                nrPage = selectedPage;
                 createPage(nrPage, false);
             }
 
@@ -322,6 +334,7 @@ public class PrintPreview extends Composite implements PaintListener {
             @Override
             public void widgetSelected(final SelectionEvent e) {
                 trunc = checkBoxTrunk.getSelection();
+                nrPage = selectedPage;
                 createPage(nrPage, false);
             }
 
@@ -377,11 +390,9 @@ public class PrintPreview extends Composite implements PaintListener {
     }
 
     int getNbLigneBypage(final GC gc, final Rectangle dim) {
-        final Font font = createFont((int) (fontSize * 1.3));
         final int titleSize = gc.getFontMetrics().getHeight() * titles.length + 1;
         int nbLineByPage = (dim.height - titleSize - spacing) / lineHeight - 1;
         nbLineByPage = nbLineByPage <= 0 ? 1 : nbLineByPage;
-        font.dispose();
         return nbLineByPage;
     }
 
@@ -390,8 +401,9 @@ public class PrintPreview extends Composite implements PaintListener {
      */
     private void initialize() {
         setLayout(new GridLayout());
-        // this.setSize(new Point(330, 351));
-        dialog = new PrintDialog(getShell(), SWT.OPEN);
+        dialog = new PrintDialog(getShell(), SWT.NONE);
+        if (printerData != null)
+            dialog.setPrinterData(printerData);
         createCompositeMenu();
         createCanvas();
     }
@@ -487,6 +499,7 @@ public class PrintPreview extends Composite implements PaintListener {
                     end = true;
                 }
             }
+            color.dispose();
             int contactFontSize = (int) (fontSize * 0.8);
             if (contactFontSize <= 0) {
                 contactFontSize = fontSize;
@@ -514,16 +527,16 @@ public class PrintPreview extends Composite implements PaintListener {
         final Rectangle pageLayout = calculPageLayout();
         e.gc.setBackground(mTable.getBackground());
         // draws the page layout
-        e.gc.fillRectangle(pageLayout.x, pageLayout.y, pageLayout.width, pageLayout.height);
+        e.gc.fillRectangle(dimPage.x, dimPage.y, dimPage.width, dimPage.height);
         // draws the margin.
         e.gc.setLineStyle(SWT.LINE_DASH);
         e.gc.setForeground(getDisplay().getSystemColor(SWT.COLOR_BLACK));
-        e.gc.drawRectangle(dimPage.x, dimPage.y, dimPage.width, dimPage.height);
+        e.gc.drawRectangle(pageLayout.x, pageLayout.y, pageLayout.width, pageLayout.height);
         e.gc.setLineStyle(SWT.LINE_SOLID);
         final GC gc = e.gc;
-        printArea = calculPageSize();
+        printArea = dimPage;
         calculTableSize(gc);
-        paint(gc, dimPage, pageLayout, nrPage);
+        paint(gc, pageLayout, dimPage, nrPage);
         gc.dispose();
     }
 
@@ -532,9 +545,7 @@ public class PrintPreview extends Composite implements PaintListener {
         final PrinterData printerDataTmp = dialog.open();
         System.out.println("print open " + printerData.name);
         if (printerDataTmp != null) {
-            if (printerDataTmp.name == null || !printerDataTmp.name.equals(printerData.name)) {
-                printerData = printerDataTmp;
-            }
+            printerData = printerDataTmp;
             System.out.println("print " + printerData.name);
             printer = new Printer(printerData);
             // printArea = printer.getClientArea();
@@ -543,22 +554,31 @@ public class PrintPreview extends Composite implements PaintListener {
             } else {
                 printer.startJob(label);
             }
-            final boolean all = printerData.endPage == 0 || printerData.startPage == 0;
+
             nrPage = 1;
+            final GC gc2 = new GC(printer);
+            // createPage(nrPage, true);
+            printArea = calculPrintArea(printer);
+            calculTableSize(gc2);
+            nbLineByPage = getNbLigneBypage(gc2, printArea);
+            gc2.dispose();
+
+            int nbLigne = mTable.getItems().length;
+
             int ligne = 1;
-            while (ligne > 0 && (nrPage <= printerData.endPage || all)) {
-                if (nrPage >= printerData.startPage && (nrPage <= printerData.endPage || all) && printer.startPage()) {
+            while (ligne > 0) {
+                if ((printerData.scope == 0 ||
+                        printerData.scope == 1 && printerData.startPage >= nrPage && printerData.endPage <= nrPage ||
+                        printerData.scope == 2 && nrPage == selectedPage)
+                        && printer.startPage()) {
                     System.out.println("Calcul print area");
-                    printArea = calculPrintArea(printer);
                     final GC gc = new GC(printer);
                     // createPage(nrPage, true);
-                    calculTableSize(gc);
-                    nbLineByPage = getNbLigneBypage(gc, printArea);
-                    ligne = paint(gc, printArea, printArea, nrPage);
-                    ligne = mTable.getItems().length - (nrPage * nbLineByPage);
+                    paint(gc, printArea, printArea, nrPage);
                     printer.endPage();
                     gc.dispose();
                 }
+                ligne = nbLigne - (nrPage * nbLineByPage);
                 nrPage++;
 
             }
