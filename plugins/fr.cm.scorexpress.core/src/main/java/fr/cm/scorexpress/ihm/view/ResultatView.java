@@ -118,7 +118,9 @@ public class ResultatView extends ViewPart {
 
 
     public void setFocus() {
-        composite.setFocus();
+        if (!composite.isDisposed()) {
+            composite.setFocus();
+        }
     }
 
     public void dispose() {
