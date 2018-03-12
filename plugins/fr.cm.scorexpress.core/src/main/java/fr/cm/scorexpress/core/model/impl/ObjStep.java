@@ -413,13 +413,21 @@ public class ObjStep extends IData<IData>
             step = this;
         }
         d.setParent(this);
-        nextDossard = new Integer(d.getNum()) + 1;
+        try {
+            nextDossard = Integer.valueOf(d.getNum()) + 1;
+        } catch (NumberFormatException e) {
+            nextDossard += 1;
+        }
         return step.addDossardToStep(d);
     }
 
     public boolean addDossardToStep(final ObjDossard d) {
         d.setParent(this);
-        nextDossard = new Integer(d.getNum()) + 1;
+        try {
+            nextDossard = Integer.valueOf(d.getNum()) + 1;
+        } catch (NumberFormatException e) {
+            nextDossard += 1;
+        }
         final boolean res = dossards.add(d);
         d.addPropertyChangeListener(this);
         firePropertyChange("Dossards", null, d);

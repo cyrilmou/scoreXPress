@@ -48,7 +48,7 @@ public class ObjDossard extends IData<IData> implements Comparable<ObjDossard> {
     public boolean equals(final Object object) {
         if (ObjDossard.class.isInstance(object)) {
             final ObjDossard d = (ObjDossard) object;
-            return new Integer(num).equals(new Integer(d.num));
+            return num.equals(d.num);
         }
         return false;
     }

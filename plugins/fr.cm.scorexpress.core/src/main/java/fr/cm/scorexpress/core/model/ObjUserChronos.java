@@ -1,11 +1,9 @@
 package fr.cm.scorexpress.core.model;
 
 import fr.cm.scorexpress.core.model.impl.Date2;
+import fr.cm.scorexpress.core.model.impl.DateUtils;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.*;
 
 public final class ObjUserChronos extends IData implements IChronos, Comparable<ObjUserChronos> {
     private static final long serialVersionUID = -3434519398304277739L;
@@ -300,5 +298,22 @@ public final class ObjUserChronos extends IData implements IChronos, Comparable<
             baliseIds.add(balise.getNum());
         }
         return baliseIds;
+    }
+
+    public static final Comparator<ObjChrono> CHRONO_COMPARATOR = new Comparator<ObjChrono>() {
+        @Override
+        public int compare(final ObjChrono o1, final ObjChrono o2) {
+            if (o2.isNull()) {
+                return -1;
+            }
+            if (o1.isNull()) {
+                return 1;
+            }
+            return DateUtils.compare(o1, o2);
+        }
+    };
+
+    public void sortChronos() {
+        Collections.sort(chronos, CHRONO_COMPARATOR);
     }
 }

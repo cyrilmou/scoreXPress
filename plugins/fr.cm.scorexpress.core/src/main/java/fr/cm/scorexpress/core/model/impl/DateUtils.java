@@ -24,9 +24,8 @@ public class DateUtils {
 	private DateUtils() {
 	}
 
-	public static int compare(final ObjChrono chrono1,
-			final ObjChrono chrono2) {
-		if (chrono1.getTemps() == null)
+	public static int compare(final ObjChrono chrono1, final ObjChrono chrono2) {
+		if (chrono1 ==null || chrono1.getTemps() == null)
 			return -1;
 		if (chrono2 == null)
 			return 1;

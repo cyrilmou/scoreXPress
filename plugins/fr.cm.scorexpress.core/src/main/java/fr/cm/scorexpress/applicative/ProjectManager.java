@@ -141,27 +141,29 @@ public class ProjectManager implements IProjectManagerListener {
         listeners.remove(listener);
     }
 
-    public static void importDonneeConcurrent(ObjStep etape,
-                                              final String fileName) {
+    public static UserChronosLoader importDonneeConcurrent(ObjStep etape,
+                                                           final String fileName) {
         try {
             if (etape == null) {
-                return;
+                return null;
             }
             etape = etape.getEpreuve();
             if (etape == null) {
-                return;
+                return null;
             }
             if (fileName == null || fileName.equals(EMPTY)) {
                 System.out.println("SportIdent import " //$NON-NLS-1$
                                            + " (Echec)"); //$NON-NLS-1$
-                return;
+                return null;
             }
             final UserChronosLoader chronosLoader = createUserChrono(fileName);
             final ObjConfig config = etape.getManif().getConfiguration().getConfig(IMPORT_PARTICIPANTS);
             chronosLoader.loadInfo(config, etape);
+            return chronosLoader;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     public static void importDonneeConcurrent(final ObjStep etape) {

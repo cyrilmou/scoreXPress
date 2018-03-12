@@ -1,15 +1,18 @@
 package fr.cm.scorexpress.applicative;
 
 import fr.cm.scorexpress.core.model.AbstractSteps;
+import fr.cm.scorexpress.core.model.ObjChrono;
 import fr.cm.scorexpress.core.model.ObjUserChronos;
+import fr.cm.scorexpress.core.model.impl.DateUtils;
 import fr.cm.scorexpress.core.model.impl.ObjStep;
 import fr.cm.scorexpress.data.UserChronosLoader;
+
 import java.io.File;
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.*;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static fr.cm.scorexpress.applicative.ProjectManager.importDonneeConcurrent;
+import static fr.cm.scorexpress.core.model.ConfigType.IMPORT_PARTICIPANTS;
 import static fr.cm.scorexpress.core.model.Step.VAR_DATE_LAST_IMPORT;
 import static fr.cm.scorexpress.core.model.Step.VAR_FILENAME_IMPORT;
 import static fr.cm.scorexpress.data.UserChronosLoader.*;
@@ -19,8 +22,8 @@ public class AutoImportProcess implements Runnable {
     private final ProjectManager projectManager;
     private final Collection<IActualisationProject> listenersActualisation = newArrayList();
 
-    private final Thread  thread = new Thread(this);
-    private       boolean run    = true;
+    private final Thread thread = new Thread(this);
+    private boolean run = true;
 
     public AutoImportProcess(final ProjectManager projectManager) {
         this.projectManager = projectManager;
@@ -66,8 +69,29 @@ public class AutoImportProcess implements Runnable {
                     final String lastModif = f.lastModified() + EMPTY; //$NON-NLS-1$
                     final String lastImport = etape.getInfoStr(VAR_DATE_LAST_IMPORT);
                     if (lastImport == null || !lastImport.equals(lastModif)) {
-                        importSportIdent(etape);
-                        importDonneeConcurrent(etape, etape.getImportFileName());
+//                        importSportIdent(etape);
+                        UserChronosLoader chronosLoader = importDonneeConcurrent(etape, etape.getImportFileName());
+
+                        final Collection<ObjUserChronos> usersChronos = chronosLoader.getInfoSportIdent();
+
+                        final ObjStep etapeParent = etape.getEpreuve();
+                        if (etapeParent == null) {
+                            fireActualisationListener();
+                            return;
+                        }
+                        // Suppression des données précédentes
+                        etapeParent.clearUserChronos();
+
+                        for (final ObjUserChronos userChronos : usersChronos) {
+                            if (matchesStepCategoryFilter(etapeParent, userChronos.getInfo(VAR_CSV_CATEGORIE) + "")) {
+                                etapeParent.addUserChronos(userChronos);
+                            }
+                        }
+                        etape.setInfo(VAR_DATE_LAST_IMPORT, lastModif); //$NON-NLS-1$
+
+                        System.out.println("SportIdent import " //$NON-NLS-1$
+                                + ' ' + fileName + " (ok)"); //$NON-NLS-1$ //$NON-NLS-2$
+                        fireActualisationListener();
                     }
                 }
             }
@@ -87,19 +111,18 @@ public class AutoImportProcess implements Runnable {
             if (etapeParent == null) {
                 return;
             }
-            if (fileName == null || fileName.equals(EMPTY)) {
+            if (fileName == null || fileName.equals(EMPTY) || !new File(fileName).exists()) {
                 System.out.println("SportIdent import " //$NON-NLS-1$
-                                           + " (Echec)"); //$NON-NLS-1$
+                        + " (Echec)"); //$NON-NLS-1$
                 return;
             }
             final UserChronosLoader chronosLoader = createUserChrono(fileName);
-            chronosLoader.loadFile();
+            chronosLoader.loadFile(etape.getManif().getConfiguration().getConfig(IMPORT_PARTICIPANTS));
             final Collection<ObjUserChronos> usersChronos = chronosLoader.getInfoSportIdent();
             // Suppression des données précédentes
             etapeParent.clearUserChronos();
-            final Iterator<ObjUserChronos> iter = usersChronos.iterator();
-            while (iter.hasNext()) {
-                final ObjUserChronos userChronos = iter.next();
+
+            for (final ObjUserChronos userChronos : usersChronos) {
                 if (matchesStepCategoryFilter(etapeParent, userChronos.getInfo(VAR_CSV_CATEGORIE) + "")) {
                     etapeParent.addUserChronos(userChronos);
                 }
@@ -108,7 +131,7 @@ public class AutoImportProcess implements Runnable {
             final String lastImport = f.lastModified() + EMPTY;
             etape.setInfo(VAR_DATE_LAST_IMPORT, lastImport); //$NON-NLS-1$
             System.out.println("SportIdent import " //$NON-NLS-1$
-                                       + ' ' + fileName + " (ok)"); //$NON-NLS-1$ //$NON-NLS-2$
+                    + ' ' + fileName + " (ok)"); //$NON-NLS-1$ //$NON-NLS-2$
             fireActualisationListener();
         } catch (Throwable e) {
             e.printStackTrace();
