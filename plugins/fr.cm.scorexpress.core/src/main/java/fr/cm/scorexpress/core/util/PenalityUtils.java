@@ -57,7 +57,7 @@ public class PenalityUtils {
             final ObjResultat resSubStep = findResultatByDossard(dossard.getNum(), subStep);
             if (resSubStep != null) {
                 if (subStep.isArretChrono()) {
-                    downTime(resultat.getTempsArretChronoResultat(), resSubStep.getTemps());
+                    downTime(resultat.getTempsArretChronoResultat(), resSubStep.getTempsParcours());
                 }
                 upTime(resultat.getTempsArretChronoResultat(), resSubStep.getTempsArretChronoResultat());
             }
