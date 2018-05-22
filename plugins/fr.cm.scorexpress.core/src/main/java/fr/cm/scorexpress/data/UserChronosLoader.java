@@ -33,18 +33,18 @@ import static fr.cm.scorexpress.core.model.ObjDossard.VAR_DOSSARD_CATEGORIE;
 
 public class UserChronosLoader {
     private final Collection<ObjUserChronos> userChronosList = new ArrayList<ObjUserChronos>();
-    private final Collection<String> removedDossards = new ArrayList<String>();
+    private final Collection<String>         removedDossards = new ArrayList<String>();
 
-    private static final String SEPARATEUR = ";";
-    private final String fileName;
-    public static final String VAR_NUM = "N° dép.";
-    public static final String VAR_NOM = "Nom";
-    public static final String VAR_PRENOM = "Prénom";
-    public static final String VAR_SEXE = "S";
-    public static final String VAR_PUCE = "Puce";
-    public static final String VAR_CSV_CATEGORIE = "Long";
-    public static final String VAR_VILLE = "Ville";
-    static final HashMap<String, String> instances = new HashMap<String, String>();
+    private static final String                  SEPARATEUR        = ";";
+    private final        String                  fileName;
+    public static final  String                  VAR_NUM           = "N° dép.";
+    public static final  String                  VAR_NOM           = "Nom";
+    public static final  String                  VAR_PRENOM        = "Prénom";
+    public static final  String                  VAR_SEXE          = "S";
+    public static final  String                  VAR_PUCE          = "Puce";
+    public static final  String                  VAR_CSV_CATEGORIE = "Long";
+    public static final  String                  VAR_VILLE         = "Ville";
+    static final         HashMap<String, String> instances         = new HashMap<String, String>();
 
     private UserChronosLoader(final String fileName) {
         this.fileName = fileName;
@@ -82,21 +82,21 @@ public class UserChronosLoader {
     public synchronized void loadFile(final ObjConfig config) {
         try {
             System.out.println("Chargement de " + fileName);
-            final Date d = new Date();
-            final File f = new File(fileName);
-            final InputStreamReader in = new InputStreamReader(new FileInputStream(f));
-            final BufferedReader dis = new BufferedReader(in);
-            String ligne;
+            final Date              d   = new Date();
+            final File              f   = new File(fileName);
+            final InputStreamReader in  = new InputStreamReader(new FileInputStream(f));
+            final BufferedReader    dis = new BufferedReader(in);
+            String                  ligne;
             // Préparation des colonnes d'informations à récupérer dans le
             // fichier
             final List<Integer> colonneInfos = newArrayList();
-            final List<String> colonneName = newArrayList();
+            final List<String>  colonneName  = newArrayList();
             for (int nrLigneCSV = 0; (ligne = dis.readLine()) != null; nrLigneCSV++) {
                 if (nrLigneCSV > 0) { // Titre
-                    final ObjUserChronos userChronos = new ObjUserChronos("0");
-                    final ArrayList<ObjChrono> chronos = new ArrayList<ObjChrono>();
+                    final ObjUserChronos       userChronos = new ObjUserChronos("0");
+                    final ArrayList<ObjChrono> chronos     = new ArrayList<ObjChrono>();
                     userChronosList.add(userChronos);
-                    String puce = null;
+                    String          puce    = null;
                     final ObjChrono arrivee = new ObjChronoArrivee(DateFactory.createDate(0));
                     for (int arg = 0; hasMore(ligne); arg++) {
                         String val = getNext(ligne);
@@ -202,9 +202,9 @@ public class UserChronosLoader {
             final Iterator<ObjUserChronos> chronosIterator = userChronosList.iterator();
             while (chronosIterator.hasNext()) {
                 final ObjUserChronos userChronos = chronosIterator.next();
-                final String numDossard = userChronos.getDossard();
-                ObjDossard dossard = StepUtil.findDossard(numDossard, step);
-                final boolean found;
+                final String         numDossard  = userChronos.getDossard();
+                ObjDossard           dossard     = StepUtil.findDossard(numDossard, step);
+                final boolean        found;
                 if (dossard == null) {
                     found = false;
                     dossard = new ObjDossard(numDossard);
@@ -213,7 +213,7 @@ public class UserChronosLoader {
                 }
                 for (final ColTable colTable : config.getColTableAll()) {
                     final String attribut = colTable.getChamp();
-                    final Object value = userChronos.getInfo(attribut);
+                    final Object value    = userChronos.getInfo(attribut);
                     if (attribut.equals(VAR_CSV_CATEGORIE)) {
                         if (value != null) {
                             step.getManif().addCategorie(new ObjCategorie("" + value));
@@ -239,7 +239,7 @@ public class UserChronosLoader {
     }
 
     public static boolean matchesStepCategoryFilter(final ObjStep etape, final String category) {
-        return etape.getCategoryFilter() == null || etape.getCategoryFilter().isEmpty() || Pattern
+        return category == null || etape.getCategoryFilter() == null || etape.getCategoryFilter().isEmpty() || Pattern
                 .compile("\\b" + etape.getCategoryFilter()).matcher(category).find();
     }
 
@@ -250,13 +250,13 @@ public class UserChronosLoader {
     private void updateChronoList() {
         removedDossards.clear();
         final Map<String, ObjUserChronos> chronosByMultiId = new HashMap<String, ObjUserChronos>();
-        String MULTI_ID = ObjUserChronos.PREFIX_ + "MULTI_ID";
+        String                            MULTI_ID         = ObjUserChronos.PREFIX_ + "MULTI_ID";
         for (final ObjUserChronos userChronos : userChronosList) {
             String multiId = userChronos.getInfoStr(MULTI_ID);
             if (userChronos.getInfo(MULTI_ID) != null && !multiId.equals("\"\"")) {
                 if (chronosByMultiId.containsKey(multiId)) {
                     final ObjUserChronos oldUserChronos = chronosByMultiId.remove(multiId);
-                    final ObjUserChronos mergeChronos = mergeChronos(oldUserChronos, userChronos);
+                    final ObjUserChronos mergeChronos   = mergeChronos(oldUserChronos, userChronos);
                     mergeChronos.setDossard(multiId);
 
                     removedDossards.add(oldUserChronos.getDossard());
@@ -264,6 +264,7 @@ public class UserChronosLoader {
                     removedDossards.remove(mergeChronos.getDossard());
                     chronosByMultiId.put(multiId, mergeChronos);
                 } else {
+                    userChronos.setDossard(multiId);
                     chronosByMultiId.put(multiId, userChronos);
                 }
             } else {
@@ -295,7 +296,7 @@ public class UserChronosLoader {
         final ObjChrono chronoDepartNew = newChronos.getChronoDepart();
         mergeBorne(chronoDepartRef, chronoDepartNew);
 
-        final Collection<String> baliseToAdd = new ArrayList<>();
+        final Collection<String> baliseToAdd        = new ArrayList<>();
         final Collection<String> baliseToInvalidate = new ArrayList<>();
         for (final Map.Entry<String, Integer> balise : balises.entrySet()) {
             if (balise.getValue() == 0) {
@@ -315,8 +316,10 @@ public class UserChronosLoader {
         }
 
         for (final ObjChrono chrono : ref.getChronos()) {
+            chrono.setInfoDiverse("CANCEL_MULTI_ID", false);
             if (baliseToInvalidate.contains(chrono.getNumBalise())) {
                 chrono.setCancel(true);
+                chrono.setInfoDiverse("CANCEL_MULTI_ID", true);
             }
         }
 

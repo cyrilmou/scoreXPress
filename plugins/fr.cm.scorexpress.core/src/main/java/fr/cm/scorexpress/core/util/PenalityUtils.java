@@ -114,7 +114,7 @@ public class PenalityUtils {
         if (valueList != null) {
             valueList = step.getLib() + '[' + valueList + ']';
         }
-                /* Concaténation des balises manquées */
+        /* Concaténation des balises manquées */
         if (valueList != null) {
             final Object valueListRes = resultat.getInfo(attribut);
             if (valueListRes != null) {
@@ -139,8 +139,8 @@ public class PenalityUtils {
         final Date2                  departTime     = resultat.getDepartTime();
         final Date2                  arriveeTime    = resultat.getArriveeTime();
         final boolean arriveeIsValide = departTime.compareTo(arriveeTime) > 0 &&
-                !arriveeTime.isNull() &&
-                !arriveeTime.equals(createDate(0));
+                                        !arriveeTime.isNull() &&
+                                        !arriveeTime.equals(createDate(0));
 
         for (final Balise balise : balises) {
             final ObjChrono chrono = userChrono.getChronoEnableHasPossible(balise.getNum());
@@ -148,7 +148,7 @@ public class PenalityUtils {
                     chrono == null || chrono.getTemps() == null || chrono.getTemps().isNull() || chrono.isCancel();
             if (isNotValidate) {
                 if (TYPE_OBLIGATOIRE.equalsIgnoreCase(balise.getType()) ||
-                        TYPE_ORDONNEE.equalsIgnoreCase(balise.getType()) && inclureBaliseOrdonnee) {
+                    TYPE_ORDONNEE.equalsIgnoreCase(balise.getType()) && inclureBaliseOrdonnee) {
                     // duree.add(balise.getPenalite());
                     upTime(penalite, balise.getPenalite());
                     resultat.addNbPenalite(1);
@@ -178,8 +178,8 @@ public class PenalityUtils {
                     // Ajout des temps de balise
                     resultat.setInfoTmp(VAR_PREFIX_BALISE + chrono.getNumBalise(), chrono.getTemps() + EMPTY);
                     if (TYPE_OBLIGATOIRE.equalsIgnoreCase(balise.getType()) ||
-                            TYPE_ORDONNEE.equalsIgnoreCase(balise.getType()) ||
-                            TYPE_PAS_OBLIGATOIRE.equalsIgnoreCase(balise.getType())) {
+                        TYPE_ORDONNEE.equalsIgnoreCase(balise.getType()) ||
+                        TYPE_PAS_OBLIGATOIRE.equalsIgnoreCase(balise.getType())) {
                         increaseValue(resultat, VAR_NB_BALISE, 1);
                         increaseValue(resultat, VAR_NB_POINTS_BALISE, balise.getPoints());
                         //                        appendDataList(resultat, "", "", VAR_RESULTAT_BALISES_OK, balise.getNum());
@@ -211,7 +211,7 @@ public class PenalityUtils {
                                  return DateUtils.compare(chrono1, chrono2);
                              }
                          }
-        );
+                        );
         Date2 start = departTime;
         for (final ObjChrono chrono : allChronos) {
             final Balise balise = balisesOk.get(chrono);
@@ -256,6 +256,10 @@ public class PenalityUtils {
     public static void initUserChrono(final IChronos infoSportIdentParent) {
         for (final ObjChrono objChrono : infoSportIdentParent.getChronos()) {
             objChrono.setCancel(false);
+            if (objChrono.getInfo("CHRONO_" + "CANCEL_MULTI_ID") != null &&
+                objChrono.getInfo("CHRONO_" + "CANCEL_MULTI_ID").equals(true)) {
+                objChrono.setCancel(true);
+            }
         }
     }
 
@@ -398,9 +402,9 @@ public class PenalityUtils {
                         return penality.getPenalite();
                     } else {
                         final long delta = dureeParcours.getTime() - penality.getDureeMaxi().getTime();
-                        final int ratio = (int) (delta / penality.getEchellePenalite().getTime());
-                        final int reste = (int) (delta % penality.getEchellePenalite().getTime());
-                        Date res = createDate(ratio * penality.getPenalite().getTime());
+                        final int  ratio = (int) (delta / penality.getEchellePenalite().getTime());
+                        final int  reste = (int) (delta % penality.getEchellePenalite().getTime());
+                        Date       res   = createDate(ratio * penality.getPenalite().getTime());
                         if (reste != 0) {
                             res = createDate((ratio + 1) * penality.getPenalite().getTime());
                         }
@@ -600,10 +604,10 @@ public class PenalityUtils {
             if (nbPenalite > 0) {
                 appendDataList(resultat, "", "", VAR_RESULTAT_BALISESMANQUEES,
                                nbPenalite + " x " + createDate(penality.getPenalite()).showSign()
-                );
+                              );
                 appendDataList(resultat, "", "", VAR_RESULTAT_BALISES_PENALITES,
                                nbPenalite + " x " + createDate(penality.getPenalite()).showSign()
-                );
+                              );
             }
             final Date penaliteMiniEpreuve = calculTempsMiniEpreuve(resultat.getTempsParcours(), penality, true);
             upTime(resultat.getPenaliteResultat(), penaliteMiniEpreuve);
@@ -616,7 +620,7 @@ public class PenalityUtils {
             final Date2 echellePenalite = createDate(penality.getEchellePenalite());
             if (nbBonus > 0 && !echellePenalite.equals(createDate(0))) {
                 appendDataList(resultat, "", "", VAR_RESULTAT_BALISESBONUS, nbBonus + " x " + echellePenalite.showSign()
-                );
+                              );
             }
         }
     }
@@ -632,26 +636,26 @@ public class PenalityUtils {
             builder.append(
                     String.format(" %s=%s %s=%s %s=%s", penalityMaxiLabel, penality.getDureeMaxiStr(), scaleLabel,
                                   penality.getEchellePenaliteStr(), penalityTimeLabel, penality.getPenaliteStr()
-                    )
-            );
+                                 )
+                          );
         } else if (isPenalityType(penality, TYPE_DUREE_ETAPE_MAXI)) {
             builder.append(String.format(" %s=%s", penalityTimeLabel, penality.getDureeMaxiStr()));
         } else if (isPenalityType(penality, TYPE_NB_BALISES_MINI)) {
             builder.append(String.format("\n  %s < %d => %s = %s x %s", nbBaliseLabel, penality.getNbBalisesMini(),
                                          penalityTimeLabel, nbBaliseMissedLabel, penality.getPenaliteStr()
-                           )
-            );
+                                        )
+                          );
             if (!penality.getDureeMini().isNull()) {
                 builder.append(
                         String.format("\n  %s < %d => %s = max(%s, %s)", nbBaliseLabel, penality.getNbBalisesMini(),
                                       penalityTimeLabel, penality.getDureeMiniStr(), parcoursLabel
-                        )
-                );
+                                     )
+                              );
             }
             builder.append(String.format("\n  %s > %d => bonus = %s x %s", nbBaliseLabel, penality.getNbBalisesMini(),
                                          nbBaliseMoreLabel, penality.getPenaliteStr()
-                           )
-            );
+                                        )
+                          );
         } else {
             builder.append(penality.getInfoStr(VAR_LIB));
         }
