@@ -34,8 +34,8 @@ public class CalculResultatsUtils {
                                             final String numBaliseDepart, final String numBaliseArrivee) {
         final ObjStep step = (ObjStep) result.getParent();
         if (userChronos != null) {
-            final boolean notConfigured = numBaliseDepart == null  && numBaliseArrivee == null && !step.isEpreuve();
-            boolean errorDepart = false;
+            final boolean notConfigured = numBaliseDepart == null && numBaliseArrivee == null && !step.isEpreuve();
+            boolean       errorDepart   = false;
 
             /* Récupération de l'heure de départ et d'arrivée du dossard */
             final ObjChrono startChrono;
@@ -58,7 +58,7 @@ public class CalculResultatsUtils {
                 error = true;
             }
             final ObjChrono endChrono;
-            boolean errorEnd = false;
+            boolean         errorEnd = false;
             if (notConfigured) {
                 endChrono = userChronos.getLastBaliseGet(step.getBalises());
             } else if (numBaliseArrivee != null) {
@@ -200,7 +200,10 @@ public class CalculResultatsUtils {
                     return true;
                 }
                 final CharSequence resultCategory = objResultat.getDossard().getCategory();
-                final Matcher      matcher        = pattern.matcher(resultCategory);
+                if (resultCategory == null) {
+                    return false;
+                }
+                final Matcher matcher = pattern.matcher(resultCategory);
                 return matcher.matches();
             }
         };
@@ -231,13 +234,11 @@ public class CalculResultatsUtils {
                 }
                 if (last != null && equalsDate(last.getTemps(), resultat.getTemps())) {
                     resultat.setInfo(VAR_RESULTAT_PLACE,
-                                     noNumberForAbandonAndDisqualify(resultat, last.getInfoStr(VAR_RESULTAT_PLACE))
-                    );
+                                     noNumberForAbandonAndDisqualify(resultat, last.getInfoStr(VAR_RESULTAT_PLACE)));
                 } else {
                     if (byCategory) {
                         resultat.setInfo(VAR_RESULTAT_PLACE,
-                                         noNumberForAbandonAndDisqualify(resultat, incrNr(resultat) + EMPTY)
-                        );
+                                         noNumberForAbandonAndDisqualify(resultat, incrNr(resultat) + EMPTY));
                     } else {
                         resultat.setInfo(VAR_RESULTAT_PLACE, noNumberForAbandonAndDisqualify(resultat, nr + EMPTY));
                     }
@@ -282,12 +283,11 @@ public class CalculResultatsUtils {
 
     public static void updateClassement(final Iterable<ObjResultat> results, final boolean byCategory) {
         filterResults(results, new Predicate<ObjResultat>() {
-                          @Override
-                          public boolean apply(final ObjResultat input) {
-                              return true;
-                          }
-                      }, byCategory
-        );
+            @Override
+            public boolean apply(final ObjResultat input) {
+                return true;
+            }
+        }, byCategory);
     }
 }
 
