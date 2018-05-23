@@ -296,8 +296,8 @@ public class UserChronosLoader {
         final ObjChrono chronoDepartNew = newChronos.getChronoDepart();
         mergeBorne(chronoDepartRef, chronoDepartNew);
 
-        final Collection<String> baliseToAdd        = new ArrayList<>();
-        final Collection<String> baliseToInvalidate = new ArrayList<>();
+        final Collection<String> baliseToAdd        = new ArrayList<String>();
+        final Collection<String> baliseToInvalidate = new ArrayList<String>();
         for (final Map.Entry<String, Integer> balise : balises.entrySet()) {
             if (balise.getValue() == 0) {
                 baliseToInvalidate.add(balise.getKey());

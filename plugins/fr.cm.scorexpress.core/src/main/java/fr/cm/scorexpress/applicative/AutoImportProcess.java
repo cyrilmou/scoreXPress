@@ -46,14 +46,18 @@ public class AutoImportProcess implements Runnable {
                         importAuto(step);
                     }
                 }
-
-                for (int i = 5; i > 0; i--) {
-                    fireActualisationDelayListener(i * 1000);
-                    Thread.sleep(1000);
-                }
-                fireActualisationDelayListener(0);
             } catch (Throwable e) {
+                e.printStackTrace();
             }
+            for (int i = 5; i > 0; i--) {
+                fireActualisationDelayListener(i * 1000);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            fireActualisationDelayListener(0);
         }
     }
 

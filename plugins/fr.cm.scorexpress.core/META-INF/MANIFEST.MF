@@ -27,5 +27,5 @@ Export-Package: fr.cm.scorexpress.applicative,
  fr.cm.scorexpress.core.model,
  fr.cm.scorexpress.ihm.application,
  fr.cm.scorexpress.ihm.view
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: org.apache.xml.serialize
