@@ -32,7 +32,7 @@
             </property>
             <property
                   name="aboutText"
-                  value="Logiciel de calcul des résultats\n&#x0A;d&apos;une épreuve sportive de type RAID\n&#x0A;\n\n&#x0A;http://www.jurazimut.com\n&#x0A;contact: chronosraid@gmail.com\n">
+                  value="Logiciel de calcul des résultats&#x0A;d&apos;une épreuve sportive de type RAID&#x0A;&#x0A;http://www.jurazimut.com&#x0A;contact: chronosraid@gmail.com">
             </property>
         </product>
     </extension>
