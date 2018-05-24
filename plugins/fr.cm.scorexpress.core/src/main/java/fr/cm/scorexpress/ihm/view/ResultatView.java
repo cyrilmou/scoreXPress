@@ -102,7 +102,6 @@ public class ResultatView extends ViewPart {
             @Override
             public void click() {
                 final PrintSettings settings = new PrintSettings();
-                settings.setTopString("Résultat");
                 ImagePrintUtils.printControl(composite, settings);
             }
         });
