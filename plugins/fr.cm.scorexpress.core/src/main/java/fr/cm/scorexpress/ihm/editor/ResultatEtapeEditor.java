@@ -2,23 +2,23 @@ package fr.cm.scorexpress.ihm.editor;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
+import java.util.*;
 
 import fr.cm.common.widget.MyToolkit;
 import fr.cm.common.widget.StandardToolKit;
 import fr.cm.common.widget.button.ButtonAdapter;
+import fr.cm.common.widget.button.ButtonModel;
 import fr.cm.common.widget.composite.AbstractCompositeBuilder;
 import fr.cm.common.widget.composite.CommonCompositeBuilder;
 import fr.cm.common.widget.composite.CompositeBuilder;
 import fr.cm.common.widget.table.TableBuilder;
 import fr.cm.common.widget.table.TableModel;
+import fr.cm.common.widget.text.TextModel;
 import fr.cm.common.workbench.WorkbenchUtils;
 import fr.cm.scorexpress.core.AutoResizeColumn;
 import fr.cm.scorexpress.core.model.ColTable;
 import fr.cm.scorexpress.core.model.ObjResultat;
+import fr.cm.scorexpress.core.model.impl.DateUtils;
 import fr.cm.scorexpress.core.model.impl.ObjStep;
 import fr.cm.scorexpress.ihm.application.ImageReg;
 import fr.cm.scorexpress.ihm.application.ScoreXPressPlugin;
@@ -68,8 +68,8 @@ public class ResultatEtapeEditor extends EditorPart implements IPrintable, IAuto
     private             Image              configChronosImage       = null;
     private             ResultatEtapeModel model                    = null;
     private             Table              table                    = null;
-    private CompositeBuilder builder;
-    private CompositeBuilder compositeBuilder;
+    private             CompositeBuilder   builder;
+    private             CompositeBuilder   compositeBuilder;
 
     @Override
     public void init(final IEditorSite site, final IEditorInput input) throws PartInitException {
@@ -109,32 +109,44 @@ public class ResultatEtapeEditor extends EditorPart implements IPrintable, IAuto
     }
 
     private void createTitle(final CommonCompositeBuilder<Composite, CompositeBuilder> builder) {
-        builder.addLabel(model.getTitleLabelModel(), SWT.NONE).withFont(new Font(Display.getDefault(), "Tahoma", 14, SWT.NORMAL)).withLayoutData(new GridData(VERTICAL_ALIGN_CENTER | GRAB_HORIZONTAL | HORIZONTAL_ALIGN_CENTER));
+        builder.addLabel(model.getTitleLabelModel(), SWT.NONE)
+                .withFont(new Font(Display.getDefault(), "Tahoma", 14, SWT.NORMAL))
+                .withLayoutData(new GridData(VERTICAL_ALIGN_CENTER | GRAB_HORIZONTAL | HORIZONTAL_ALIGN_CENTER));
     }
 
     private void createMenuBar(final AbstractCompositeBuilder<CompositeBuilder> parent) {
         final CompositeBuilder builder =
-                parent.addComposite(SWT.NONE).withLayout(new GridLayout(8, false)).withLayoutData(new GridData(GRAB_HORIZONTAL | FILL_HORIZONTAL));
+                parent.addComposite(SWT.NONE).withLayout(new GridLayout(8, false))
+                        .withLayoutData(new GridData(GRAB_HORIZONTAL | FILL_HORIZONTAL));
         final GridData gridDataCategorieCombo = new GridData();
         gridDataCategorieCombo.widthHint = 200;
         gridDataCategorieCombo.minimumWidth = 200;
         builder.addButton(model.getCategoryButtonModel(), SWT.CHECK).withImage(toggleImage);
         builder.addStaticLabel(SWT.NONE).withText(ResultatEtapeEditor_Tri);
         builder.addCombo(model.getCategoriesComboboxModel(), SWT.BORDER).withLayoutData(gridDataCategorieCombo);
-        builder.addLabel(model.getInfoLabel(), SWT.BOLD).withLayoutData(new GridData(GRAB_HORIZONTAL | GridData.FILL_HORIZONTAL));
-        builder.addButton(model.getConfigEtapeButtonModel(), SWT.NONE).withImage(configEtapeImage).withToolTip(ResultatEtapeEditor_Afficher_la_configuration_de_l_etape).withLayoutData(new GridData(HORIZONTAL_ALIGN_END));
-        builder.addButton(model.getConfigPenalityButtonModel(), SWT.NONE).withImage(configPenaliteImage).withToolTip(ResultatEtapeEditor_Afficher_la_configuration_des_penalitees);
-        builder.addButton(model.getChronosButtonModel(), SWT.NONE).withImage(configChronosImage).withToolTip(ResultatEtapeEditor_Afficher_les_chronos);
-        builder.addButton(model.getRefreshButtonModel(), SWT.NONE).withImage(refreshImage).withToolTip(ResultatEtapeEditor_Actualiser_les_calculs);
+        builder.addLabel(model.getInfoLabel(), SWT.BOLD)
+                .withLayoutData(new GridData(GRAB_HORIZONTAL | GridData.FILL_HORIZONTAL));
+        builder.addButton(model.getConfigEtapeButtonModel(), SWT.NONE).withImage(configEtapeImage)
+                .withToolTip(ResultatEtapeEditor_Afficher_la_configuration_de_l_etape)
+                .withLayoutData(new GridData(HORIZONTAL_ALIGN_END));
+        builder.addButton(model.getConfigPenalityButtonModel(), SWT.NONE).withImage(configPenaliteImage)
+                .withToolTip(ResultatEtapeEditor_Afficher_la_configuration_des_penalitees);
+        builder.addButton(model.getChronosButtonModel(), SWT.NONE).withImage(configChronosImage)
+                .withToolTip(ResultatEtapeEditor_Afficher_les_chronos);
+        builder.addButton(model.getRefreshButtonModel(), SWT.NONE).withImage(refreshImage)
+                .withToolTip(ResultatEtapeEditor_Actualiser_les_calculs);
     }
 
     private Table createTable(final CommonCompositeBuilder<Composite, CompositeBuilder> builder) {
         final TableModel<ObjResultat> tableModel = model.getTableResultatModel();
         final TableBuilder<ObjResultat> tableBuilder =
-                builder.addTable(tableModel, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | COLORS_ON_SELECTION).withLine(true).selectionProvider(getSite());
+                builder.addTable(tableModel, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | COLORS_ON_SELECTION)
+                        .withLine(true).selectionProvider(getSite());
         tableBuilder.withLayoutData(new GridData(FILL_BOTH | GRAB_HORIZONTAL | GRAB_VERTICAL));
         for (final ColTable colTable : model.getColumnConfig()) {
-            tableBuilder.addColumn(colTable.getChamp(), colTable.getLib(), colTable.getAlign()).withWidth(colTable.getWidth()).movable(true).withToolTipText(colTable.getLib()).withRenderer(new ResultatEtapeColumnRenderer(colTable, model));
+            tableBuilder.addColumn(colTable.getChamp(), colTable.getLib(), colTable.getAlign())
+                    .withWidth(colTable.getWidth()).movable(true).withToolTipText(colTable.getLib())
+                    .withRenderer(new ResultatEtapeColumnRenderer(colTable, model));
         }
         tableBuilder.withLayoutData(new GridData(FILL_BOTH | GRAB_HORIZONTAL | GRAB_VERTICAL)).withHeader(true);
 
@@ -145,15 +157,24 @@ public class ResultatEtapeEditor extends EditorPart implements IPrintable, IAuto
 
     private void createFootBar(final AbstractCompositeBuilder<CompositeBuilder> builder) {
         final CompositeBuilder footBar =
-                builder.addComposite(SWT.NONE).withLayoutData(new GridData(FILL_HORIZONTAL | HORIZONTAL_ALIGN_FILL)).withLayout(new GridLayout(3, false));
+                builder.addComposite(SWT.NONE).withLayoutData(new GridData(FILL_HORIZONTAL | HORIZONTAL_ALIGN_FILL))
+                        .withLayout(new GridLayout(3, false));
         footBar.addStaticLabel(SWT.NONE).withText(ResultatEtapeEditor_Info);
-        final GridData layoutData = new GridData(300, 20);
-        layoutData.horizontalSpan = 2;
-        footBar.addText(model.getPrintInfoTextModel(), SWT.BORDER).withLayoutData(layoutData);
+        final GridData          layoutData         = new GridData(300, 20);
+        final TextModel<String> printInfoTextModel = model.getPrintInfoTextModel();
+        footBar.addText(printInfoTextModel, SWT.BORDER).withLayoutData(layoutData);
+        final ButtonModel dateTimeModel = new ButtonModel(i18n("ResultatEditor.footbar.addDateTime"));
+        footBar.addButton(dateTimeModel, SWT.NONE);
+        dateTimeModel.addWidgetListener(new ButtonAdapter() {
+            @Override
+            public void click() {
+                printInfoTextModel.setText(printInfoTextModel.getText() + "${dateTime}");
+            }
+        });
 
         footBar.addStaticLabel(SWT.NONE).withText(i18n("Result.search"));
-        footBar.addText(model.getSearchTextModel(), SWT.BORDER | SWT.SINGLE).withLayoutData(new GridData(300, 20));
-        footBar.addCheckbox(model.getFilterBySearchModel(), SWT.NONE).withLayoutData(new GridData(100, 20));
+        footBar.addText(this.model.getSearchTextModel(), SWT.BORDER | SWT.SINGLE).withLayoutData(new GridData(300, 20));
+        footBar.addCheckbox(this.model.getFilterBySearchModel(), SWT.NONE).withLayoutData(new GridData(100, 20));
     }
 
     public ResultatEtapeModel getModel() {
@@ -200,19 +221,22 @@ public class ResultatEtapeEditor extends EditorPart implements IPrintable, IAuto
     public void print() {
         try {
             final AbstractList<String> titles = new ArrayList<String>();
-            final ObjStep etape = model.getStep();
-            final String title = etape.getManif().getNom();
-            String title2 = ResultatEtapeEditor_Classement + ' ' + etape.getLib();
+            final ObjStep              etape  = model.getStep();
+            final String               title  = etape.getManif().getNom();
+            String                     title2 = ResultatEtapeEditor_Classement + ' ' + etape.getLib();
             if (model.getCategoriesComboboxModel().getText() != null) {
                 title2 += " - " + model.getCategoriesComboboxModel().getText();
             }
             titles.add(title);
             titles.add(title2);
             if (!model.getPrintInfoTextModel().getText().equals(EMPTY)) {
-                titles.add(model.getPrintInfoTextModel().getText());
+                final String   printInfo = model.getPrintInfoTextModel().getText();
+                final Calendar calendar  = Calendar.getInstance();
+                calendar.set(Calendar.SECOND, 0);
+                titles.add(printInfo.replace("${dateTime}", DateUtils.showDate(calendar.getTime())));
             }
             final String[] titlesStr = new String[titles.size()];
-            int i = 0;
+            int            i         = 0;
             for (Iterator<String> iter = titles.iterator(); iter.hasNext(); i++) {
                 titlesStr[i] = iter.next();
             }
@@ -239,7 +263,8 @@ public class ResultatEtapeEditor extends EditorPart implements IPrintable, IAuto
             }
 
             final DateFormat sdf = new SimpleDateFormat("yyMMdd");
-            openPrintPreview(table, titlesStr, ResultatEtapeEditor_RESULTATS_PRINT_TEXT + etape.getLib() + type + ' ' + sdf.format(new Date()));
+            openPrintPreview(table, titlesStr, ResultatEtapeEditor_RESULTATS_PRINT_TEXT + etape.getLib() + type + ' ' +
+                                               sdf.format(new Date()));
         } catch (Exception ignore) {
             ignore.printStackTrace();
         }
@@ -261,21 +286,25 @@ public class ResultatEtapeEditor extends EditorPart implements IPrintable, IAuto
             this.input = input;
         }
 
-        @Override
-        public void click() {
-            WorkbenchUtils.openEditor(editor, input, id);
-        }
-
         static LaunchEditorAction createStepEditorAction(final ResultatEtapeEditor editor, final StepModel stepModel, final ResultatEtapeModel model) {
             return new LaunchEditorAction(editor, new StepEditorInput(new StepEditorModel(stepModel)), STEP_EDITOR_ID);
         }
 
         static LaunchEditorAction createChronosEditorAction(final ResultatEtapeEditor editor, final ResultatEtapeModel model) {
-            return new LaunchEditorAction(editor, new EtapeEditorInput(model.getStep(), CHRONOS_EDITOR_ID, model.getAutoResizeContext()), CHRONOS_EDITOR_ID);
+            return new LaunchEditorAction(editor, new EtapeEditorInput(model.getStep(), CHRONOS_EDITOR_ID,
+                                                                       model.getAutoResizeContext()),
+                                          CHRONOS_EDITOR_ID);
         }
 
         static LaunchEditorAction createPenalityEditorAction(final ResultatEtapeEditor editor, final ResultatEtapeModel model) {
-            return new LaunchEditorAction(editor, new EtapeEditorInput(model.getStep(), CHRONOS_EDITOR_ID, model.getAutoResizeContext()), PENALITY_EDITOR_ID);
+            return new LaunchEditorAction(editor, new EtapeEditorInput(model.getStep(), CHRONOS_EDITOR_ID,
+                                                                       model.getAutoResizeContext()),
+                                          PENALITY_EDITOR_ID);
+        }
+
+        @Override
+        public void click() {
+            WorkbenchUtils.openEditor(editor, input, id);
         }
     }
 

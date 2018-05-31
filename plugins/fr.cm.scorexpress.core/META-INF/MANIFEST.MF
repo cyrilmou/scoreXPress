@@ -28,4 +28,11 @@ Export-Package: fr.cm.scorexpress.applicative,
  fr.cm.scorexpress.ihm.application,
  fr.cm.scorexpress.ihm.view
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Import-Package: org.apache.xml.serialize
+Import-Package: org.apache.xml.serialize,
+ fr.cm.common.widget,
+ org.eclipse.swt,
+ org.eclipse.jface,
+ org.eclipse.ui,
+ org.eclipse.core.runtime,
+ fr.cm.common.workbench,
+ org.apache.commons.lang
