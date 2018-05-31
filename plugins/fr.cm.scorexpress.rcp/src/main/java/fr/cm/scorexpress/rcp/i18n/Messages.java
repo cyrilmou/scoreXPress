@@ -8,8 +8,7 @@ public class Messages {
     private static final String BUNDLE_NAME = Messages.class.getName();
 
     private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle
-            .getBundle(BUNDLE_NAME, Locale.getDefault(), Messages.class
-                    .getClassLoader());
+            .getBundle(BUNDLE_NAME, Locale.getDefault(), Messages.class.getClassLoader());
 
     private Messages() {
     }

@@ -12,6 +12,11 @@ Require-Bundle: fr.cm.scorexpress.core,
  org.eclipse.ui.forms,
  org.eclipse.ui.intro,
  org.eclipse.ui.views.log,
- org.eclipse.swt
+ org.eclipse.swt,
+ org.eclipse.ui.console
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
+Import-Package: org.eclipse.ui.console,
+ org.eclipse.ui,
+ org.eclipse.swt,
+ org.eclipse.equinox.app
