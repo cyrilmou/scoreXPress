@@ -10,6 +10,8 @@ import org.apache.commons.lang.StringUtils;
 import static org.eclipse.jface.dialogs.IDialogConstants.OK_ID;
 import org.eclipse.jface.dialogs.MessageDialog;
 import static org.eclipse.jface.dialogs.MessageDialog.openConfirm;
+import static org.eclipse.jface.dialogs.MessageDialog.openQuestion;
+
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.window.Window;
@@ -61,7 +63,7 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 
     public boolean preShutdown() {
         super.preShutdown();
-        final boolean res = openConfirm(Display.getCurrent().getActiveShell(),
+        final boolean res = openQuestion(Display.getCurrent().getActiveShell(),
                 getString("ApplicationWorkbenchAdvisor.0"),
                 getString("ApplicationWorkbenchAdvisor.1"));
         final Collection<ObjManifestation> manifs = ProjectManager.getProjectManager()
@@ -88,7 +90,7 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
         double result = OK_ID;
         if (ProjectManager.getProjectManager().getProjects().size() > 1) {
             final Window dlg = MessageDialogWithToggle
-                    .openOkCancelConfirm(
+                    .openYesNoQuestion(
                             Display.getCurrent().getActiveShell(),
                             getString("ApplicationWorkbenchAdvisor.9"),
                             getString("ApplicationWorkbenchAdvisor.10"),
@@ -98,7 +100,7 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
         if (result == OK_ID) {
             System.out.println(getString("ApplicationWorkbenchAdvisor.12"));
             for (final ObjManifestation manif : ProjectManager.getProjectManager().getProjects()) {
-                final boolean sav = openConfirm(Display.getCurrent()
+                final boolean sav = openQuestion(Display.getCurrent()
                         .getActiveShell(), "Sauvegarder", manif.getFileName());
                 if (sav) {
                     try {
