@@ -34,6 +34,10 @@
                   name="aboutText"
                   value="Logiciel de calcul des résultats&#x0A;d&apos;une épreuve sportive de type RAID&#x0A;&#x0A;http://www.jurazimut.com&#x0A;contact: chronosraid@gmail.com">
             </property>
+            <property
+                  name="preferenceCustomization"
+                  value="plugin_customization.ini">
+            </property>
         </product>
     </extension>
     <extension
@@ -270,14 +274,14 @@
     </extension>
     <extension
             point="org.eclipse.ui.splashHandlers">
+       <splashHandler
+             class="fr.cm.scorexpress.rcp.splashHandlers.InteractiveSplashHandler"
+             id="fr.cm.scorexpress.rcp.splashHandlers.interactive">
+       </splashHandler>
         <splashHandler
                 class="fr.cm.scorexpress.rcp.splashHandlers.ExtensibleSplashHandler"
                 id="fr.cm.scorexpress.rcp.splashHandlers.extensible">
         </splashHandler>
-        <splashHandlerProductBinding
-                productId="fr.cm.scorexpress.rcp.product"
-                splashId="fr.cm.scorexpress.rcp.splashHandlers.extensible">
-        </splashHandlerProductBinding>
         <splashHandler
                 class="fr.cm.scorexpress.rcp.splashHandlers.BrowserSplashHandler"
                 id="fr.cm.scorexpress.rcp.splashHandlers.browser">

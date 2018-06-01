@@ -19,4 +19,10 @@ Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.ui.console,
  org.eclipse.ui,
  org.eclipse.swt,
- org.eclipse.equinox.app
+ org.eclipse.equinox.app,
+ fr.cm.scorexpress.applicative,
+ org.eclipse.jface,
+ fr.cm.scorexpress.core.model,
+ org.apache.commons.lang,
+ fr.cm.scorexpress.ihm.view,
+ org.osgi.framework

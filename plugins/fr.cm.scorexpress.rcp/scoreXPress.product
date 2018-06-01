@@ -25,8 +25,7 @@ contact: chronosraid@gmail.com
    <windowImages i16="icons/logo16x16.gif" i32="icons/logo32x32.gif"/>
 
    <splash
-      location="fr.cm.scorexpress.rcp"
-      handlerType="extensible" />
+      location="fr.cm.scorexpress.rcp" />
    <launcher name="scorexpress">
       <solaris/>
       <win useIco="false">
@@ -39,6 +38,7 @@ contact: chronosraid@gmail.com
    <vm>
       <windows include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7</windows>
    </vm>
+
 
    <plugins>
       <plugin id="com.ibm.icu"/>
