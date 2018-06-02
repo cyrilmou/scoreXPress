@@ -2,16 +2,10 @@ package fr.cm.scorexpress.rcp;
 
 import fr.cm.scorexpress.applicative.DemoVersionEvent;
 import fr.cm.scorexpress.applicative.ProjectManager;
-import static fr.cm.scorexpress.applicative.ProjectManager.setDemoVersionEvent;
 import fr.cm.scorexpress.core.model.ObjManifestation;
-import static fr.cm.scorexpress.rcp.DemoVerifier.createDemoVersionVerifier;
-import static fr.cm.scorexpress.rcp.i18n.Messages.getString;
+import fr.cm.scorexpress.rcp.i18n.Messages;
 import org.apache.commons.lang.StringUtils;
-import static org.eclipse.jface.dialogs.IDialogConstants.OK_ID;
 import org.eclipse.jface.dialogs.MessageDialog;
-import static org.eclipse.jface.dialogs.MessageDialog.openConfirm;
-import static org.eclipse.jface.dialogs.MessageDialog.openQuestion;
-
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.window.Window;
@@ -20,15 +14,42 @@ import org.eclipse.ui.application.IWorkbenchConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchAdvisor;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
+import org.eclipse.ui.console.ConsolePlugin;
+import org.eclipse.ui.console.IConsole;
+import org.eclipse.ui.console.MessageConsole;
+import org.eclipse.ui.console.MessageConsoleStream;
 
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
+
+import static fr.cm.scorexpress.applicative.ProjectManager.setDemoVersionEvent;
+import static fr.cm.scorexpress.rcp.DemoVerifier.createDemoVersionVerifier;
+import static fr.cm.scorexpress.rcp.i18n.Messages.getString;
+import static org.eclipse.jface.dialogs.IDialogConstants.OK_ID;
+import static org.eclipse.jface.dialogs.MessageDialog.openQuestion;
 
 public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 
     private static final String NB_MANIF = "NB_MANIF";
-    private static final String MANIF = "MANIF";
+    private static final String MANIF    = "MANIF";
 
     private boolean forceShutdown = false;
+
+    private static void createConsole() {
+        final String UTF8 = StandardCharsets.UTF_8.name();
+        MessageConsole console = new MessageConsole(Messages.getString("Console.name"), null,
+                                                    null, UTF8, false);
+        ConsolePlugin.getDefault().getConsoleManager().addConsoles(new IConsole[]{console});
+        ConsolePlugin.getDefault().getConsoleManager().showConsoleView(console);
+        MessageConsoleStream stream = console.newMessageStream();
+        try {
+            System.setOut(new PrintStream(stream, true, UTF8));
+            System.setErr(new PrintStream(stream, true, UTF8));
+        } catch (UnsupportedEncodingException e) {
+        }
+    }
 
     public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(final IWorkbenchWindowConfigurer configurer) {
         return new ApplicationWorkbenchWindowAdvisor(configurer);
@@ -37,6 +58,7 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
     public void initialize(final IWorkbenchConfigurer configurer) {
         super.initialize(configurer);
         configurer.setSaveAndRestore(true);
+        createConsole();
     }
 
     public String getInitialWindowPerspectiveId() {
@@ -45,7 +67,9 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 
     public void postStartup() {
         super.postStartup();
+
         final IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+
         final int nbManif = store.getInt(NB_MANIF);
         for (int i = 1; i <= nbManif; i++) {
             try {
@@ -64,8 +88,8 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
     public boolean preShutdown() {
         super.preShutdown();
         final boolean res = openQuestion(Display.getCurrent().getActiveShell(),
-                getString("ApplicationWorkbenchAdvisor.0"),
-                getString("ApplicationWorkbenchAdvisor.1"));
+                                         getString("ApplicationWorkbenchAdvisor.0"),
+                                         getString("ApplicationWorkbenchAdvisor.1"));
         final Collection<ObjManifestation> manifs = ProjectManager.getProjectManager()
                 .getProjects();
         final IPreferenceStore store = Activator.getDefault()
@@ -101,7 +125,7 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
             System.out.println(getString("ApplicationWorkbenchAdvisor.12"));
             for (final ObjManifestation manif : ProjectManager.getProjectManager().getProjects()) {
                 final boolean sav = openQuestion(Display.getCurrent()
-                        .getActiveShell(), "Sauvegarder", manif.getFileName());
+                                                         .getActiveShell(), "Sauvegarder", manif.getFileName());
                 if (sav) {
                     try {
                         ProjectManager.save(manif);
@@ -121,18 +145,18 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
                 public void run() {
                     if (action.equals(ProjectManager.VERIF_VERSION_NORMALE)) {
                         MessageDialog.openWarning(Display.getDefault().getActiveShell(),
-                                getString("ApplicationWorkbenchAdvisor.5"),
-                                getString("ApplicationWorkbenchAdvisor.6"));
+                                                  getString("ApplicationWorkbenchAdvisor.5"),
+                                                  getString("ApplicationWorkbenchAdvisor.6"));
                     } else if (action.equals(ProjectManager.VERIF_DATE)) {
                         MessageDialog.openError(Display.getDefault().getActiveShell(),
-                                getString("ApplicationWorkbenchAdvisor.13"),
-                                getString("ApplicationWorkbenchAdvisor.14"));
+                                                getString("ApplicationWorkbenchAdvisor.13"),
+                                                getString("ApplicationWorkbenchAdvisor.14"));
                         forceShutdown = true;
                         Display.getCurrent().getActiveShell().close();
                     } else {
                         MessageDialog.openWarning(Display.getDefault().getActiveShell(),
-                                getString("ApplicationWorkbenchAdvisor.7"),
-                                getString("ApplicationWorkbenchAdvisor.8"));
+                                                  getString("ApplicationWorkbenchAdvisor.7"),
+                                                  getString("ApplicationWorkbenchAdvisor.8"));
                     }
                 }
             });

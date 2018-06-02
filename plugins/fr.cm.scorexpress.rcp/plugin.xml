@@ -233,6 +233,7 @@
                         style="push"
                         tooltip="Save manifestation">
                 </command>
+<!--
                 <command
                         commandId="fr.cm.scorexpress.commands.close"
                         icon="icons/close.gif"
@@ -242,7 +243,8 @@
                         style="push"
                         tooltip="Close manifestation">
                 </command>
-                <command
+-->
+<!--                <command
                         commandId="fr.cm.scorexpress.commands.exit"
                         icon="icons/exit.png"
                         id="exit"
@@ -250,7 +252,7 @@
                         mnemonic="E"
                         style="push"
                         tooltip="Quit">
-                </command>
+                </command>-->
             </toolbar>
             <toolbar
                     id="edit">
