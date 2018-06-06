@@ -26,7 +26,7 @@ contact: chronosraid@gmail.com
 
    <splash
       location="fr.cm.scorexpress.rcp" />
-   <launcher name="scorexpress">
+   <launcher name="ScoreXPressRaid">
       <solaris/>
       <win useIco="false">
          <bmp/>

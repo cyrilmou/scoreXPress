@@ -20,8 +20,6 @@ import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
 
 import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 
 import static fr.cm.scorexpress.applicative.ProjectManager.setDemoVersionEvent;
@@ -38,17 +36,12 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
     private boolean forceShutdown = false;
 
     private static void createConsole() {
-        final String UTF8 = StandardCharsets.UTF_8.name();
-        MessageConsole console = new MessageConsole(Messages.getString("Console.name"), null,
-                                                    null, UTF8, false);
+        final MessageConsole console = new MessageConsole(Messages.getString("Console.name"), null);
         ConsolePlugin.getDefault().getConsoleManager().addConsoles(new IConsole[]{console});
         ConsolePlugin.getDefault().getConsoleManager().showConsoleView(console);
-        MessageConsoleStream stream = console.newMessageStream();
-        try {
-            System.setOut(new PrintStream(stream, true, UTF8));
-            System.setErr(new PrintStream(stream, true, UTF8));
-        } catch (UnsupportedEncodingException e) {
-        }
+        final MessageConsoleStream stream = console.newMessageStream();
+        System.setOut(new PrintStream(stream));
+        System.setErr(new PrintStream(stream));
     }
 
     public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(final IWorkbenchWindowConfigurer configurer) {
