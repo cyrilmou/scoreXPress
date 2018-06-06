@@ -17,14 +17,14 @@
             point="org.eclipse.core.runtime.products">
         <product
                 application="fr.cm.scorexpress.rcp.application"
-                name="ScoreXPress">
+                name="ScoreXPressRaid">
             <property
                     name="windowImages"
                     value="icons/logo16x16.gif,icons/logo32x32.gif">
             </property>
             <property
                     name="appName"
-                    value="ScoreXPress">
+                    value="ScoreXPressRaid">
             </property>
             <property
                     name="aboutImage"
